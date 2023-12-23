@@ -22,7 +22,8 @@ foreach($customer_data as $customer_info)
 // possible join session 
 // Displaying order details
 // GEtting all value from pending table
-$retrieving_data = $connection -> query("SELECT * FROM inventory INNER JOIN pending_orders ON inventory.id = pending_orders.product_id");
+$retrieving_data = $connection -> query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS quantity, inv.price, inv.image 
+FROM Inventory inv INNER JOIN category cat ON inv.category_id = cat.id INNER JOIN pending_orders pending ON inv.id = pending.product_id;");
 $retrieving_data-> execute();
 $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 
@@ -248,6 +249,11 @@ $total_count_pending = $pending_count->fetchColumn();
                                 <div class="product-table">
                                     <!--foreach loop-->                                  
                                     <?php foreach($pending_order_data as $order_data):?>
+                                    <?php   $product_price=$order_data['price'];
+                                            $product_category=$order_data['category_name'];
+                                            $product_quantity=$order_data['quantity'];
+                                            $prices = $product_price * $product_quantity;
+                                    ?>
                                     <ul class="product-lists">
                                         <li>
                                             <div class="productimg">
@@ -259,17 +265,17 @@ $total_count_pending = $pending_count->fetchColumn();
                                                         <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="<?php echo FILEPATH; ?>/assets/img/icons/edit-5.svg" alt="img"></a>
                                                     </h4>
                                                     <div class="productlinkset">
-                                                        <h5>Softdrinks</h5>
+                                                        <h5><?php echo $product_category;?></h5>
                                                     </div>
                                                     <div class="increment-decrement">
                                                         <div class="input-groups">
-                                                            <p>Quantity: <?php echo $product_quantity=$order_data['o_quantity'];?></p>
+                                                            <p>Quantity: <?php echo $product_quantity;?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li>79.00 </li>
+                                        <li><?php echo $prices;?></li>
                                         <li><a class="confirm-text" href="javascript:void(0);"><img src="<?php echo FILEPATH; ?>/assets/img/icons/delete-2.svg" alt="img"></a></li>
                                     </ul>
                                     <?php endforeach;?>                                        

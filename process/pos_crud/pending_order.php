@@ -1,5 +1,5 @@
 <?php
-require "../config/connection.php";     // Strictly requiring to include the connection.php
+require "../../config/connection.php";     // Strictly requiring to include the connection.php
 // if sign-button has been clicked the below code will happen
 if(isset($_POST['submit-button-edit']))
 {
