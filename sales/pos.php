@@ -22,7 +22,7 @@ foreach($customer_data as $customer_info)
 // possible join session 
 // Displaying order details
 // GEtting all value from pending table
-$retrieving_data = $connection -> query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS quantity, inv.price, inv.image 
+$retrieving_data = $connection -> query("SELECT inv.id AS product_id, inv.product_name, cat.category_name,pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.id as order_id 
 FROM Inventory inv INNER JOIN category cat ON inv.category_id = cat.id INNER JOIN pending_orders pending ON inv.id = pending.product_id;");
 $retrieving_data-> execute();
 $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
@@ -213,7 +213,7 @@ $total_count_pending = $pending_count->fetchColumn();
                                                     <div class="productset flex-fill">
                                                         <div class="productsetimg image-container">
                                                             <a href="#" data-bs-toggle="modal" data-bs-target="#ShowModal1">
-                                                                <img onclick="php_to_html('<?php echo $product->id; ?>', '<?php echo $product->price; ?>','<?php echo $product_category; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->quantity; ?>')" src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="img">
+                                                                <img onclick="php_to_html('<?php echo $product->id; ?>', '<?php echo $product->price; ?>','<?php echo $product_category; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->quantity; ?>','<?php echo 1; ?>')" src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="img">
                                                             </a>
                                                             <h6><?php echo $product->quantity ?></h6>
                                                         </div>
@@ -251,7 +251,9 @@ $total_count_pending = $pending_count->fetchColumn();
                                     <?php foreach($pending_order_data as $order_data):?>
                                     <?php   $product_price=$order_data['price'];
                                             $product_category=$order_data['category_name'];
-                                            $product_quantity=$order_data['quantity'];
+                                            $product_quantity=$order_data['ordered_quantity'];
+                                            $product_id=$order_data['order_id'];
+                                            $product_storage_quantity=$order_data['quantity'];
                                             $prices = $product_price * $product_quantity;
                                     ?>
                                     <ul class="product-lists">
@@ -261,7 +263,7 @@ $total_count_pending = $pending_count->fetchColumn();
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product_image=$order_data['image'];?>" alt="img">
                                                 </div>
                                                 <div class="productcontet">
-                                                    <h4><?php echo $product_name=$order_data['product_name'];?>
+                                                    <h4><?php echo $product_name=$order_data['product_name'];?>                                                   
                                                         <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="<?php echo FILEPATH; ?>/assets/img/icons/edit-5.svg" alt="img"></a>
                                                     </h4>
                                                     <div class="productlinkset">
@@ -275,7 +277,8 @@ $total_count_pending = $pending_count->fetchColumn();
                                                 </div>
                                             </div>
                                         </li>
-                                        <li><?php echo $prices;?></li>
+                                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#ShowModal1"><p onclick="php_to_html('<?php echo $product_id; ?>', '<?php echo $product_price; ?>','<?php echo $product_category; ?>', '<?php echo $product_name; ?>', '<?php echo $product_storage_quantity; ?>','<?php echo $product_quantity; ?>')">Edit</p></a></li>
+                                        <li>₱<?php echo $prices;?></li>
                                         <li><a class="confirm-text" href="javascript:void(0);"><img src="<?php echo FILEPATH; ?>/assets/img/icons/delete-2.svg" alt="img"></a></li>
                                     </ul>
                                     <?php endforeach;?>                                        
@@ -371,23 +374,23 @@ $total_count_pending = $pending_count->fetchColumn();
             </div>
         </div>
     </div>
+    
     <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
 <script>
-    function php_to_html(id, price,category_name, product_name, quantity) {
+    function php_to_html(id, price,category_name, product_name, quantity,initial) {
 
         // Access the input element by its ID
         var inputElement = document.getElementById("current_quantity");
 
         $('#product_id').val(id);
         // Set the default value to "1"
-        inputElement.value = "1";
-        var quantity = quantity - 1;
+        inputElement.value = initial;
+        var quantity = quantity - initial;
         $('#edit_price').val(price);
         $('#avalability').val(quantity);
         $('#product_name').val(product_name);
-        var total_price = price * 1
-        $('#total_price').val(price);
+        $('#total_price').val(total_price = price * initial);
     }
     //For adding quantity of the edit order transaction
     function Add_button() {

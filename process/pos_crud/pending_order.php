@@ -1,39 +1,38 @@
 <?php
-require "../../config/connection.php";     // Strictly requiring to include the connection.php
-require "../../includes/header.php";       // Strictly requiring to include the header.php
-// if sign-button has been clicked the below code will happen
-if(isset($_POST['submit-button-edit']))
-{
-    // Getting values from the signin.php and removing extra spaces
-    $product_id = trim($_POST['product_id']);
-    $current_quantity = trim($_POST['current_quantity']);
-    $customer_codes = trim($_POST['customer_code']);
+require "../../config/connection.php";
+require "../../includes/header.php";
 
-    $product_data = $connection->prepare( "SELECT * FROM inventory WHERE id=:id");
-    $product_data -> bindparam(':id',$product_id, pdo::PARAM_INT);
-    $product_data -> execute();
-    $product_info = $product_data -> fetchAll(PDO::FETCH_ASSOC);
+if (isset($_POST['submit-button-edit'])) {
+    try {
+        $product_id = trim($_POST['product_id']);
+        $current_quantity = trim($_POST['current_quantity']);
+        $customer_codes = trim($_POST['customer_code']);
 
-    foreach($product_info as $product_table_info)
-    {
-        $product_id = $product_table_info['id'];
-        $product_name = $product_table_info['product_name'];
-        $category_id = $product_table_info['category_id'];
-        $price = $product_table_info['price'];
-        $quantity = $product_table_info['quantity'];
-        $product_points = $product_table_info['product_points'];
-        $image = $product_table_info['image'];
+        $product_data_update = $connection->prepare("UPDATE pending_orders SET o_quantity = :current_quantity WHERE id = :product_id");
+        $product_data_update->bindParam(':current_quantity', $current_quantity, PDO::PARAM_INT);
+        $product_data_update->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $product_data_update->execute();
+        
+        if ($product_data_update->rowCount() === 0) {
+            $product_info = $connection->prepare("SELECT id, product_name, category_id, price, quantity, product_points, image FROM inventory WHERE id=:id");
+            $product_info->bindParam(':id', $product_id, PDO::PARAM_INT);
+            $product_info->execute();
+            $product_table_info = $product_info->fetch(PDO::FETCH_ASSOC);
+
+            $insert = $connection->prepare("INSERT INTO pending_orders (o_id, product_id, o_quantity, time) VALUES(:o_id, :product_id, :o_quantity, NOW())");
+            $insert->bindParam(':o_id', $customer_codes, PDO::PARAM_INT);
+            $insert->bindParam(':product_id', $product_table_info['id'], PDO::PARAM_INT);
+            $insert->bindParam(':o_quantity', $current_quantity, PDO::PARAM_INT);
+            $insert->execute();
+        }
+
+        header("Location: " . FILEPATH . "/sales/pos.php");
+        exit;
+    } catch (PDOException $e) {
+        // Log or handle the specific PDO exception
+        error_log($e->getMessage());
+        header("Location: error.php"); // Redirect to an error page
+        exit;
     }
-
-    $insert = $connection->prepare("INSERT INTO pending_orders (o_id, product_id, o_quantity, time) VALUES(:o_id, :product_id, :o_quantity, NOW())");
-    $insert->bindParam(':o_id', $customer_codes, PDO::PARAM_INT);
-    $insert->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-    $insert->bindParam(':o_quantity', $current_quantity, PDO::PARAM_INT);
-    $insert->execute();
-
-    header("Location: " . FILEPATH . "/sales/pos.php");
-    exit;
-
 }
-
 ?>
