@@ -279,7 +279,11 @@ $total_count_pending = $pending_count->fetchColumn();
                                         </li>
                                         <li><a href="#" data-bs-toggle="modal" data-bs-target="#ShowModal1"><p onclick="php_to_html('<?php echo $product_id; ?>', '<?php echo $product_price; ?>','<?php echo $product_category; ?>', '<?php echo $product_name; ?>', '<?php echo $product_storage_quantity; ?>','<?php echo $product_quantity; ?>')">Edit</p></a></li>
                                         <li>₱<?php echo $prices;?></li>
-                                        <li><a class="confirm-text" href="javascript:void(0);"><img src="<?php echo FILEPATH; ?>/assets/img/icons/delete-2.svg" alt="img"></a></li>
+                                        <li>
+                                            <a data-bs-toggle="modal" onclick="delete_account(<?php echo $product_id; ?>);" data-bs-target="#deleteProductModal" data-productid="<?php echo $product_id; ?>">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </li>
                                     </ul>
                                     <?php endforeach;?>                                        
                                     <!--foreach loop--> <!--function display of total items-->
@@ -314,6 +318,28 @@ $total_count_pending = $pending_count->fetchColumn();
             </div>
         </div>
     </div>
+
+    <!-- DELETE CONFIRMATION MODAL FROM BOOTSRAP-->
+    <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+            <form action="../process/pos_crud/pending_order_Delete.php" method="POST">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteProductModalLabel">Delete Product</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to remove this product?
+                            <input type="hidden" id="id_delete" name="id">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="delete_product_order" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 
     <!--edit Order list Section-->
     <div class="modal fade" id="ShowModal1" tabindex="-1" aria-labelledby="ShowModal1" aria-hidden="true">
@@ -444,6 +470,10 @@ $total_count_pending = $pending_count->fetchColumn();
 
         }
     }
+    function delete_account(id) 
+            {
+                $('#id_delete').val(id);
+            }
 </script>
 
 </html>
