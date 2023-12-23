@@ -316,7 +316,7 @@ $total_count_pending = $pending_count->fetchColumn();
                 </div>
                 <div class="modal-body">
                     <!--FORM ACTION-->
-                    <form action="../process/pending_order.php" method="POST">
+                    <form action="../process/pos_crud/pending_order.php" method="POST">
                         <!--Product_name-->
                         <div class="form-group">
                             <input type="text" style=" display: block; margin: 0 auto; border: none; color: black;
