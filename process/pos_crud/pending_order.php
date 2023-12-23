@@ -1,5 +1,6 @@
 <?php
 require "../../config/connection.php";     // Strictly requiring to include the connection.php
+require "../../includes/header.php";       // Strictly requiring to include the header.php
 // if sign-button has been clicked the below code will happen
 if(isset($_POST['submit-button-edit']))
 {
@@ -30,7 +31,8 @@ if(isset($_POST['submit-button-edit']))
     $insert->bindParam(':o_quantity', $current_quantity, PDO::PARAM_INT);
     $insert->execute();
 
-    header("location: http://localhost/pos1/sales/pos.php");
+    header("Location: " . FILEPATH . "/sales/pos.php");
+    exit;
 
 }
 
