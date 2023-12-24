@@ -109,9 +109,6 @@ $categorylist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data a
 
 
                                             <td>
-                                                <a class="me-3" href="product-details.html">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
-                                                </a>
                                                 <a data-bs-toggle="modal"data-bs-target="#editProductModal" class="me-3" onclick="Edit_Category('<?php echo $category->id;?>', '<?php echo $category->category_name; ?>')">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
                                                 </a>
