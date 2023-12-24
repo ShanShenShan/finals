@@ -18,6 +18,10 @@ $search_category = $connection->query("SELECT * FROM category ");
 $search_category->execute();
 $product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
 
+$search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
+
+$search_price->execute();
+$product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <body>
@@ -141,7 +145,7 @@ $product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
                                                 <div class="form-group">
                                                     <select class="select">
                                                         <option>Price</option>
-                                                        <?php foreach ($productlist as $product) : ?>
+                                                        <?php foreach ($product_price as $product) : ?>
                                                             <option><?php echo $product->price; ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
