@@ -4,11 +4,37 @@
 <?php require "../includes/sidebar.php"; ?>
 
 <?php
+// If submit button has been clicked the below code will happen
+if (isset($_POST['submit'])) {
 
-// Query to select all data on the table that have admin role
+    // Getting the user's input from the form html
+    $name = $_POST['name'];
+    $category = $_POST['category'];
+    $price = $_POST['price'];
+
+    // Searching the celected input and executing it
+    $search = $connection->query("SELECT inventory.*, category.category_name
+    FROM inventory
+    JOIN category ON inventory.category_id = category.id
+    WHERE product_name = '$name' OR category_name = '$category' OR price = $price;");
+    $search->execute();
+    $productlist = $search->fetchAll(PDO::FETCH_OBJ); // Fetch the results into an array
+
+    $search_category = $connection->query("SELECT * FROM category ");
+
+$search_category->execute();
+$product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
+
+$search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
+
+$search_price->execute();
+$product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
+}
+else{
+    // Query to select all data on the table that have admin role
 $search = $connection->query("SELECT inventory.*, category.category_name 
-                              FROM inventory 
-                              JOIN category ON inventory.category_id = category.id");
+FROM inventory 
+JOIN category ON inventory.category_id = category.id");
 
 
 $search->execute();
@@ -23,6 +49,10 @@ $search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
 
 $search_price->execute();
 $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
+}
+
+
+
 ?>
 
 <body>
@@ -37,7 +67,7 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                         <h6>Manage your products</h6>
                     </div>
                     <div class="page-btn">
-                        <a href="addproduct.html" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Product</a>
+                        <a href="add_product.php" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Product</a>
                     </div>
                 </div>
 
@@ -61,44 +91,49 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                             <div class="card-body pb-0">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-lg col-sm-6 col-12">
-                                                <div class="form-group">
-                                                    <select class="select">
-                                                        <option>Choose Product</option>
-                                                        <?php foreach ($productlist as $product) : ?>
-                                                            <option><?php echo $product->product_name; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                        <form action="product_list.php" method="POST">
+                                            <div class="row">
+                                                <div class="col-lg col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <select class="select" name="name">
+                                                            <option>Choose Product</option>
+                                                            <?php foreach ($productlist as $product) : ?>
+                                                                <option value="<?php echo $product->product_name; ?>"><?php echo $product->product_name; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg col-sm-6 col-12">
-                                                <div class="form-group">
-                                                    <select class="select">
-                                                        <option>Choose Category</option>
-                                                        <?php foreach ($product_category as $product_category) : ?>
-                                                            <option><?php echo $product_category->category_name; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                <div class="col-lg col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <select class="select" name="category">
+                                                            <option>Choose Category</option>
+                                                            <?php foreach ($product_category as $product_category) : ?>
+                                                                <option value="<?php echo $product_category->category_name; ?>"><?php echo $product_category->category_name; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-lg col-sm-6 col-12 ">
-                                                <div class="form-group">
-                                                    <select class="select">
-                                                        <option>Price</option>
-                                                        <?php foreach ($product_price as $product) : ?>
-                                                            <option><?php echo $product->price; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                <div class="col-lg col-sm-6 col-12 ">
+                                                    <div class="form-group">
+                                                        <select class="select" name="price">
+                                                            <option>Price</option>
+                                                            <?php foreach ($product_price as $product) : ?>
+                                                                <option value="<?php echo $product->price; ?>"><?php echo $product->price; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        
+                                                        <button type="submit" name="submit" class="btn btn-filters ms-auto">
+                                                            <img src="<?php echo FILEPATH; ?>/assets/img/icons/search-whites.svg" alt="img">
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-1 col-sm-6 col-12">
-                                                <div class="form-group">
-                                                    <a class="btn btn-filters ms-auto"><img src="<?php echo FILEPATH; ?>/assets/img/icons/search-whites.svg" alt="img"></a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -149,11 +184,11 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
                                                 </a>
                                                 <a class="me-3" onclick="openEditProductModal('<?php echo $product->id; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->category_id; ?>', '<?php echo $product->price; ?>', '<?php echo $product->quantity; ?>', '<?php echo $product->product_points; ?>')">
-                                                <img src="<?php echo FILEPATH;?>/assets/img/icons/edit.svg" alt="img">
-                                            </a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal" data-productid="<?php echo $product->id; ?>">
-                                                <img src="<?php echo FILEPATH;?>/assets/img/icons/delete.svg" alt="Delete">
-                                            </a>
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal" data-productid="<?php echo $product->id; ?>">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

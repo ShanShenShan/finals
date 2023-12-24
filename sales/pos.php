@@ -13,11 +13,11 @@ $product_list = $product_search->fetchAll(PDO::FETCH_OBJ);
 // For customer transaction display
 $customer_search = $connection->query("SELECT * FROM customers WHERE id= 3004");
 $customer_search->execute();
-$customer_data = $customer_search->fetchAll(PDO::FETCH_OBJ);
+$customer_data = $customer_search->fetchAll(PDO::FETCH_ASSOC);
 
 foreach($customer_data as $customer_info)
 {
-    $customer_code = $customer_info->recovery_code;
+    $customer_code = $customer_info['recovery_code'];
 }
 // possible join session 
 // Displaying order details
