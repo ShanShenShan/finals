@@ -149,7 +149,7 @@ $categorylist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data a
                 }
 
                 // Make an AJAX request to update the Category
-                fetch('<?php echo "" . FILEPATH . "" ?>/process/update_category.php', {
+                fetch('<?php echo "" . FILEPATH . "" ?>/process/product_crud/update_category.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',

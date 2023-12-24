@@ -263,7 +263,7 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
         // POPULATING THE CATEGORIES IN EDIT
         function populateCategoriesSelect(selectedCategory) {
             // Make an AJAX request to get categories from the server
-            fetch('<?php echo "" . FILEPATH . "" ?>/process/get_categories.php')
+            fetch('<?php echo "" . FILEPATH . "" ?>/process/product_crud/get_categories.php')
                 .then(response => response.json())
                 .then(data => {
                     const select = document.getElementById('editCategoryName');
