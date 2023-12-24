@@ -10,9 +10,10 @@ if(isset($_POST['submit']))
 // Getting the user's input from the form html
 $category = $_POST['category'];
 
-// Query to select all data on the table that have admin role
-$search = $connection->query("SELECT * FROM category where category_name = '$category'");
-$search->execute(); // executing the command
+// Prepare a statement to select data based on the category input
+$stmt = $connection->prepare("SELECT * FROM category WHERE category_name = :category");
+$stmt->bindParam(':category', $category);
+$stmt->execute();
 
 $categorylist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as an object
 }else{
@@ -68,7 +69,7 @@ $categorylist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data a
                                                 <div class="col-lg col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <select class="select" name="category">
-                                                            <option>Choose Category</option>
+                                                            <option value=" ">Choose Category</option>
                                                             <?php foreach ($categorylist as $product_category) : ?>
                                                                 <option value="<?php echo $product_category->category_name; ?>"><?php echo $product_category->category_name; ?></option>
                                                             <?php endforeach; ?>
@@ -102,21 +103,21 @@ $categorylist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data a
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($categorylist as $product) : ?><!--Iterating each value from admin list and assigning it to $admin-->
+                                    <?php foreach ($categorylist as $category) : ?><!--Iterating each value from admin list and assigning it to $admin-->
                                         <tr>
-                                            <td><?php echo $product->id; ?></td>
+                                            <td><?php echo $category->id; ?></td>
                                             
-                                            <td><?php echo $product->category_name; ?></td>
+                                            <td><?php echo $category->category_name; ?></td>
 
 
                                             <td>
                                                 <a class="me-3" href="product-details.html">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
                                                 </a>
-                                                <a class="me-3" onclick="openEditProductModal('<?php echo $product->id; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->category_id; ?>', '<?php echo $product->price; ?>', '<?php echo $product->quantity; ?>', '<?php echo $product->product_points; ?>')">
+                                                <a class="me-3" data-bs-target="#editCategoryModal"onclick="openEditProductModal('<?php echo $category->id; ?>', '<?php echo $category->category_name; ?>')">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
                                                 </a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal" data-productid="<?php echo $product->id; ?>">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal" data-productid="<?php echo $category->id; ?>">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
                                                 </a>
                                             </td>
