@@ -10,7 +10,7 @@ $search->execute();
 
 $categorydata = $search->fetchAll(PDO::FETCH_OBJ);
 
-//if(isset)
+
 
 ?>
 
@@ -74,7 +74,7 @@ $categorydata = $search->fetchAll(PDO::FETCH_OBJ);
             </div>
         </div>
 
-<?php require "../includes/sidebar.php"; ?>
+        <?php require "../includes/sidebar.php"; ?>
 
         <div class="page-wrapper">
             <div class="content">
@@ -96,19 +96,19 @@ $categorydata = $search->fetchAll(PDO::FETCH_OBJ);
                                     </div>
                                 </div>
 
-                                 <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="col-lg-3 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label>Category</label>
 
-                                    <select style="width: 270px; height: 40px;padding: 8px;border: 1px solid #ccc;border-radius: 4px;box-sizing: border-box;" name="category_id">
-                                      <option value="">Choose Category</option>
-                                         <?php foreach ($categorydata as $data) : ?>
-                                    <option value="<?php echo $data->id; ?>"><?php echo $data->category_name; ?></option>
-                                        <?php endforeach; ?>
-                                     </select>
+                                        <select style="width: 270px; height: 40px;padding: 8px;border: 1px solid #ccc;border-radius: 4px;box-sizing: border-box;" name="category_id">
+                                            <option value="">Choose Category</option>
+                                            <?php foreach ($categorydata as $data) : ?>
+                                                <option value="<?php echo $data->id; ?>"><?php echo $data->category_name; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
 
-                                     </div>
-                                 </div>
+                                    </div>
+                                </div>
 
                                 <div class="col-lg-3 col-sm-6 col-12">
                                     <div class="form-group">
@@ -132,20 +132,25 @@ $categorydata = $search->fetchAll(PDO::FETCH_OBJ);
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="form-control" name="description"></textarea>
+                                </div>
+
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label> Product Image</label>
                                         <div class="image-upload">
                                             <input type="file" name="image">
                                             <div class="image-uploads">
-                                                <img src="<?php echo FILEPATH;?>/assets/img/icons/upload.svg" alt="img">
+                                                <img src="<?php echo FILEPATH; ?>/assets/img/icons/upload.svg" alt="img">
                                                 <h4>Drag and drop a file to upload</h4>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                
+
 
                                 <div class="col-lg-12">
                                     <button class="btn btn-submit me-2" id="position-top-end" name="submit-button">Submit</button>
