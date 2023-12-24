@@ -1,5 +1,5 @@
 <?php
-require "../config/connection.php";
+require "../../config/connection.php";
 
 // Query to select all category names
 $search = $connection->query("SELECT * FROM category");

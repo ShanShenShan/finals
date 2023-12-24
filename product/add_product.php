@@ -85,7 +85,7 @@ $categorydata = $search->fetchAll(PDO::FETCH_OBJ);
                     </div>
                 </div>
 
-                <form action="../process/product_registration.php" method="POST" enctype="multipart/form-data">
+                <form action="../process/product_crud/product_registration.php" method="POST" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">

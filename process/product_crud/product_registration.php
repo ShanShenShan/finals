@@ -1,6 +1,6 @@
 <?php
-require "../includes/header.php";
-require "../config/connection.php";
+require "../../includes/header.php";
+require "../../config/connection.php";
 
 function feedback($message)
 {
@@ -33,7 +33,7 @@ if (isset($_POST['submit-button'])) {
 
     $image_name =  $actualName .'.' .$actualFormat;
     if (in_array($actualFormat, $allowedFormats)) {
-        $location = '../assets/img/product/' . $actualName . '.' . $actualFormat;
+        $location = '../../assets/img/product/' . $actualName . '.' . $actualFormat;
 
         $insert = $connection->prepare('INSERT INTO inventory (product_name, category_id, price, quantity, product_points, image) 
             VALUES (:product_name, :category_id, :price, :quantity, :points, :image)'); // Change to category_id
@@ -47,7 +47,7 @@ if (isset($_POST['submit-button'])) {
         if ($insert->execute()) {
             // Use the correct variable name for move_uploaded_file
             if (move_uploaded_file($product_image_tmp, $location)) {
-                feedback("Product has been added successfully!");
+                echo "<script>window.location.href='" . FILEPATH . "/product/product_list.php';</script>";
             } else {
                 feedback("Error moving uploaded file!");
             }

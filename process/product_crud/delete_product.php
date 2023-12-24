@@ -1,5 +1,5 @@
 <?php
-require "../config/connection.php";
+require "../../config/connection.php";
 
 if (isset($_GET['id'])) {
     $productId = $_GET['id'];
@@ -13,7 +13,7 @@ if (isset($_GET['id'])) {
     if ($result) {
         // Delete the image file
         $imageFilename = $result['image'];
-        $imageFilePath = '../assets/img/product/' . $imageFilename;
+        $imageFilePath = '../../assets/img/product/' . $imageFilename;
         if (file_exists($imageFilePath)) {
             unlink($imageFilePath);
         }
@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
         $deleteQuery->execute();
 
         // Redirect back to the product list page
-        header("Location:../product/product_list.php");
+        header("Location:../../product/product_list.php");
         exit();
     }
 }

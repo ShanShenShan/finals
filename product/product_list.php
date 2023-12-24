@@ -228,8 +228,8 @@ $productlist = $search->fetchAll(PDO::FETCH_OBJ);
         document.querySelectorAll('a[data-bs-target="#deleteProductModal"]').forEach(function (button) {
             button.addEventListener('click', function () {
                 var productId = this.getAttribute('data-productid');
-                // Set the href attribute of the delete link in the modal to include the product ID
-                document.getElementById('deleteProductLink').href = "<?php echo FILEPATH;?>/process/delete_product.php?id=" + productId;
+                // Set the href attribute of the delete link in the modal to include the product ID 
+                document.getElementById('deleteProductLink').href = "<?php echo FILEPATH;?>/process/product_crud/delete_product.php?id=" + productId;
             });
         });
     });
@@ -302,7 +302,7 @@ $productlist = $search->fetchAll(PDO::FETCH_OBJ);
         const formData = new FormData(document.getElementById('editProductForm'));
 
         // Make an AJAX request to update the product
-        fetch('<?php echo "".FILEPATH.""?>/process/update_product.php', {
+        fetch('<?php echo "".FILEPATH.""?>/process/product_crud/update_product.php', {
             method: 'POST',
             body: formData,
         })

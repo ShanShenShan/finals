@@ -1,5 +1,5 @@
 <?php
-require "../config/connection.php";
+require "../../config/connection.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $productId = $_POST["editProductId"];
@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle image upload if a file is selected
     if ($_FILES["editImage"]["name"] != "") {
         $imageFileName = $_FILES["editImage"]["name"];
-        $imageFilePath = "../assets/img/product/" . $imageFileName;
+        $imageFilePath = "../../assets/img/product/" . $imageFileName;
 
         // Move uploaded file to the specified directory
         move_uploaded_file($_FILES["editImage"]["tmp_name"], $imageFilePath);

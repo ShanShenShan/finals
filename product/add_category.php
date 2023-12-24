@@ -126,7 +126,7 @@
                 </div>
 
                <!--Adding category-->
-                <form action="../process/category_registration.php" method="POST">
+                <form action="../process/product_crud/category_registration.php" method="POST">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">

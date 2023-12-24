@@ -1,6 +1,6 @@
 <?php
-require "../includes/header.php"; //  Strictly requiring to include the header.php
-require "../config/connection.php"; //  Strictly requiring to include the connection.php
+require "../../includes/header.php"; //  Strictly requiring to include the header.php
+require "../../config/connection.php"; //  Strictly requiring to include the connection.php
 
 function feedback($message)
 {
@@ -24,7 +24,7 @@ if (isset($_POST['submit-button'])) {
         $insert->bindParam(':name', $name, PDO::PARAM_STR);
 
         if ($insert->execute()) {
-            feedback("Category created successfully!");
+            echo "<script>window.location.href='" . FILEPATH . "/product/category_list.php';</script>";
         } else {
             feedback("Error creating category!");
         }
