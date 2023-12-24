@@ -2,6 +2,7 @@ add_product.php
 <?php require "../includes/header.php"; ?> <!-- Strictly requiring to include the header.php-->
 <?php require "../config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
 <?php require "../includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
+<?php require "../includes/sidebar.php"; ?> <!-- Strictly requiring to include the sidebar.php-->
 
 <?php
 
@@ -74,7 +75,7 @@ $categorydata = $search->fetchAll(PDO::FETCH_OBJ);
             </div>
         </div>
 
-        <?php require "../includes/sidebar.php"; ?>
+<?php require "../includes/sidebar.php"; ?>
 
         <div class="page-wrapper">
             <div class="content">

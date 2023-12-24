@@ -1,2 +1,9 @@
+<<<<<<< HEAD
 product_Listings.php
+=======
+product_Listings.php
+*.rar
+*.sql
+config/connection.php
+>>>>>>> cd79f8a65c35e4d84668557abfaedcd8aee0d859
 includes/header.php
