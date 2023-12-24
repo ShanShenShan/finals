@@ -4,25 +4,24 @@
 <?php require "../includes/sidebar.php"; ?>
 
 <?php
-if(isset($_POST['submit']))
-{
+if(isset($_POST['submit'])) {
+    // Getting the user's input from the form html
+    $category = $_POST['category'];
 
-// Getting the user's input from the form html
-$category = $_POST['category'];
+    // Prepare a statement to select data based on the category input
+    $stmt = $connection->prepare("SELECT * FROM category WHERE category_name = :category");
+    $stmt->bindParam(':category', $category);
+    $stmt->execute();
 
-// Prepare a statement to select data based on the category input
-$stmt = $connection->prepare("SELECT * FROM category WHERE category_name = :category");
-$stmt->bindParam(':category', $category);
-$stmt->execute();
+    $categorylist = $stmt->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
+} else {
+    // Query to select all data on the table
+    $search = $connection->query("SELECT * FROM category");
+    $search->execute(); // executing the command
 
-$categorylist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as an object
-}else{
-    // Query to select all data on the table that have admin role
-$search = $connection->query("SELECT * FROM category");
-$search->execute(); // executing the command
-
-$categorylist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as an object
+    $categorylist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
 }
+
 
 
 ?>

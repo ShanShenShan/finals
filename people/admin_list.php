@@ -4,20 +4,29 @@
 <?php require "../includes/sidebar.php"; ?> <!-- Strictly requiring to include the sidebar.php-->
 
 <?php
+$adminlist = []; // Initialize the $adminlist variable
 
-// Query to select all data on the table that have admin role
-$search = $connection->query("SELECT * FROM users WHERE role= 'admin' ");
-$search->execute(); // executing the command
+if(isset($_POST['submit'])) {
+    // Getting the user's input from the form html
+    $id = $_POST['unique_id'];
 
-$adminlist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as an object
+    // Prepare a statement to select data based on the category input
+    $stmt = $connection->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
 
+    $adminlist = $stmt->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
+} else {
+    // Query to select all data on the table that have admin role
+    $search = $connection->query("SELECT * FROM users WHERE role = 'admin'");
+    $search->execute(); // executing the command
+
+    $adminlist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
+}
 ?>
 
 <body>
-
-    <div class="main-wrapper">
-
-        <div class="page-wrapper">
+<div class="page-wrapper">
             <div class="content">
                 <div class="page-header">
                     <div class="page-title">
@@ -25,7 +34,7 @@ $adminlist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as a
                         <h6>Manage your Admin list</h6>
                     </div>
                     <div class="page-btn">
-                        <a href="add_customer.php" class="btn btn-added"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add Customers</a>
+                        <a href="add_admin.php" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Admin</a>
                     </div>
                 </div>
 
@@ -33,30 +42,69 @@ $adminlist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as a
                     <div class="card-body">
                         <div class="table-top">
                             <div class="search-set">
+                                <div class="search-path">
+                                    <a class="btn btn-filter" id="filter_search">
+                                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/filter.svg" alt="img">
+                                        <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/closes.svg" alt="img"></span>
+                                    </a>
+                                </div>
                                 <div class="search-input">
-                                    <a class="btn btn-searchset"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/search-white.svg" alt="img"></a>
+                                    <a class="btn btn-searchset"><img src="<?php echo FILEPATH; ?>/assets/img/icons/search-white.svg" alt="img"></a>
                                 </div>
                             </div>
                         </div>
-
+                        <!--Filtering option-->
+                        <div class="card mb-0" id="filter_inputs">
+                            <div class="card-body pb-0">
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <form action="admin_list.php" method="POST">
+                                            <div class="row">
+                                               
+                                                <div class="col-lg col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <select class="select" name="unique_id">
+                                                            <option value=" ">Choose admin</option>
+                                                            <?php foreach ($adminlist as $admin) : ?>
+                                                                <option value="<?php echo $admin->id; ?>"><?php echo $admin->name; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>                                               
+                                                <div class="col-lg-1 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        
+                                                        <button type="submit" name="submit" class="btn btn-filters ms-auto">
+                                                            <img src="<?php echo FILEPATH; ?>/assets/img/icons/search-whites.svg" alt="img">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Table data of the products-->
                         <div class="table-responsive">
-                            <table class="table datanew">
+                            <table class="table  datanew">
                                 <thead>
                                     <tr>
-                                        <th>Customers ID</th>
+                                        <th>Admin id</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
-                                        <th>Customize</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
-                                <?php foreach ($adminlist as $admin) : ?> <!--Iterating each value from admin list and assigning it to $admin-->
-                                    <tbody>
+                                <tbody>
+                                    <?php foreach ($adminlist as $admin) : ?><!--Iterating each value from admin list and assigning it to $admin-->
                                         <tr>
-                                            <td><?php echo $admin->id; ?></td>
-                                            <td><?php echo $admin->name; ?></td>
+                                            <td><?php echo $admin->id; ?></td>             
+                                            <td><?php echo $admin->name; ?></td>                                           
                                             <td><?php echo $admin->email; ?></td>
                                             <td><?php echo $admin->role; ?></td>
+
                                             <td>
                                             <a class="me-3" data-bs-toggle="modal" data-bs-target="#editProductModal"onclick="update_account('<?php echo $admin->name; ?>', '<?php echo $admin->email; ?>', '<?php echo $admin->id; ?>')">
                                                 <img src="<?php echo FILEPATH;?>/assets/img/icons/edit.svg" alt="img">
@@ -66,20 +114,24 @@ $adminlist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as a
                                                 </a>
                                             </td>
                                         </tr>
-                                    </tbody>
-                                <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+    <div class="main-wrapper">
+
+       
  <!-- CODE FOR THE POP-UP EDIT FORM -->
  <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editProductModalLabel">Edit Customer list</h5>
+                <h5 class="modal-title" id="editProductModalLabel">Edit Admin list</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -118,7 +170,7 @@ $adminlist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as a
                         </div>
                         <div class="modal-body">
                             Are you sure you want to delete this Customer account?
-                            <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="id_delete" name="id">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -131,7 +183,7 @@ $adminlist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as a
 
         <script>
             function delete_account(id) {
-                $('#id').val(id);
+                $('#id_delete').val(id);
             }
             function update_account(name, email, id) 
             {

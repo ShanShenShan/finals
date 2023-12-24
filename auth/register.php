@@ -158,9 +158,7 @@ try {
                     switch ($role) {
                         case 'admin':
                             insert_admin($connection, $password, $username, $email, $role);
-
-                            echo "<script>alert('Creating an account successfuly!')</script>";
-                            echo "<script>window.location.href='" . FILEPATH . "/people/add_admin.php'</script>";
+                            echo "<script>window.location.href='" . FILEPATH . "/people/admin_list.php'</script>";
                             break;
                         case 'employee':
                             insert_emplopyee($connection, $password, $username, $email, $role);
