@@ -3,3 +3,6 @@ product_Listings.php
 *.sql
 config/connection.php
 includes/header.php
+*.png
+*.jpg
+*.jpeg
