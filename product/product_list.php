@@ -119,7 +119,7 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                                                         <select class="select" name="price">
                                                             <option>Price</option>
                                                             <?php foreach ($product_price as $product) : ?>
-                                                                <option value="<?php echo $product->price; ?>"><?php echo $product->price; ?></option>
+                                                                <option value="<?php echo $product->price; ?>">₱<?php echo $product->price; ?></option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -179,10 +179,7 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                                             <td><?php echo $product->quantity; ?></td>
                                             <td><?php echo $product->product_points; ?></td>
 
-                                            <td>
-                                                <a class="me-3" href="product-details.html">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
-                                                </a>
+                                            <td>                                               
                                                 <a class="me-3" onclick="openEditProductModal('<?php echo $product->id; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->category_id; ?>', '<?php echo $product->price; ?>', '<?php echo $product->quantity; ?>', '<?php echo $product->product_points; ?>')">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
                                                 </a>
