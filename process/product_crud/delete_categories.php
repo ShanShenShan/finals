@@ -1,7 +1,7 @@
 <?php
 require "../../config/connection.php";
 require "../../includes/header.php";
-if (isset($_POST['delete_category'])) {
+if (isset($_POST['category_deletion'])) {
     
     $category_Id = $_POST['id'];
 
