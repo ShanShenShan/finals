@@ -95,7 +95,7 @@ $categorylist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data a
                         <h6>Manage your products</h6>
                     </div>
                     <div class="page-btn">
-                        <a href="addproduct.html" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Category</a>
+                        <a href="add_category.php" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Category</a>
                     </div>
                 </div>
 

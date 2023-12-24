@@ -124,7 +124,7 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                         <h6>Manage your products</h6>
                     </div>
                     <div class="page-btn">
-                        <a href="addproduct.html" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Product</a>
+                        <a href="add_product.php" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Product</a>
                     </div>
                 </div>
 
