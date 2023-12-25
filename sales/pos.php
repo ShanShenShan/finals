@@ -21,10 +21,14 @@ foreach($customer_data as $customer_info)
 }
 // possible join session 
 // Displaying order details
-// GEtting all value from pending table
-$retrieving_data = $connection -> query("SELECT inv.id AS product_id, inv.product_name, cat.category_name,pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.id as order_id 
-FROM Inventory inv INNER JOIN category cat ON inv.category_id = cat.id INNER JOIN pending_orders pending ON inv.id = pending.product_id;");
-$retrieving_data-> execute();
+// Getting all values from pending table for a specific order ID
+$order_id = 1; // eto ung order id, need paltan so that may connection sya sa pending order list page
+$retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id 
+    FROM Inventory inv 
+    INNER JOIN category cat ON inv.category_id = cat.id 
+    INNER JOIN pending_orders pending ON inv.id = pending.product_id
+    WHERE pending.o_id = $order_id"); // Add a condition to select orders with the specific order ID
+$retrieving_data->execute();
 $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 
 // Counting values fro the pending table
