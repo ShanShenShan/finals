@@ -55,7 +55,7 @@ $customerlist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data a
                         <table class="table  datanew">
                             <thead>
                                 <tr>
-                                    <th>Admin id</th>
+                                    <th>Customer id</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
