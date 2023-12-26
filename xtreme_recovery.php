@@ -21,16 +21,11 @@
                                 <div class="form-addons">
                                     <input type="text" name="email" placeholder="Enter valid email" >
                                     <img src="assets/img/icons/users1.svg" alt="img">
-                                </div>
-                                <label>Recovery code</label>
-                                <div class="form-addons">
-                                    <input type="text" name="recovery" placeholder="Enter recovery code" >
-                                    <img src="assets/img/icons/users1.svg" alt="img">
-                                </div>
+                                </div>                               
                             </div>
 
                             <div class="form-login">
-                                <input type="submit" class="btn btn-login" name="recovery-button" value="Submit">
+                                <input type="submit" class="btn btn-login" name="x_recovery-button" value="Submit">
                             </div>
                         </form>
 
