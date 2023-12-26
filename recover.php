@@ -17,6 +17,11 @@
                         <form action="auth/recovery.php" method="POST">
                             
                         <div class="form-login">
+                                <label>Email</label>
+                                <div class="form-addons">
+                                    <input type="text" name="email" placeholder="Enter valid email" >
+                                    <img src="assets/img/icons/users1.svg" alt="img">
+                                </div>
                                 <label>Recovery code</label>
                                 <div class="form-addons">
                                     <input type="text" name="recovery" placeholder="Enter recovery code" >

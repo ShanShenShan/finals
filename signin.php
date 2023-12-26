@@ -38,7 +38,7 @@
                         </form>
 
                         <div class="signinform text-center">
-                            <h4>Forgot password? <a href="recover.php" class="hover-a">Recover</a></h4>
+                            <h4>Forgot password? <a href="recover.php" class="hover-a">Recover</a> <a href=""><i style="margin-left: 5px;" class="fa fa-key" aria-hidden="true"></i></a></h4>
                             
                         </div>
                     </div>

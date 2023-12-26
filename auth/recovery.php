@@ -5,20 +5,32 @@ require "../config/connection.php"; // Strictly requiring to include the connect
 
 if(isset($_POST['recovery-button'])) {
     $code = trim($_POST['recovery']);
+    $email = trim($_POST['email']);
 
-    $search = $connection->prepare("SELECT * FROM users WHERE recovery_code = :code");
-    $search->bindParam(":code", $code, PDO::PARAM_INT); // Assuming recovery_code is a string in the database
-    $search->execute();
-    $data = $search->fetch(PDO::FETCH_ASSOC); // Fetching all row
+    $select = $connection->prepare("SELECT * FROM users WHERE Email=:email");
+$select->bindParam(":email",$email,PDO::PARAM_STR);
+$select->execute();
+$data=$select->fetch(PDO::FETCH_OBJ);
+
+$select_code = $connection->prepare(" SELECT recovery_code FROM admin WHERE id = :users_id
+UNION
+SELECT recovery_code FROM customers WHERE id = :users_id
+UNION
+SELECT recovery_code FROM employee WHERE id = :users_id");
+$select_code->bindParam(":users_id",$data->id,PDO::PARAM_STR);
+$select_code->execute();
+$code=$select_code->fetch(PDO::FETCH_OBJ);
 
     if( $data) {
-        $user_role = $data["role"];
-        $name = $data["name"];
-        $email = $data["Email"];
+        $user_role = $data->role;
+        $name = $data->name;
+        $email = $data->email;
+        $code = $data->recovery_code;
         // Declaring session to retrieve values into another webpage
         $_SESSION['username'] = $name;
         $_SESSION['role'] = $user_role;
         $_SESSION['email'] =  $email;
+        $_SESSION['code'] =  $code;
         
         // Redirect based on user role
         switch ($user_role) {
