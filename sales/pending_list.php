@@ -18,13 +18,11 @@
 
 <body>
 
-    <div class="main-wrapper">
-
-
+<div class="main-wrapper">
         <div class="page-wrapper">
-    <div class="content">
-        <div class="page-header">
-        <div class="page-title">
+            <div class="content">
+                <div class="page-header">
+                    <div class="page-title">
                         <h4>Order List</h4>
                         <h6>Manage your Orders</h6>
                     </div>
@@ -41,25 +39,26 @@
                                         <th>Order Details</th>
                                     </tr>
                                 </thead>
-                                <?php foreach($orderList as $order) : ?>
+                                <?php foreach ($orderList as $order) : ?>
                                     <tbody>
                                         <tr>
-                                            <td><?php echo $order->o_id ;?></td>
-                                            <td><?php echo $order->customer_name;?></td>
+                                            <td><?php echo $order->o_id; ?></td>
+                                            <td><?php echo $order->customer_name; ?></td>
                                             <td>
-                                            <a class="me-3" onclick="openReviewModal('<?php echo $order->o_id; ?>')">
-                                                <img src="<?php echo FILEPATH;?>/assets/img/icons/excel.svg" alt="img">
-                                            </a>
+                                                <a class="me-3" onclick="openReviewModal('<?php echo $order->o_id; ?>')">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/excel.svg" alt="img">
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
                                 <?php endforeach; ?>
-                    </table>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 <!-- Review Modal Content -->
 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -94,32 +93,39 @@
 </div>
 
 <script>
-    function openReviewModal(orderId) {
-        // Implement AJAX call to fetch order details based on orderId
-        $.ajax({
-            url: '../process/pos_crud/get_order_details.php',
-            method: 'POST',
-            data: {orderId: orderId},
-            success: function(response) {
-                // Update the modal content with the retrieved order details
-                $('#orderDetailsTableBody').html(response);
+        function openReviewModal(orderId) {
+            // Store the orderId in the session
+            sessionStorage.setItem('o_id', orderId);
 
-                // Show the modal
-                $('#reviewModal').modal('show');
-            },
-            error: function(error) {
-                console.error('Error fetching order details:', error);
-            }
-        });
-    }
+            // Implement AJAX call to fetch order details based on orderId
+            $.ajax({
+                url: '../process/pos_crud/get_order_details.php',
+                method: 'POST',
+                data: { orderId: orderId },
+                success: function (response) {
+                    // Update the modal content with the retrieved order details
+                    $('#orderDetailsTableBody').html(response);
 
-    function validateOrder() {
-        // Implement logic to handle order validation
-        // This function is called when the "Validate" button is clicked
-        // Redirect to "pos.php" or perform other validation actions
-        window.location.href = 'pos.php';
-    }
-</script>
+                    // Show the modal
+                    $('#reviewModal').modal('show');
+                },
+                error: function (error) {
+                    console.error('Error fetching order details:', error);
+                }
+            });
+        }
+
+        function validateOrder() {
+            // Retrieve the orderId from the session
+            var orderId = sessionStorage.getItem('o_id');
+
+            // Implement logic to handle order validation
+            // This function is called when the "Validate" button is clicked
+
+            // Redirect to "pos.php" with the orderId as a parameter
+            window.location.href = 'pos.php?orderId=' + orderId;
+        }
+    </script>
 
 
 

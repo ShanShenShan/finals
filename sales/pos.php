@@ -22,7 +22,11 @@ foreach($customer_data as $customer_info)
 // possible join session 
 // Displaying order details
 // Getting all values from pending table for a specific order ID
-$order_id = 6407; // eto ung order id, need paltan so that may connection sya sa pending order list page
+$order_id = isset($_GET['orderId']) ? $_GET['orderId'] : '';
+if (empty($order_id)) {
+    // If not found in URL, try retrieving from the session
+    $order_id = isset($_SESSION['o_id']) ? $_SESSION['o_id'] : '';
+} // eto ung order id, need paltan so that may connection sya sa pending order list page
 $retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id 
     FROM Inventory inv 
     INNER JOIN category cat ON inv.category_id = cat.id 
