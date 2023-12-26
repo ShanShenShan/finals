@@ -21,12 +21,25 @@ foreach($customer_data as $customer_info)
 }
 // possible join session 
 // Displaying order details
-// Getting all values from pending table for a specific order ID
+// Getting the stored or a new order ID
 $order_id = isset($_GET['orderId']) ? $_GET['orderId'] : '';
+
 if (empty($order_id)) {
     // If not found in URL, try retrieving from the session
     $order_id = isset($_SESSION['o_id']) ? $_SESSION['o_id'] : '';
-} // eto ung order id, need paltan so that may connection sya sa pending order list page
+
+    // If still empty, fetch the last o_id from the database and increment by 1
+    if (empty($order_id)) {
+        $getLastOrderId = $connection->query("SELECT MAX(o_id) AS last_order_id FROM pending_orders");
+        $lastOrderId = $getLastOrderId->fetchColumn();
+
+        // Generate a new order ID by incrementing the last order ID
+        $order_id = $lastOrderId + 1;
+    }
+}
+
+// Store the order ID in the session for future use
+$_SESSION['o_id'] = $order_id;// eto ung session sa order id
 $retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id 
     FROM Inventory inv 
     INNER JOIN category cat ON inv.category_id = cat.id 
@@ -36,7 +49,8 @@ $retrieving_data->execute();
 $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 
 // Counting values fro the pending table
-$pending_count = $connection->query("SELECT COUNT(*) FROM pending_orders");
+$pending_count = $connection->prepare("SELECT COUNT(*) FROM pending_orders WHERE o_id = :order_id");
+$pending_count->bindParam(':order_id', $order_id, PDO::PARAM_INT);
 $pending_count->execute();
 $total_count_pending = $pending_count->fetchColumn();
 ?>
@@ -243,7 +257,7 @@ $total_count_pending = $pending_count->fetchColumn();
                         <div class="order-list">
                             <div class="orderid">
                                 <h4>Order List</h4>
-                                <h5>Transaction id : <?php echo $customer_code ?></h5>
+                                <h5>Order Id: <?php echo isset($_SESSION['o_id']) ? $_SESSION['o_id'] : 'N/A'; ?></h5>
                             </div>
 
                         </div>
