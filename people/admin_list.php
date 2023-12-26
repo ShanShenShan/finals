@@ -6,159 +6,125 @@
 <?php
 $adminlist = []; // Initialize the $adminlist variable
 
-if(isset($_POST['submit'])) {
-    // Getting the user's input from the form html
-    $id = $_POST['unique_id'];
 
-    // Prepare a statement to select data based on the category input
-    $stmt = $connection->prepare("SELECT * FROM users WHERE id = :id");
-    $stmt->bindParam(':id', $id);
-    $stmt->execute();
-
-    $adminlist = $stmt->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
-} else {
     // Query to select all data on the table that have admin role
     $search = $connection->query("SELECT * FROM users WHERE role = 'admin'");
     $search->execute(); // executing the command
 
     $adminlist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
-}
+
 ?>
 
 <body>
-<div class="page-wrapper">
-            <div class="content">
-                <div class="page-header">
-                    <div class="page-title">
-                        <h4>Admin List</h4>
-                        <h6>Manage your Admin list</h6>
-                    </div>
-                    <div class="page-btn">
-                        <a href="add_admin.php" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Admin</a>
-                    </div>
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h4>Admin List</h4>
+                    <h6>Manage your Admin list</h6>
                 </div>
+                <div class="page-btn">
+                    <a href="add_admin.php" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New Admin</a>
+                </div>
+            </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-top">
-                            <div class="search-set">
-                                <div class="search-path">
-                                    <a class="btn btn-filter" id="filter_search">
-                                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/filter.svg" alt="img">
-                                        <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/closes.svg" alt="img"></span>
-                                    </a>
-                                </div>
-                                <div class="search-input">
-                                    <a class="btn btn-searchset"><img src="<?php echo FILEPATH; ?>/assets/img/icons/search-white.svg" alt="img"></a>
-                                </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-top">
+                        <div class="search-set">
+                            <div class="search-path">
+                                <a class="btn btn-filter" id="filter_search">
+                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/filter.svg" alt="img">
+                                    <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/closes.svg" alt="img"></span>
+                                </a>
+                            </div>
+                            <div class="search-input">
+                                <a class="btn btn-searchset"><img src="<?php echo FILEPATH; ?>/assets/img/icons/search-white.svg" alt="img"></a>
                             </div>
                         </div>
-                        <!--Filtering option-->
-                        <div class="card mb-0" id="filter_inputs">
-                            <div class="card-body pb-0">
-                                <div class="row">
-                                    <div class="col-lg-12 col-sm-12">
-                                        <form action="admin_list.php" method="POST">
-                                            <div class="row">
-                                               
-                                                <div class="col-lg col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <select class="select" name="unique_id">
-                                                            <option value=" ">Choose admin</option>
-                                                            <?php foreach ($adminlist as $admin) : ?>
-                                                                <option value="<?php echo $admin->id; ?>"><?php echo $admin->name; ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                </div>                                               
-                                                <div class="col-lg-1 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        
-                                                        <button type="submit" name="submit" class="btn btn-filters ms-auto">
-                                                            <img src="<?php echo FILEPATH; ?>/assets/img/icons/search-whites.svg" alt="img">
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                    </div>
+                    <!--Filtering option-->
+                    <div class="card mb-0" id="filter_inputs">
+                        <div class="card-body pb-0">
+                            <div class="row">
+                                
                             </div>
                         </div>
-                        <!--Table data of the products-->
-                        <div class="table-responsive">
-                            <table class="table  datanew">
-                                <thead>
+                    </div>
+                    <!--Table data of the products-->
+                    <div class="table-responsive">
+                        <table class="table  datanew">
+                            <thead>
+                                <tr>
+                                    <th>Admin id</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($adminlist as $admin) : ?><!--Iterating each value from admin list and assigning it to $admin-->
                                     <tr>
-                                        <th>Admin id</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($adminlist as $admin) : ?><!--Iterating each value from admin list and assigning it to $admin-->
-                                        <tr>
-                                            <td><?php echo $admin->id; ?></td>             
-                                            <td><?php echo $admin->name; ?></td>                                           
-                                            <td><?php echo $admin->email; ?></td>
-                                            <td><?php echo $admin->role; ?></td>
+                                        <td><?php echo $admin->id; ?></td>
+                                        <td><?php echo $admin->name; ?></td>
+                                        <td><?php echo $admin->email; ?></td>
+                                        <td><?php echo $admin->role; ?></td>
 
-                                            <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#editProductModal"onclick="update_account('<?php echo $admin->name; ?>', '<?php echo $admin->email; ?>', '<?php echo $admin->id; ?>')">
-                                                <img src="<?php echo FILEPATH;?>/assets/img/icons/edit.svg" alt="img">
+                                        <td>
+                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#editProductModal" onclick="update_account('<?php echo $admin->name; ?>', '<?php echo $admin->email; ?>', '<?php echo $admin->id; ?>')">
+                                                <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
                                             </a>
-                                                <a data-bs-toggle="modal" onclick="delete_account(<?php echo $admin->id; ?>);" data-bs-target="#deleteProductModal" data-productid="<?php echo $admin->id; ?>">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                            <a data-bs-toggle="modal" onclick="delete_account(<?php echo $admin->id; ?>);" data-bs-target="#deleteProductModal" data-productid="<?php echo $admin->id; ?>">
+                                                <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-        </div>
-
-    <div class="main-wrapper">
-
-       
- <!-- CODE FOR THE POP-UP EDIT FORM -->
- <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editProductModalLabel">Edit Admin list</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Form for editing product -->
-                <form action="../process/people_crud/update.php" method="POST">
-                    <input type="hidden" id="id" name="id">
-
-                    <div class="mb-3">
-                        <label for="editPrice" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editQuantity" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="email" name="email" required>
-                        <p style="margin-top: 10px;"><span style="font-weight: bold">Notes: </span>Don't change the domain name of email</p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-submit me-2" id="position-top-end" name="update_admin_button">Confirm</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="main-wrapper">
+
+
+        <!-- CODE FOR THE POP-UP EDIT FORM -->
+        <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProductModalLabel">Edit Admin list</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form for editing product -->
+                        <form action="../process/people_crud/update.php" method="POST">
+                            <input type="hidden" id="id" name="id">
+
+                            <div class="mb-3">
+                                <label for="editPrice" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editQuantity" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="email" name="email" required>
+                                <p style="margin-top: 10px;"><span style="font-weight: bold">Notes: </span>Don't change the domain name of email</p>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-submit me-2" id="position-top-end" name="update_admin_button">Confirm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- DELETE CONFIRMATION MODAL FROM BOOTSRAP-->
         <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
             <form action="../process/people_crud/delete.php" method="POST">
@@ -185,15 +151,16 @@ if(isset($_POST['submit'])) {
             function delete_account(id) {
                 $('#id_delete').val(id);
             }
-            function update_account(name, email, id) 
-            {
+
+            function update_account(name, email, id) {
                 $('#id').val(id);
                 $('#name').val(name);
                 $('#email').val(email);
             }
         </script>
 
-        <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
+    </div>        
+<?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
 
 </html>

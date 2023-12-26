@@ -15,65 +15,78 @@ $customerlist = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data a
 
 <body>
 
-    <div class="main-wrapper">
-
-        <div class="page-wrapper">
-            <div class="content">
-                <div class="page-header">
-                    <div class="page-title">
-                        <h4>Customers List</h4>
-                        <h6>Manage your Customer</h6>
-                    </div>
-                    <div class="page-btn">
-                        <a href="add_customer.php" class="btn btn-added"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add Customers</a>
-                    </div>
+<div class="page-wrapper">
+        <div class="content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h4>Customer List</h4>
+                    <h6>Manage your Customer list</h6>
                 </div>
+                <div class="page-btn">
+                    <a href="add_customer.php" class="btn btn-added"><img src="<?php echo FILEPATH; ?>/assets/img/icons/plus.svg" alt="img" class="me-1">Add New customer</a>
+                </div>
+            </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-top">
-                            <div class="search-set">
-                                <div class="search-input">
-                                    <a class="btn btn-searchset"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/search-white.svg" alt="img"></a>
-                                </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-top">
+                        <div class="search-set">
+                            <div class="search-path">
+                                <a class="btn btn-filter" id="filter_search">
+                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/filter.svg" alt="img">
+                                    <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/closes.svg" alt="img"></span>
+                                </a>
+                            </div>
+                            <div class="search-input">
+                                <a class="btn btn-searchset"><img src="<?php echo FILEPATH; ?>/assets/img/icons/search-white.svg" alt="img"></a>
                             </div>
                         </div>
-
-                        <div class="table-responsive">
-                            <table class="table datanew">
-                                <thead>
-                                    <tr>
-                                        <th>Customers ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Customize</th>
-                                    </tr>
-                                </thead>
-                                <?php foreach ($customerlist as $customer) : ?><!--Iterating each value from admin list and assigning it to $admin-->
-                                    <tbody>
-                                        <tr>
-                                            <td><?php echo $customer->id; ?></td>
-                                            <td><?php echo $customer->name; ?></td>
-                                            <td><?php echo $customer->email; ?></td>
-                                            <td><?php echo $customer->role; ?></td>
-                                            <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#editProductModal"onclick="update_account('<?php echo $customer->name; ?>', '<?php echo $customer->email; ?>', '<?php echo $customer->id; ?>')">
-                                                <img src="<?php echo FILEPATH;?>/assets/img/icons/edit.svg" alt="img">
-                                            </a>
-                                                <a data-bs-toggle="modal" onclick="delete_account(<?php echo $customer->id; ?>);" data-bs-target="#deleteProductModal" data-productid="<?php echo $customer->id; ?>">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                <?php endforeach; ?>
-                            </table>
+                    </div>
+                    <!--Filtering option-->
+                    <div class="card mb-0" id="filter_inputs">
+                        <div class="card-body pb-0">
+                            <div class="row">
+                                
+                            </div>
                         </div>
+                    </div>
+                    <!--Table data of the products-->
+                    <div class="table-responsive">
+                        <table class="table  datanew">
+                            <thead>
+                                <tr>
+                                    <th>Admin id</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($customerlist as $customer) : ?><!--Iterating each value from admin list and assigning it to $admin-->
+                                    <tr>
+                                        <td><?php echo $customer->id; ?></td>
+                                        <td><?php echo $customer->name; ?></td>
+                                        <td><?php echo $customer->email; ?></td>
+                                        <td><?php echo $customer->role; ?></td>
+
+                                        <td>
+                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#editProductModal" onclick="update_account('<?php echo $customer->name; ?>', '<?php echo $customer->email; ?>', '<?php echo $customer->id; ?>')">
+                                                <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a data-bs-toggle="modal" onclick="delete_account(<?php echo $customer->id; ?>);" data-bs-target="#deleteProductModal" data-productid="<?php echo $customer->id; ?>">
+                                                <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
         <!-- CODE FOR THE POP-UP EDIT FORM -->
 <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

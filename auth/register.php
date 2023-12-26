@@ -162,13 +162,11 @@ try {
                             break;
                         case 'employee':
                             insert_emplopyee($connection, $password, $username, $email, $role);
-                            echo "<script>alert('Creating an account successfuly!')</script>";
-                            echo "<script>window.location.href='" . FILEPATH . "/people/add_employee.php'</script>";
+                            echo "<script>window.location.href='" . FILEPATH . "/people/employee_list.php'</script>";
                             break;
                         case 'customer':
-                            insert_customers($connection, $password, $username, $email, $role);
-                            echo "<script>alert('Creating an account successfuly!')</script>";
-                            echo "<script>window.location.href='" . FILEPATH . "/people/add_customer.php'</script>";
+                            insert_customers($connection, $password, $username, $email, $role);                           
+                            echo "<script>window.location.href='" . FILEPATH . "/people/customer_list.php'</script>";
                             break;
                         default:
                             feedback("Unexpected user role");
@@ -181,8 +179,7 @@ try {
                     
                     // Calling the insertion function
                     insert_customers($connection, $password, $username, $email, $role);
-                    echo "<script>alert('Creating an account successfuly!')</script>";
-                    echo "<script>window.location.href='" . FILEPATH . "/employee_sidebar/people/add_customer.php'</script>";
+                    echo "<script>window.location.href='" . FILEPATH . "/employee_sidebar/people/customer_list.php'</script>";
                     break;
                 default:
                     feedback("Unexpected user role");
