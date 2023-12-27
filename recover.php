@@ -8,7 +8,7 @@
                 <div class="login-content">
                     <div class="login-userset">
                         <div class="login-logo">
-                           <a href="signin.php"><img src="assets/img/logo.png" alt="img"></a> 
+                           <a href="signin.php"><img style="margin-left: 200px;" src="assets/img/logo2.png" alt="img"></a> 
                         </div>
                         <div class="login-userheading">
                             <h3>Recover your account</h3>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="login-img">
-                    <img src="assets/img/login.jpg" alt="img">
+                    <img src="assets/img/login.png" alt="img">
                 </div>
             </div>
         </div>

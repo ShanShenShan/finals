@@ -4,10 +4,10 @@
  <div class="header">
             <div class="header-left active">
                 <a href="../employee_index.php" class="logo">
-                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo.png" alt="">
+                    <img src="<?php echo"".FILEPATH."";?>/assets/img/dlogo.png" alt="">
                 </a>
                 <a href="../employee_index.php" class="logo-small">
-                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo-small.png" alt="">
+                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo-small1.png" alt="">
                 </a>
                 <a id="toggle_btn" href="javascript:void(0);">
                 </a>
@@ -69,7 +69,6 @@
                             <a href="javascript:void(0);"><img src="<?php echo"".FILEPATH."";?>/assets/img/icons/product.svg" alt="img"><span>
                                     Product</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="../product/add_product.php">Add Product</a></li>
                                 <li><a href="../product/product_list.php">Product List</a></li>
                             </ul>
                         </li>

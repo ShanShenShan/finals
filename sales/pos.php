@@ -64,10 +64,10 @@ $total_count_pending = $pending_count->fetchColumn();
 
             <div class="header-left border-0 ">
                 <a href="../admin_index.php" class="logo">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/logo.png" alt="">
+                    <img src="<?php echo FILEPATH; ?>/assets/img/dlogo.png" alt="">
                 </a>
                 <a href="index.html" class="logo-small">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/logo-small.png" alt="">
+                    <img src="<?php echo FILEPATH; ?>/assets/img/logo-small1.png" alt="">
                 </a>
             </div>
 

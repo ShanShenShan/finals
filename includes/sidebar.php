@@ -4,10 +4,10 @@
  <div class="header">
             <div class="header-left active">
                 <a href="<?php echo"".FILEPATH."";?>/admin_index.php" class="logo">
-                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo.png" alt="">
+                    <img src="<?php echo"".FILEPATH."";?>/assets/img/dlogo.png" alt="">
                 </a>
                 <a href="admin_index.php" class="logo-small">
-                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo-small.png" alt="">
+                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo-small1.png" alt="">
                 </a>
                 <a id="toggle_btn" href="javascript:void(0);">
                 </a>

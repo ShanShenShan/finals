@@ -8,10 +8,10 @@
             <!-- Left Header -->
             <div class="header-left active">
                 <a href="employee_index.php" class="logo">
-                    <img src="../assets/img/logo.png" alt="">
+                    <img src="../assets/img/dlogo.png" alt="">
                 </a>
                 <a href="employee.index.php" class="logo-small">
-                    <img src="../assets/img/logo-small.png" alt="">
+                    <img src="../assets/img/logo-small1.png" alt="">
                 </a>
                 <a id="toggle_btn" href="javascript:void(0);"></a>
             </div>
