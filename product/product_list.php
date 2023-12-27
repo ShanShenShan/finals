@@ -22,33 +22,32 @@ if (isset($_POST['submit'])) {
 
     $search_category = $connection->query("SELECT * FROM category ");
 
-$search_category->execute();
-$product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
+    $search_category->execute();
+    $product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
 
-$search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
+    $search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
 
-$search_price->execute();
-$product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
-}
-else{
+    $search_price->execute();
+    $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
+} else {
     // Query to select all data on the table that have admin role
-$search = $connection->query("SELECT inventory.*, category.category_name 
+    $search = $connection->query("SELECT inventory.*, category.category_name 
 FROM inventory 
 JOIN category ON inventory.category_id = category.id");
 
 
-$search->execute();
-$productlist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
+    $search->execute();
+    $productlist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
 
-$search_category = $connection->query("SELECT * FROM category ");
+    $search_category = $connection->query("SELECT * FROM category ");
 
-$search_category->execute();
-$product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
+    $search_category->execute();
+    $product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
 
-$search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
+    $search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
 
-$search_price->execute();
-$product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
+    $search_price->execute();
+    $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
 }
 
 
@@ -126,7 +125,7 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                                                 </div>
                                                 <div class="col-lg-1 col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        
+
                                                         <button type="submit" name="submit" class="btn btn-filters ms-auto">
                                                             <img src="<?php echo FILEPATH; ?>/assets/img/icons/search-whites.svg" alt="img">
                                                         </button>
@@ -143,12 +142,7 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                             <table class="table  datanew">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <label class="checkboxs">
-                                                <input type="checkbox" id="select-all">
-                                                <span class="checkmarks"></span>
-                                            </label>
-                                        </th>
+
                                         <th>Id</th>
                                         <th>Product Name</th>
                                         <th>Category </th>
@@ -161,12 +155,7 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                                 <tbody>
                                     <?php foreach ($productlist as $product) : ?><!--Iterating each value from admin list and assigning it to $admin-->
                                         <tr>
-                                            <td>
-                                                <label class="checkboxs">
-                                                    <input type="checkbox">
-                                                    <span class="checkmarks"></span>
-                                                </label>
-                                            </td>
+
                                             <td><?php echo $product->id; ?></td>
                                             <td class="productimgname">
                                                 <a href="javascript:void(0);" class="product-img">
@@ -179,7 +168,10 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
                                             <td><?php echo $product->quantity; ?></td>
                                             <td><?php echo $product->product_points; ?></td>
 
-                                            <td>                                               
+                                            <td>
+                                                <a class="me-3" href="product_details.php?id=<?php echo $product->id;?>">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
+                                                </a>
                                                 <a class="me-3" onclick="openEditProductModal('<?php echo $product->id; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->category_id; ?>', '<?php echo $product->price; ?>', '<?php echo $product->quantity; ?>', '<?php echo $product->product_points; ?>')">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
                                                 </a>
@@ -379,13 +371,8 @@ $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
         window.addEventListener('load', function() {
             populateCategoriesSelect(); // Assuming there's no default category initially
         });
+          
     </script>
-
-
-
-
-
-
     <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
 
