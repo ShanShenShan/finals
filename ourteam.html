@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style2.css">
+        <script src="https://kit.fontawesome.com/dd9af7210e.js" crossorigin="anonymous"></script>
+        <title>Our Team</title>
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+    <section id="team">
+
+        <h1 class="heading">
+            <i class="fas fa-rocket"></i><strong>Our Team</strong>
+        </h1>
+
+        <div class="container">
+
+            <div class="box">
+
+                <div class="top-bar"></div>
+                    <div class="nav">
+                        <i class="verify fas fa-check-circle"></i>
+                        <input type="checkbox" class="heart-btn" id="heart-btn">
+                        <label  class="heart"></label>
+                    </div>
+
+                    <div class="details">
+                        <img src="assets/image1.jpg" alt="">
+                        <strong>Ronnie Valenzuela</strong>
+                        <p>Web Developer</p>
+                    </div>
+
+                    <div class="btn">
+                        <a href="https://www.facebook.com/onie.valenzuelaa/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+
+            </div>
+
+            <div class="box">
+
+                <div class="top-bar"></div>
+                    <div class="nav">
+                        <i class="verify fas fa-check-circle"></i>
+                        <input type="checkbox" class="heart-btn" id="heart-btn">
+                        <label  class="heart"></label>
+                    </div>
+
+                    <div class="details">
+                        <img src="assets/image2.jpg" alt="">
+                        <strong>Elli Dominic Bistayan</strong>
+                        <p>Web Developer</p>
+                    </div>
+
+                    <div class="btn">
+                        <a href="https://www.facebook.com/profile.php?id=100088209909998"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+
+            </div>
+
+            <div class="box">
+
+                <div class="top-bar"></div>
+                    <div class="nav">
+                        <i class="verify fas fa-check-circle"></i>
+                        <input type="checkbox" class="heart-btn" id="heart-btn">
+                        <label  class="heart"></label>
+                    </div>
+
+                    <div class="details">
+                        <img src="assets/image3.jpg" alt="">
+                        <strong>Shan Khyle Punzalan</strong>
+                        <p>Web Developer</p>
+                    </div>
+
+                    <div class="btn">
+                        <a href="https://www.facebook.com/sssshhhaan"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+
+            </div>
+
+            <div class="box">
+
+                <div class="top-bar"></div>
+                    <div class="nav">
+                        <i class="verify fas fa-check-circle"></i>
+                        <input type="checkbox" class="heart-btn" id="heart-btn">
+                        <label  class="heart"></label>
+                    </div>
+
+                    <div class="details">
+                        <img src="assets/image4.jpg" alt="">
+                        <strong>Micko Cueto</strong>
+                        <p>Web Developer</p>
+                    </div>
+
+                    <div class="btn">
+                        <a href="https://www.facebook.com/mikco.cueto"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                
+            </div>
+
+            <div class="box">
+                
+                <div class="top-bar"></div>
+                    <div class="nav">
+                        <i class="verify fas fa-check-circle"></i>
+                        <input type="checkbox" class="heart-btn" id="heart-btn">
+                        <label  class="heart"></label>
+                    </div>
+
+                    <div class="details">
+                        <img src="assets/image5.jpg" alt="">
+                        <strong>Elmer Adaza</strong>
+                        <p>Web Developer</p>
+                    </div>
+
+                    <div class="btn">
+                        <a href="https://www.facebook.com/elmer.adaza.12"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                
+            </div>
+
+        </div>
+
+    </section>
+
+    <i class="ri-arrow-left-line back-to-main" ></i>
+    
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <script>
+
+        const scrollRevealOption = {
+            distance: "100px",
+            origin: "top",
+            duration: 1250,
+        };
+
+        ScrollReveal().reveal(".back-to-main", {
+        ...scrollRevealOption,
+        delay: 500,
+        origin: "left",
+       
+        });
+
+        ScrollReveal().reveal(".heading", {
+        ...scrollRevealOption,
+        delay: 1000,
+        origin: "left",
+       
+        });
+
+        ScrollReveal().reveal(".box", {
+        ...scrollRevealOption,
+        delay: 1500,
+        origin: "top",
+        interval: 400,
+        });
+
+        document.querySelector('.back-to-main').addEventListener('click', function () {
+            // Redirect to 'main.html' when clicked
+            window.location.href = 'index.html';
+        });
+
+         // Cursor
+        //  const cursorDot = document.querySelector("[data-cursor-dot]");
+        //     const cursorOutline = document.querySelector("[data-cursor-outline]");
+
+        //     window.addEventListener("mousemove", function(e){
+        //         const posX = e.clientX;
+        //         const posY = e.clientY;
+
+        //         cursorDot.style.left = `${posX}px`;
+        //         cursorDot.style.top = `${posY}px`;
+
+                // cursorOutline.style.left = `${posX}px`;
+                // cursorOutline.style.top = `${posY}px`;
+
+            //     cursorOutline.animate({
+            //         left: `${posX}px`,
+            //         top: `${posY}px`,
+
+            //     }, {duration: 500, fill: "forwards"})
+            // })
+    </script>
+
+    </body>
+
+</html>
