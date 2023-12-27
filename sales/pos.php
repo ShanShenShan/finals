@@ -10,15 +10,7 @@ $category_list = $search->fetchAll(PDO::FETCH_OBJ);
 $product_search = $connection->query("SELECT * FROM inventory");
 $product_search->execute();
 $product_list = $product_search->fetchAll(PDO::FETCH_OBJ);
-// For customer transaction display
-$customer_search = $connection->query("SELECT * FROM customers WHERE id= 3004");
-$customer_search->execute();
-$customer_data = $customer_search->fetchAll(PDO::FETCH_ASSOC);
 
-foreach($customer_data as $customer_info)
-{
-    $customer_code = $customer_info['recovery_code'];
-}
 // possible join session 
 // Displaying order details
 // Getting the stored or a new order ID
@@ -28,19 +20,24 @@ if (empty($order_id)) {
     // If not found in URL, try retrieving from the session
     $order_id = isset($_SESSION['o_id']) ? $_SESSION['o_id'] : '';
 
-    // If still empty, fetch the last o_id from the database and increment by 1
+    // If still empty, fetch the default account id from the customers table "3012" (change its number base on the default account)
     if (empty($order_id)) {
-        $getLastOrderId = $connection->query("SELECT MAX(o_id) AS last_order_id FROM pending_orders");
-        $lastOrderId = $getLastOrderId->fetchColumn();
-
+        $getLastOrderId = $connection->query("SELECT * FROM customers WHERE id=3012");
+        $getLastOrderId->execute();
+        $data = $getLastOrderId->fetchAll(PDO::FETCH_OBJ);
+        foreach($data as $customer_info)
+        {
+            $id=$customer_info->id;
+            $code=$customer_info->unique_code;
+        }
         // Generate a new order ID by incrementing the last order ID
-        $order_id = $lastOrderId + 1;
+        $order_id = $code;
     }
 }
 
 // Store the order ID in the session for future use
 $_SESSION['o_id'] = $order_id;// eto ung session sa order id
-$retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id 
+$retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id, pending.id as id 
     FROM Inventory inv 
     INNER JOIN category cat ON inv.category_id = cat.id 
     INNER JOIN pending_orders pending ON inv.id = pending.product_id
@@ -274,8 +271,9 @@ $total_count_pending = $pending_count->fetchColumn();
                                     <?php   $product_price=$order_data['price'];
                                             $product_category=$order_data['category_name'];
                                             $product_quantity=$order_data['ordered_quantity'];
-                                            $product_id=$order_data['order_id'];
+                                            $product_order_id=$order_data['order_id'];
                                             $product_storage_quantity=$order_data['quantity'];
+                                            $product_id=$order_data['id'];
                                             $prices = $product_price * $product_quantity;
                                     ?>
                                     <ul class="product-lists">
@@ -368,7 +366,7 @@ $total_count_pending = $pending_count->fetchColumn();
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Order List edit</h5>
+                    <h5 class="modal-title">Order List Edit</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -397,7 +395,7 @@ $total_count_pending = $pending_count->fetchColumn();
                                     <!--Product_id, Customer code-->
                                     <input type="text" id="edit_price" name="price" readonly>
                                     <input type="hidden" id="product_id" name="product_id">
-                                    <input type="hidden" id="$customer_code" name="customer_code" value="<?php  echo ''.$customer_code.'';?>">
+                                    <input type="hidden" id="$customer_code" name="customer_code" value="<?php  echo ''.$order_id.'';?>">
                                 </div>
                             </div>
 
