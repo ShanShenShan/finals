@@ -213,6 +213,7 @@
                             <ul>
                                 <li><a href="inventoryreport.php">Inventory</a></li>
                                 <li><a href="records.php">Records</a></li>
+                                <li><a href="data/graph.php">Graphs</a></li>
                             </ul>
                         </li>
                     </ul>

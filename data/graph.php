@@ -4,14 +4,13 @@
 <?php require "../includes/sidebar.php"; ?>
 
 <?php
-$search = $connection->query("SELECT o_id, u.name as customer_name, po.product_id, po.o_quantity, i.product_name, i.category_id, i.quantity, i.product_points, i.price
-    FROM pending_orders po
-    JOIN users u ON po.customer_id = u.unique_id
-    JOIN inventory i ON po.product_id = i.id
-    GROUP BY po.o_id");
+$search = $connection->query("SELECT i.product_name, SUM(po.o_quantity) as total_quantity
+                             FROM pending_orders po
+                             JOIN inventory i ON po.product_id = i.id
+                             GROUP BY po.product_id");
 $search->execute();
 
-$orderList = $search->fetchAll(PDO::FETCH_OBJ);
+$salesData = $search->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <body>
@@ -28,7 +27,11 @@ $orderList = $search->fetchAll(PDO::FETCH_OBJ);
                 <div class="card">
                     <div class="card-body">
                         <div style="width: 50%; position: relative;">
-                            <canvas id="donutChartContainer" style="height: 300px;"></canvas>
+                            <?php if (count($salesData) > 0) : ?>
+                                <canvas id="donutChartContainer" style="height: 300px;"></canvas>
+                            <?php else : ?>
+                                <p>No data found</p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -40,37 +43,30 @@ $orderList = $search->fetchAll(PDO::FETCH_OBJ);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Fetch data for the donut chart
-            <?php
-            $salesData = $connection->query("SELECT i.product_name, SUM(po.o_quantity) as total_quantity
-                                             FROM pending_orders po
-                                             JOIN inventory i ON po.product_id = i.id
-                                             GROUP BY po.product_id");
-            $salesData->execute();
-            $salesData = $salesData->fetchAll(PDO::FETCH_ASSOC);
-            ?>
+            <?php if (count($salesData) > 0) : ?>
+                // Data for the donut chart
+                var donutChartData = {
+                    labels: <?php echo json_encode(array_column($salesData, 'product_name')); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode(array_column($salesData, 'total_quantity')); ?>,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966'],
+                    }],
+                };
 
-            var donutChartData = {
-                labels: <?php echo json_encode(array_column($salesData, 'product_name')); ?>,
-                datasets: [{
-                    data: <?php echo json_encode(array_column($salesData, 'total_quantity')); ?>,
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966'],
-                }],
-            };
-
-            // Create the donut chart
-            var donutChartContext = document.getElementById("donutChartContainer").getContext("2d");
-            var donutChart = new Chart(donutChartContext, {
-                type: 'doughnut',
-                data: donutChartData,
-                options: {
-                    responsive: true,
-                    title: {
-                        display: true,
-                        text: 'Sales Count Graph',
+                // Create the donut chart
+                var donutChartContext = document.getElementById("donutChartContainer").getContext("2d");
+                var donutChart = new Chart(donutChartContext, {
+                    type: 'doughnut',
+                    data: donutChartData,
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: 'Donut Sales Count Graph',
+                        },
                     },
-                },
-            });
+                });
+            <?php endif; ?>
         });
     </script>
 </body>
