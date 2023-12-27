@@ -235,7 +235,7 @@ $total_count_pending = $pending_count->fetchColumn();
                                                     <div class="productset flex-fill">
                                                         <div class="productsetimg image-container">
                                                             <a href="#" data-bs-toggle="modal" data-bs-target="#ShowModal1">
-                                                                <img onclick="php_to_html('<?php echo $product->id; ?>', '<?php echo $product->price; ?>','<?php echo $product_category; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->quantity; ?>','<?php echo 1; ?>')" src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="img">
+                                                                <img onclick="productOrder_modal('<?php echo $product->id; ?>', '<?php echo $product->price; ?>','<?php echo $product_category; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->quantity; ?>','<?php echo 1; ?>')" src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="img">
                                                             </a>
                                                             <h6><?php echo $product->quantity ?></h6>
                                                         </div>
@@ -299,7 +299,7 @@ $total_count_pending = $pending_count->fetchColumn();
                                                 </div>
                                             </div>
                                         </li>
-                                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#ShowModal1"><p onclick="php_to_html('<?php echo $product_id; ?>', '<?php echo $product_price; ?>','<?php echo $product_category; ?>', '<?php echo $product_name; ?>', '<?php echo $product_storage_quantity; ?>','<?php echo $product_quantity; ?>')">Edit</p></a></li>
+                                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#ShowModal1"><p onclick="productOrder_modal('<?php echo $product_id; ?>', '<?php echo $product_price; ?>','<?php echo $product_category; ?>', '<?php echo $product_name; ?>', '<?php echo $product_storage_quantity; ?>','<?php echo $product_quantity; ?>')">Edit</p></a></li>
                                         <li>₱<?php echo $prices;?></li>
                                         <li>
                                             <a data-bs-toggle="modal" onclick="delete_account(<?php echo $product_id; ?>);" data-bs-target="#deleteProductModal" data-productid="<?php echo $product_id; ?>">
@@ -426,7 +426,7 @@ $total_count_pending = $pending_count->fetchColumn();
     <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
 <script>
-    function php_to_html(id, price,category_name, product_name, quantity,initial) {
+    function productOrder_modal(id, price,category_name, product_name, quantity,initial) {
 
         // Access the input element by its ID
         var inputElement = document.getElementById("current_quantity");
