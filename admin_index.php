@@ -1,6 +1,30 @@
 <?php require "includes/header.php"; ?> <!-- Strictly requiring to include the header.php-->
 <?php require "config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
 <?php require "includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
+<?php
+    // Query to select all data on the table that have admin role
+    $search = $connection->query("SELECT inventory.*, category.category_name 
+    FROM inventory 
+    JOIN category ON inventory.category_id = category.id
+    ORDER BY inventory.id DESC
+    LIMIT 5;
+    ");
+
+
+    $search->execute();
+    $productlist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
+
+    $search_category = $connection->query("SELECT * FROM category ");
+
+    $search_category->execute();
+    $product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
+
+    $search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
+
+    $search_price->execute();
+    $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
+
+?>
 <body>
     <div class="main-wrapper">
         <!-- Header -->
@@ -291,40 +315,58 @@
                 </div>
                 
                 <!-- Recent Products -->
-                <div class="card mb-0">
-                    <div class="card-body">
-                        <h4 class="card-title">Recent Products</h4>
-                        <div class="table-responsive dataview">
-                            <table class="table datanew">
+                <div class="card">
+                    <div class="card-body"><div class="page-header">
+                    <div class="page-title">
+                        <h4>Recently Added Products</h4>
+                        <h6>Manage your products</h6>
+                    </div>
+                </div>
+                        <div class="table-top">
+                            <div class="search-set">
+                                <div class="search-path">
+                                    <a class="btn btn-filter" id="filter_search">
+                                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/filter.svg" alt="img">
+                                        <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/closes.svg" alt="img"></span>
+                                    </a>
+                                </div>
+                                <div class="search-input">
+                                    <a class="btn btn-searchset"><img src="<?php echo FILEPATH; ?>/assets/img/icons/search-white.svg" alt="img"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Table data of the products-->
+                        <div class="table-responsive">
+                            <table class="table  datanew">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <label class="checkboxs">
-                                                <input type="checkbox" id="select-all">
-                                                <span class="checkmarks"></span>
-                                            </label>
-                                        </th>
-                                        <th>Product ID</th>
+
+                                        <th>Id</th>
                                         <th>Product Name</th>
-                                        <th>Price</th>
-                                        <th>Category</th>
-                                        <th>Quantity</th>
+                                        <th>Category </th>
+                                        <th>price</th>
+                                        <th>Qty</th>
+                                        <th>Points</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <label class="checkboxs">
-                                                <input type="checkbox">
-                                                <span class="checkmarks"></span>
-                                            </label>
-                                        </td>
-                                        <td>ID</td>
-                                        <td>name</td>
-                                        <td>price</td>
-                                        <td>category</td>
-                                        <td>Quantity</td>
-                                    </tr>
+                                    <?php foreach ($productlist as $product) : ?><!--Iterating each value from admin list and assigning it to $admin-->
+                                        <tr>
+
+                                            <td><?php echo $product->id; ?></td>
+                                            <td class="productimgname">
+                                                <a href="javascript:void(0);" class="product-img">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="product">
+                                                </a>
+                                                <a href="javascript:void(0);"><?php echo $product->product_name; ?></a>
+                                            </td>
+                                            <td><?php echo $product->category_name; ?></td>
+                                            <td>₱<?php echo $product->price; ?></td>
+                                            <td><?php echo $product->quantity; ?></td>
+                                            <td><?php echo $product->product_points; ?></td>                                           
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
