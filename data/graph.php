@@ -24,9 +24,9 @@ $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div style="width: 50%; position: relative;">
+                <div class="card" style="width: 500px">
+                    <div class="card-body" >
+                        <div style="width: 100%; position: relative;">
                             <?php if (count($salesData) > 0) : ?>
                                 <canvas id="donutChartContainer" style="height: 300px;"></canvas>
                             <?php else : ?>
@@ -49,7 +49,8 @@ $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
                     labels: <?php echo json_encode(array_column($salesData, 'product_name')); ?>,
                     datasets: [{
                         data: <?php echo json_encode(array_column($salesData, 'total_quantity')); ?>,
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966'],
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966','#34e3fd','	#fce630','#3B3BFF','#A530FF'
+                    ,'#613191'],
                     }],
                 };
 
