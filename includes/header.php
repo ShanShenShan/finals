@@ -25,6 +25,7 @@ define("FILEPATH","http://localhost/pos1");
 
     
     <title>Keffi Cafe</title>
+    <title>KEFFI CAFE ADMIN POS</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="/image/x-icon" href="<?php echo FILEPATH;?>/assets/img/favicon.png">
