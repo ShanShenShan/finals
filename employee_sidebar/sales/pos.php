@@ -44,14 +44,15 @@ $total_count_pending = $pending_count->fetchColumn();
     <div class="main-wrappers">
         <div class="header">
 
-            <div class="header-left border-0 ">
+              <div class="header-left border-0 ">
                 <a href="../employee_index.php" class="logo">
                     <img src="<?php echo FILEPATH; ?>/assets/img/logo.png" alt="">
                 </a>
                 <a href="index.html" class="logo-small">
                     <img src="<?php echo FILEPATH; ?>/assets/img/logo-small.png" alt="">
                 </a>
-            </div>
+            </div> 
+
 
 
             <ul class="nav user-menu">

@@ -1,6 +1,7 @@
 <?php require "includes/header.php"; ?> <!-- Strictly requiring to include the header.php-->
 <?php require "config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
 <?php require "includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
+
 <?php
     // Query to select all data on the table that have admin role
     $search = $connection->query("SELECT inventory.*, category.category_name 
@@ -32,7 +33,7 @@
             <!-- Left Header -->
             <div class="header-left active">
                 <a href="admin_index.php" class="logo">
-                    <img src="assets/img/dlogo.png" alt="">
+                    <img src="assets/img/logo.png" alt="">
                 </a>
                 <a href="admin_index.php" class="logo-small">
                     <img src="assets/img/logo-small1.png" alt="">
@@ -231,7 +232,7 @@
                                 <span><img src="assets/img/icons/dash1.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5>$<span class="counters" data-count="307144.00">$307,144.00</span></h5>
+                                <h5> ₱<span class="counters" data-count="307144.00"> 307,144.00</span></h5>
                                 <h6>Total Purchase Due</h6>
                             </div>
                         </div>
@@ -242,7 +243,7 @@
                                 <span><img src="assets/img/icons/dash2.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5>$<span class="counters" data-count="4385.00">$4,385.00</span></h5>
+                                <h5> ₱<span class="counters" data-count="4385.00"> 4,385.00</span></h5>
                                 <h6>Total Sales Due</h6>
                             </div>
                         </div>
@@ -253,7 +254,7 @@
                                 <span><img src="assets/img/icons/dash3.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5>$<span class="counters" data-count="385656.50">385,656.50</span></h5>
+                                <h5> ₱<span class="counters" data-count="385656.50"> 385,656.50</span></h5>
                                 <h6>Total Sale Amount</h6>
                             </div>
                         </div>
@@ -264,7 +265,7 @@
                                 <span><img src="assets/img/icons/dash4.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5>$<span class="counters" data-count="40000.00">400.00</span></h5>
+                                <h5>₱<span class="counters" data-count="40000.00"> 400.00</span></h5>
                                 <h6>Total Sale Amount</h6>
                             </div>
                         </div>

@@ -16,7 +16,15 @@ define("FILEPATH","http://localhost/pos1");
     <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <meta name="robots" content="noindex, nofollow">
-    <title>ISTORYA ADMIN POS</title>
+    <link rel="shortcut icon" href="assets/img/logo2.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/img/logo2.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/img/logo2.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../assets/img/logo2.png" type="image/x-icon">
+
+
+
+    
+    <title>Keffi Cafe</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="/image/x-icon" href="<?php echo FILEPATH;?>/assets/img/favicon.png">
