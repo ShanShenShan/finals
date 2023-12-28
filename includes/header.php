@@ -39,7 +39,6 @@ define("FILEPATH","http://localhost/pos1");
     <link rel="stylesheet" href="<?php echo FILEPATH;?>/assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="<?php echo FILEPATH;?>/assets/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="<?php echo FILEPATH;?>/assets/css/style.css">
-    
     <style>
     .image-container img {
         height: 200px; /* Adjust the height as needed */

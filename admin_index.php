@@ -3,29 +3,37 @@
 <?php require "includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
 
 <?php
-    // Query to select all data on the table that have admin role
-    $search = $connection->query("SELECT inventory.*, category.category_name 
+// Query to select all data on the table that have admin role
+$search = $connection->query("SELECT inventory.*, category.category_name 
     FROM inventory 
     JOIN category ON inventory.category_id = category.id
     ORDER BY inventory.id DESC
-    LIMIT 5;
+    LIMIT 4;
     ");
 
 
-    $search->execute();
-    $productlist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
+$search->execute();
+$productlist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
 
-    $search_category = $connection->query("SELECT * FROM category ");
+$search_category = $connection->query("SELECT * FROM category ");
 
-    $search_category->execute();
-    $product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
+$search_category->execute();
+$product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
 
-    $search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
+$search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
 
-    $search_price->execute();
-    $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
+$search_price->execute();
+$product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
 
+$search = $connection->query("SELECT i.product_name, SUM(po.o_quantity) as total_quantity
+                             FROM pending_orders po
+                             JOIN inventory i ON po.product_id = i.id
+                             GROUP BY po.product_id");
+$search->execute();
+
+$salesData = $search->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <body>
     <div class="main-wrapper">
         <!-- Header -->
@@ -151,7 +159,7 @@
                                     <circle cx="12" cy="7" r="4"></circle>
                                 </svg> My Profile</a>
                             <hr class="m-0">
-                            <a class="dropdown-item logout pb-0" href="<?php echo FILEPATH;?>/auth/logout.php"><img src="<?php echo FILEPATH; ?>/assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+                            <a class="dropdown-item logout pb-0" href="<?php echo FILEPATH; ?>/auth/logout.php"><img src="<?php echo FILEPATH; ?>/assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
                         </div>
                     </div>
                 </li>
@@ -162,7 +170,7 @@
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="profile.php">My Profile</a>
-                    <a class="dropdown-item" href="<?php echo"".FILEPATH."";?>/auth/logout.php">Logout</a>
+                    <a class="dropdown-item" href="<?php echo "" . FILEPATH . ""; ?>/auth/logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -172,21 +180,21 @@
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <li class="active">
-                            <a href="admin_index.php"><img src="<?php echo"".FILEPATH."";?>/assets/img/icons/dashboard.svg" alt="img"><span>
+                            <a href="admin_index.php"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/dashboard.svg" alt="img"><span>
                                     Dashboard</span> </a>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img src="<?php echo"".FILEPATH."";?>/assets/img/icons/product.svg" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/product.svg" alt="img"><span>
                                     Product</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="product/add_product.php">Add Product</a></li>
                                 <li><a href="product/add_category.php">Add Category</a></li>
                                 <li><a href="product/product_list.php">Product List</a></li>
-                                <li><a href="product/category_list.php">Category List</a></li>                              
+                                <li><a href="product/category_list.php">Category List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img src="<?php echo"".FILEPATH."";?>/assets/img/icons/sales1.svg" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/sales1.svg" alt="img"><span>
                                     Sales</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="saleslist.php">Sales List</a></li>
@@ -197,19 +205,19 @@
                         </li>
 
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img src="<?php echo"".FILEPATH."";?>/assets/img/icons/users1.svg" alt="img"><span> People</span> <span class="menu-arrow"></span></a>
+                            <a href="javascript:void(0);"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/users1.svg" alt="img"><span> People</span> <span class="menu-arrow"></span></a>
                             <ul>
-                            <li><a href="people/add_customer.php">Add Customer </a></li>
+                                <li><a href="people/add_customer.php">Add Customer </a></li>
                                 <li><a href="people/add_employee.php">Add Employee </a></li>
                                 <li><a href="people/add_admin.php">Add Admin </a></li>
                                 <li><a href="people/customer_list.php">Customer List</a></li>
                                 <li><a href="people/employee_list.php">Employee List</a></li>
-                                <li><a href="people/admin_list.php">Admin List</a></li>                                  
+                                <li><a href="people/admin_list.php">Admin List</a></li>
                             </ul>
                         </li>
 
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img src="<?php echo"".FILEPATH."";?>/assets/img/icons/time.svg" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/time.svg" alt="img"><span>
                                     Data</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="inventoryreport.php">Inventory</a></li>
@@ -315,15 +323,103 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Recent Products -->
-                <div class="card">
-                    <div class="card-body"><div class="page-header">
-                    <div class="page-title">
-                        <h4>Recently Added Products</h4>
-                        <h6>Manage your products</h6>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Graph -->
+                        <div class="col-md-6" style="width: 700px;">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="page-header">
+                                        <div class="page-title">
+                                            <h4>Graphs</h4>
+                                            <h6>Visual Sales Data</h6>
+                                        </div>
+                                    </div>
+                                    <div style="width: 100%; height: 300px;">
+                                        <?php if (count($salesData) > 0) : ?>
+                                            <canvas id="donutChartContainer" style="margin-left: 20%;"></canvas>
+                                        <?php else : ?>
+                                            <p>No data found</p>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5 col-sm-12 col-12 d-flex">
+                            <div class="card flex-fill">
+                                <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title mb-0">Recently Added Products</h4>
+                                    <div class="dropdown">
+                                        <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <a href="product/product_list.php" class="dropdown-item">Product List</a>
+                                            </li>
+                                            <li>
+                                                <a href="product/add_product.php" class="dropdown-item">Product Add</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive dataview">
+                                        <table class="table datatable ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sno</th>
+                                                    <th>Products</th>
+                                                    <th>Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($productlist as $product) : ?>
+                                                    <tr>
+                                                        <td><?php echo $product->id; ?></td>
+                                                        <td class="productimgname">
+                                                            <a href="productlist.html" class="product-img">
+                                                                <img src="assets/img/product/<?php echo $product->image; ?>" alt="product">
+                                                            </a>
+                                                            <a href="productlist.html"><?php echo $product->product_name; ?></a>
+                                                        </td>
+                                                        <td>₱<?php echo $product->price; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!--Transaction section-->
+                <div class="card">
+                    <div class="card-body">
+                    <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+    <div>
+        <h4 class="card-title mb-0">Transaction list</h4>
+        <h6>Manage your transaction history</h6>
+    </div>
+    <div class="dropdown">
+        <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
+            <i class="fa fa-ellipsis-v"></i>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+                <a href="product/product_list.php" class="dropdown-item">Product List</a>
+            </li>
+            <li>
+                <a href="product/add_product.php" class="dropdown-item">Product Add</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<br>
                         <div class="table-top">
                             <div class="search-set">
                                 <div class="search-path">
@@ -334,6 +430,58 @@
                                 </div>
                                 <div class="search-input">
                                     <a class="btn btn-searchset"><img src="<?php echo FILEPATH; ?>/assets/img/icons/search-white.svg" alt="img"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Filtering option-->
+                        <div class="card mb-0" id="filter_inputs">
+                            <div class="card-body pb-0">
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <form action="product_list.php" method="POST">
+                                            <div class="row">
+                                                <div class="col-lg col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <select class="select" name="name">
+                                                            <option>Choose Product</option>
+                                                            <?php foreach ($productlist as $product) : ?>
+                                                                <option value="<?php echo $product->product_name; ?>"><?php echo $product->product_name; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <select class="select" name="category">
+                                                            <option>Choose Category</option>
+                                                            <?php foreach ($product_category as $product_category) : ?>
+                                                                <option value="<?php echo $product_category->category_name; ?>"><?php echo $product_category->category_name; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg col-sm-6 col-12 ">
+                                                    <div class="form-group">
+                                                        <select class="select" name="price">
+                                                            <option>Price</option>
+                                                            <?php foreach ($product_price as $product) : ?>
+                                                                <option value="<?php echo $product->price; ?>">₱<?php echo $product->price; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1 col-sm-6 col-12">
+                                                    <div class="form-group">
+
+                                                        <button type="submit" name="submit" class="btn btn-filters ms-auto">
+                                                            <img src="<?php echo FILEPATH; ?>/assets/img/icons/search-whites.svg" alt="img">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -349,7 +497,7 @@
                                         <th>price</th>
                                         <th>Qty</th>
                                         <th>Points</th>
-                                        
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -366,7 +514,19 @@
                                             <td><?php echo $product->category_name; ?></td>
                                             <td>₱<?php echo $product->price; ?></td>
                                             <td><?php echo $product->quantity; ?></td>
-                                            <td><?php echo $product->product_points; ?></td>                                           
+                                            <td><?php echo $product->product_points; ?></td>
+
+                                            <td>
+                                                <a class="me-3" href="product_details.php?id=<?php echo $product->id; ?>">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
+                                                </a>
+                                                <a class="me-3" onclick="openEditProductModal('<?php echo $product->id; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->category_id; ?>', '<?php echo $product->price; ?>', '<?php echo $product->quantity; ?>', '<?php echo $product->product_points; ?>')">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal" data-productid="<?php echo $product->id; ?>">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
+                                                </a>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -378,7 +538,45 @@
         </div>
     </div>
 
-<?php require "includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
+    <?php require "includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        <?php if (count($salesData) > 0) : ?>
+            var donutChartData = {
+                labels: <?php echo json_encode(array_column($salesData, 'product_name')); ?>,
+                datasets: [{
+                    data: <?php echo json_encode(array_column($salesData, 'total_quantity')); ?>,
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966',
+                        '#34e3fd', '#fce630', '#3B3BFF', '#A530FF', '#613191'
+                    ],
+                }],
+            };
+
+            // Create the donut chart
+            var donutChartContext = document.getElementById("donutChartContainer").getContext("2d");
+            var donutChart = new Chart(donutChartContext, {
+                type: 'doughnut',
+                data: donutChartData,
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Donut Sales Count Graph',
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom', // You can change the position if needed
+                        labels: {
+                            padding: 30, // Adjust the padding to create more space between legend items
+                        },
+                    },
+                },
+            });
+        <?php endif; ?>
+    });
+</script>
 
 </html>
