@@ -35,6 +35,7 @@ if (isset($_POST['signin-button'])) {
             $dbpassword = $user['password'];
             $username = $user['name'];
             $user_role = $user['role'];
+            $user_id = $user['id'];
 
             // matching the inserted password into the salted password from tha database
             if (password_verify($password, $dbpassword)) 
@@ -43,6 +44,7 @@ if (isset($_POST['signin-button'])) {
                 $_SESSION['username'] = $username;
                 $_SESSION['role'] = $user_role;
                 $_SESSION['email'] = $email ;
+                $_SESSION['id'] = $user_id ;
 
                 // Redirect based on user role
                 switch ($user_role) 
