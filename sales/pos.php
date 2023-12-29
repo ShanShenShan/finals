@@ -343,7 +343,7 @@ $total_count_pending = $pending_count->fetchColumn();
                                 <div class="setvalue">
                                     <ul>
                                         <li>
-                                            <h5>Subtotal </h5>
+                                            <h5>Total </h5>
                                             <h6>₱ <?php echo $sub_total; ?></h6>
                                         </li>
                                         <li>
@@ -362,8 +362,10 @@ $total_count_pending = $pending_count->fetchColumn();
                                     </ul>
                                 </div>
 
-                                <form action="<?php FILEPATH; ?>/process/pos_crud/checkout.php" method="post">
-                                
+                                <form action="<?php echo FILEPATH; ?>/process/pos_crud/checkout.php" method="post">
+                                    <input type="text" name="change" value="<?php echo $nega_total; ?>">
+                                    <input type="hidden" name="cash-tendered" value="<?php echo $exchangeValue; ?>">
+                                    <input type="hidden" name="total" value="<?php echo $sub_total; ?>">
                                     <button type="submit" class="btn-totallabel" class="btn btn-submit me-2" id="position-top-end" name="checkout-button">
                                         <h5>Checkout</h5>
                                     </button>
