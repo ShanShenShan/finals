@@ -381,12 +381,16 @@ header .image-text .header-text{
     text-align: center;
 }
 
+.modal #no{
+    background-color: red;
+}
+
 .modal .h1-text, .modal2 .h1-text {
     text-align: center;
     margin-top: 10px;
 }
 
-.modal .btn, .modal2 .btn {
+.modal .btn, .modal2 .btn, .modal3 .btn  {
     width: 100px;
     margin: 0 auto; /* Center the button horizontally */
     display: inline-block; /* Ensure block-level display for margin auto to work */
@@ -401,7 +405,7 @@ header .image-text .header-text{
     margin-top: 13px;
 }
 
-.modal .btn:hover, .modal2 .btn:hover{
+.modal .btn:hover, .modal2 .btn:hover, .modal3 .btn:hover{
     background-color: rgb(248, 183, 61);
 }
 
@@ -423,7 +427,49 @@ header .image-text .header-text{
     text-align: center;
 }
 
+.modal3 {
+    width: 460px;
+    height: 380px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9); /* Use a semi-transparent white background */
+    border-radius: 10px;
+    padding: 20px;
+    outline: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #333;
+    z-index: 1; /*Ensure the modal appears on top of other elements */
+    backdrop-filter: blur(4px) brightness(80%);
+    text-align: center;
+    box-shadow: 1px 1   px 15px rgba(24, 24, 24, 0.2);
+}
 
+.modal3 .item img{
+    width: 200px;
+    height: 130px;
+    border-radius: 10px;
+}
 
+.modal3 .item .price{
+    letter-spacing: 6px;
+}
 
+.modal3 .item .description{
+    color: #525252;
+}
 
+.modal3 .item .h4{
+    font-weight: 300;
+}
+
+.modal3 .item #close{
+    margin-right:10px ;
+    background-color: rgba(255, 0, 0, 0.893);
+}
+
+.modal3 .item #addToCart{
+    margin-left:10px ;
+    background-color:#292929;
+}

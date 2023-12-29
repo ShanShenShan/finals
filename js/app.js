@@ -74,3 +74,37 @@ function closeSecondModal() {
 
 // Add a click event listener to the 'I understand' button
 understandButton.addEventListener('click', closeSecondModal);
+
+//Third Modal
+
+// Select all product images within the listProduct
+const productImages = document.querySelectorAll('.listProduct .item img');
+
+// Add a click event listener to each product image
+productImages.forEach((image) => {
+    image.addEventListener('click', showThirdModal);
+});
+
+// Function to show the third modal
+function showThirdModal() {
+    // Select the third modal by its ID
+    const showModal3 = document.getElementById('ShowModal3');
+
+    // Display the third modal
+    showModal3.style.display = 'block';
+}
+
+// Select the 'Close' button within the third modal
+const closeModal3Button = document.querySelector('#ShowModal3 button');
+
+// Add a click event listener to close the third modal when the 'Close' button is clicked
+closeModal3Button.addEventListener('click', closeThirdModal);
+
+// Function to close the third modal
+function closeThirdModal() {
+    // Select the third modal by its ID
+    const showModal3 = document.getElementById('ShowModal3');
+
+    // Hide the third modal
+    showModal3.style.display = 'none';
+}
