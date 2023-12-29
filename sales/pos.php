@@ -2,6 +2,8 @@
 <?php require "../config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
 <?php require "../includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
 <?php
+$sub_total = 0;
+$exchangeValue = 0;
 // For category display
 $search = $connection->query("SELECT * FROM category");
 $search->execute();
@@ -10,6 +12,14 @@ $category_list = $search->fetchAll(PDO::FETCH_OBJ);
 $product_search = $connection->query("SELECT * FROM inventory");
 $product_search->execute();
 $product_list = $product_search->fetchAll(PDO::FETCH_OBJ);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['exchange'])) {
+        $exchangeValue = $_POST['exchange'];
+    } else {
+        echo "No value received from the form.";
+    }
+}
 
 // possible join session 
 // Displaying order details
@@ -25,10 +35,9 @@ if (empty($order_id)) {
         $getLastOrderId = $connection->query("SELECT * FROM customers WHERE id=3005");
         $getLastOrderId->execute();
         $data = $getLastOrderId->fetchAll(PDO::FETCH_OBJ);
-        foreach($data as $customer_info)
-        {
-            $id=$customer_info->id;
-            $code=$customer_info->unique_code;
+        foreach ($data as $customer_info) {
+            $id = $customer_info->id;
+            $code = $customer_info->unique_code;
         }
         // Generate a new order ID by incrementing the last order ID
         $order_id = $code;
@@ -36,7 +45,7 @@ if (empty($order_id)) {
 }
 
 // Store the order ID in the session for future use
-$_SESSION['o_id'] = $order_id;// eto ung session sa order id
+$_SESSION['o_id'] = $order_id; // eto ung session sa order id
 $retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id, pending.id as id 
     FROM Inventory inv 
     INNER JOIN category cat ON inv.category_id = cat.id 
@@ -45,7 +54,7 @@ $retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_
 $retrieving_data->execute();
 $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 
-// Counting values fro the pending table
+// Counting values from the pending table
 $pending_count = $connection->prepare("SELECT COUNT(*) FROM pending_orders WHERE o_id = :order_id");
 $pending_count->bindParam(':order_id', $order_id, PDO::PARAM_INT);
 $pending_count->execute();
@@ -61,7 +70,7 @@ $total_count_pending = $pending_count->fetchColumn();
 
             <div class="header-left border-0 ">
                 <a href="../admin_index.php" class="logo">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/logo1.png" alt="">
+                    <img src="<?php echo FILEPATH; ?>/assets/img/logo.png" alt="">
                 </a>
                 <a href="index.html" class="logo-small">
                     <img src="<?php echo FILEPATH; ?>/assets/img/logo-small1.png" alt="">
@@ -176,9 +185,9 @@ $total_count_pending = $pending_count->fetchColumn();
                             <a class="dropdown-item" href="profile.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                     <circle cx="12" cy="7" r="4"></circle>
-                                </svg> My Profile</a>                           
+                                </svg> My Profile</a>
                             <hr class="m-0">
-                            <a class="dropdown-item logout pb-0" href="<?php echo FILEPATH;?>/auth/logout.php"><img src="<?php echo FILEPATH; ?>/assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+                            <a class="dropdown-item logout pb-0" href="<?php echo FILEPATH; ?>/auth/logout.php"><img src="<?php echo FILEPATH; ?>/assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
                         </div>
                     </div>
                 </li>
@@ -189,7 +198,7 @@ $total_count_pending = $pending_count->fetchColumn();
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="profile.php">My Profile</a>
-                    <a class="dropdown-item" href="<?php echo"".FILEPATH."";?>/auth/logout.php">Logout</a>
+                    <a class="dropdown-item" href="<?php echo "" . FILEPATH . ""; ?>/auth/logout.php">Logout</a>
                 </div>
             </div>
 
@@ -217,17 +226,17 @@ $total_count_pending = $pending_count->fetchColumn();
                             <?php foreach ($category_list as $category) : ?>
                                 <div class="tab_content" data-tab="<?php echo $category->id; ?>">
                                     <div class="row">
-                                        <?php 
-                                        
-                                        $category_name =$connection->query( "SELECT Category.category_name
+                                        <?php
+
+                                        $category_name = $connection->query("SELECT Category.category_name
                                         FROM Category
                                         JOIN inventory ON Category.id = inventory.category_id
                                         WHERE inventory.category_id = '$category->id'");
-                                        $category_name -> execute();
-                                        $product_category =  $category_name ->fetchColumn();
+                                        $category_name->execute();
+                                        $product_category =  $category_name->fetchColumn();
 
                                         foreach ($product_list as $product) : ?>
-                                            <?php if ($product->category_id ===$category->id) : ?>
+                                            <?php if ($product->category_id === $category->id) : ?>
                                                 <div class="col-lg-3 col-sm-6 d-flex">
                                                     <div class="productset flex-fill">
                                                         <div class="productsetimg image-container">
@@ -262,50 +271,69 @@ $total_count_pending = $pending_count->fetchColumn();
 
                             <div class="card-body pt-0">
                                 <div class="totalitem">
-                                    <h4>Total items : <?php echo $total_count_pending?></h4>
-                                    <a href="javascript:void(0);">Clear all</a>
+                                    <h4>Total items : <?php echo $total_count_pending ?></h4>
+                                    <form action="<?php echo FILEPATH; ?>/process/pos_crud/pending_order_Delete.php" method="post">
+                                        <button type="submit" name="clear-all" style="background-color: transparent; border: none; padding: 5px 10px; color: red; font-weight: bold;">Clear All</button>
+                                    </form>
+
+
                                 </div>
                                 <div class="product-table">
-                                    <!--foreach loop-->                                  
-                                    <?php foreach($pending_order_data as $order_data):?>
-                                    <?php   $product_price=$order_data['price'];
-                                            $product_category=$order_data['category_name'];
-                                            $product_quantity=$order_data['ordered_quantity'];
-                                            $product_order_id=$order_data['order_id'];
-                                            $product_storage_quantity=$order_data['quantity'];
-                                            $product_id=$order_data['id'];
-                                            $prices = $product_price * $product_quantity;
-                                    ?>
-                                    <ul class="product-lists">
-                                        <li>
-                                            <div class="productimg">
-                                                <div class="productimgs">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product_image=$order_data['image'];?>" alt="img">
-                                                </div>
-                                                <div class="productcontet">
-                                                    <h4><?php echo $product_name=$order_data['product_name'];?>                                                   
-                                                        <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="<?php echo FILEPATH; ?>/assets/img/icons/edit-5.svg" alt="img"></a>
-                                                    </h4>
-                                                    <div class="productlinkset">
-                                                        <h5><?php echo $product_category;?></h5>
+                                    <!--foreach loop-->
+                                    <?php foreach ($pending_order_data as $order_data) : ?>
+                                        <?php $product_price = $order_data['price'];
+                                        $product_category = $order_data['category_name'];
+                                        $product_quantity = $order_data['ordered_quantity'];
+                                        $product_order_id = $order_data['order_id'];
+                                        $product_storage_quantity = $order_data['quantity'];
+                                        $product_id = $order_data['id'];
+
+                                        $prices = $product_price * $product_quantity;
+                                        $sub_total += $prices;
+                                        ?>
+                                        <ul class="product-lists">
+                                            <li>
+                                                <div class="productimg">
+                                                    <div class="productimgs">
+                                                        <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product_image = $order_data['image']; ?>" alt="img">
                                                     </div>
-                                                    <div class="increment-decrement">
-                                                        <div class="input-groups">
-                                                            <p>Quantity: <?php echo $product_quantity;?></p>
+                                                    <div class="productcontet">
+                                                        <h4><?php echo $product_name = $order_data['product_name']; ?>
+                                                            <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="<?php echo FILEPATH; ?>/assets/img/icons/edit-5.svg" alt="img"></a>
+                                                        </h4>
+                                                        <div class="productlinkset">
+                                                            <h5><?php echo $product_category; ?></h5>
+                                                        </div>
+                                                        <div class="increment-decrement">
+                                                            <div class="input-groups">
+                                                                <p>Quantity: <?php echo $product_quantity; ?></p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#ShowModal1"><p onclick="productOrder_modal('<?php echo $product_id; ?>', '<?php echo $product_price; ?>','<?php echo $product_category; ?>', '<?php echo $product_name; ?>', '<?php echo $product_storage_quantity; ?>','<?php echo $product_quantity; ?>')">Edit</p></a></li>
-                                        <li>₱<?php echo $prices;?></li>
-                                        <li>
-                                            <a data-bs-toggle="modal" onclick="delete_account(<?php echo $product_id; ?>);" data-bs-target="#deleteProductModal" data-productid="<?php echo $product_id; ?>">
+                                            </li>
+                                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#ShowModal1">
+                                                    <p onclick="productOrder_modal('<?php echo $product_id; ?>', '<?php echo $product_price; ?>','<?php echo $product_category; ?>', '<?php echo $product_name; ?>', '<?php echo $product_storage_quantity; ?>','<?php echo $product_quantity; ?>')">Edit</p>
+                                                </a></li>
+                                            <li>₱<?php echo $prices; ?></li>
+                                            <li>
+                                                <a data-bs-toggle="modal" onclick="delete_account(<?php echo $product_id; ?>);" data-bs-target="#deleteProductModal" data-productid="<?php echo $product_id; ?>">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <?php endforeach;?>                                        
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    <?php endforeach; ?>
+                                    <?php
+                                    if (empty($sub_total) && empty($exchangeValue)) {
+                                        $sub_total = 0;
+                                        $exchangeValue = 0;
+                                        $nega_total = $exchangeValue - $sub_total;
+                                    } else {
+                                        $nega_total = $exchangeValue - $sub_total;
+                                    }
+
+
+                                    ?>
                                     <!--foreach loop--> <!--function display of total items-->
                                 </div>
                             </div>
@@ -316,21 +344,30 @@ $total_count_pending = $pending_count->fetchColumn();
                                     <ul>
                                         <li>
                                             <h5>Subtotal </h5>
-                                            <h6>55.00$</h6>
+                                            <h6>₱ <?php echo $sub_total; ?></h6>
                                         </li>
                                         <li>
-                                            <h5>Exchange </h5> <input style="width: 50px; text-align:right;" type="text" name="child" value="" class="quantity-field">
+                                            <h5>Cash Tendered </h5>
+                                            <form id="exchangeForm" action="pos.php" method="post">
+                                                <i id="editIcon" style="margin-left:200px;" onclick="toggleExchangeAmount()" class="fas fa-edit"></i>
+                                                <input id="exchangeInput" style="width: 50px; text-align:right; border: none;" type="text" name="exchange" value="<?php echo $exchangeValue; ?>" class="quantity-field" readonly>
+
+                                            </form>
+
                                         </li>
                                         <li class="total-value">
-                                            <h5>Total </h5>
-                                            <h6>60.00$</h6>
+                                            <h5>Change </h5>
+                                            <h6>₱ <?php echo $nega_total; ?></h6>
                                         </li>
                                     </ul>
                                 </div>
 
-                                <button class="btn-totallabel" class="btn btn-submit me-2" id="position-top-end" name="checkout-button">
-                                    <h5>Checkout</h5>
-                                </button>
+                                <form action="<?php FILEPATH; ?>/process/pos_crud/checkout.php" method="post">
+                                
+                                    <button type="submit" class="btn-totallabel" class="btn btn-submit me-2" id="position-top-end" name="checkout-button">
+                                        <h5>Checkout</h5>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -341,25 +378,25 @@ $total_count_pending = $pending_count->fetchColumn();
 
     <!-- DELETE CONFIRMATION MODAL FROM BOOTSRAP-->
     <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
-            <form action="../process/pos_crud/pending_order_Delete.php" method="POST">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteProductModalLabel">Delete Product</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure you want to remove this product?
-                            <input type="hidden" id="id_delete" name="id">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" name="delete_product_order" class="btn btn-danger">Delete</button>
-                        </div>
+        <form action="../process/pos_crud/pending_order_Delete.php" method="POST">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteProductModalLabel">Delete Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to remove this product?
+                        <input type="hidden" id="id_delete" name="id">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" name="delete_product_order" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
 
     <!--edit Order list Section-->
     <div class="modal fade" id="ShowModal1" tabindex="-1" aria-labelledby="ShowModal1" aria-hidden="true">
@@ -392,10 +429,10 @@ $total_count_pending = $pending_count->fetchColumn();
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <!--Product_id, Customer code-->
+                                    <!--Product_id, Customer code, product_id_inventory-->
                                     <input type="text" id="edit_price" name="price" readonly>
                                     <input type="hidden" id="product_id" name="product_id">
-                                    <input type="hidden" id="$customer_code" name="customer_code" value="<?php  echo ''.$order_id.'';?>">
+                                    <input type="hidden" id="$customer_code" name="customer_code" value="<?php echo '' . $order_id . ''; ?>">
                                 </div>
                             </div>
 
@@ -420,11 +457,11 @@ $total_count_pending = $pending_count->fetchColumn();
             </div>
         </div>
     </div>
-    
+
     <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
 <script>
-    function productOrder_modal(id, price,category_name, product_name, quantity,initial) {
+    function productOrder_modal(id, price, category_name, product_name, quantity ,initial) {
 
         // Access the input element by its ID
         var inputElement = document.getElementById("current_quantity");
@@ -490,10 +527,37 @@ $total_count_pending = $pending_count->fetchColumn();
 
         }
     }
-    function delete_account(id) 
-            {
-                $('#id_delete').val(id);
-            }
+
+    function delete_account(id) {
+        $('#id_delete').val(id);
+    }
+
+    var initialValue = '';
+
+    function toggleExchangeAmount() {
+        var inputField = document.getElementById("exchangeInput");
+        var editIcon = document.getElementById("editIcon");
+
+        if (inputField.readOnly) {
+            initialValue = inputField.value; // Store the initial value
+            inputField.readOnly = false;
+            inputField.value = ''; // Clear the value inside the input field
+            inputField.focus();
+            editIcon.style.display = "none";
+
+            inputField.addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    inputField.readOnly = true; // Make input field readonly after submission
+                    editIcon.style.display = "inline-block"; // Show the icon
+                    inputField.style.border = "none"; // Hide the borders
+                }
+            });
+        } else {
+            inputField.readOnly = true; // Make input field readonly
+            editIcon.style.display = "inline-block"; // Show the icon
+            inputField.style.border = ""; // Show borders if hidden previously
+        }
+    }
 </script>
 
 </html>

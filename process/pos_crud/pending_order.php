@@ -7,12 +7,18 @@ if (isset($_POST['submit-button-edit'])) {
         $product_id = trim($_POST['product_id']);
         $current_quantity = trim($_POST['current_quantity']);
         $customer_codes = trim($_POST['customer_code']);
+        $availability = trim($_POST['avalability']);
 
+
+        //updating data on pending orders table
         $product_data_update = $connection->prepare("UPDATE pending_orders SET o_quantity = :current_quantity WHERE id = :product_id");
         $product_data_update->bindParam(':current_quantity', $current_quantity, PDO::PARAM_INT);
         $product_data_update->bindParam(':product_id', $product_id, PDO::PARAM_INT);
         $product_data_update->execute();
-        
+
+        //updating data on transac table
+
+          
         if ($product_data_update->rowCount() === 0) {
             $product_info = $connection->prepare("SELECT id, product_name, category_id, price, quantity, product_points, image FROM inventory WHERE id=:id");
             $product_info->bindParam(':id', $product_id, PDO::PARAM_INT);
@@ -29,12 +35,15 @@ if (isset($_POST['submit-button-edit'])) {
                 $customer_id = $customer_data['id'];
         
                 // Insert into pending_orders with customer_id_fk
-                $insert = $connection->prepare("INSERT INTO pending_orders (o_id, product_id, customer_id, o_quantity) VALUES(:o_id, :product_id, :customer_id, :o_quantity)");
+                $insert = $connection->prepare("INSERT INTO pending_orders (o_id, product_id, customer_id, o_quantity,storage_quantity) VALUES(:o_id, :product_id, :customer_id, :o_quantity,:storage)");
                 $insert->bindParam(':o_id', $customer_codes, PDO::PARAM_INT);
                 $insert->bindParam(':product_id', $product_table_info['id'], PDO::PARAM_INT);
                 $insert->bindParam(':customer_id', $customer_id, PDO::PARAM_INT);
                 $insert->bindParam(':o_quantity', $current_quantity, PDO::PARAM_INT);
+                $insert->bindParam(':storage', $availability, PDO::PARAM_INT);
                 $insert->execute();
+
+                
             } else {
                 // Handle the case where the customer is not found
                 echo "Customer not found";

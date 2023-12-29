@@ -15,4 +15,15 @@ if (isset($_POST['delete_product_order'])) {
         exit();
     
 }
+else if (isset($_POST['clear-all'])) {
+    
+
+        $deleteQuery = $connection->prepare("TRUNCATE TABLE pending_orders");
+        $deleteQuery->execute();
+
+        // Redirect back to the product list page
+        header("Location:".FILEPATH."/sales/pos.php");
+        exit();
+    
+}
 ?>
