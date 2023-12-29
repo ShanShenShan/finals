@@ -22,7 +22,7 @@ if (empty($order_id)) {
 
     // If still empty, fetch the default account id from the customers table "3012" (change its number base on the default account)
     if (empty($order_id)) {
-        $getLastOrderId = $connection->query("SELECT * FROM customers WHERE id=3012");
+        $getLastOrderId = $connection->query("SELECT * FROM customers WHERE id=3005");
         $getLastOrderId->execute();
         $data = $getLastOrderId->fetchAll(PDO::FETCH_OBJ);
         foreach($data as $customer_info)
@@ -61,7 +61,7 @@ $total_count_pending = $pending_count->fetchColumn();
 
             <div class="header-left border-0 ">
                 <a href="../admin_index.php" class="logo">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/dlogo.png" alt="">
+                    <img src="<?php echo FILEPATH; ?>/assets/img/logo1.png" alt="">
                 </a>
                 <a href="index.html" class="logo-small">
                     <img src="<?php echo FILEPATH; ?>/assets/img/logo-small1.png" alt="">
