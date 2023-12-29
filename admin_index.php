@@ -32,6 +32,11 @@ $search = $connection->query("SELECT i.product_name, SUM(po.o_quantity) as total
 $search->execute();
 
 $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
+
+//getting data on transaction table
+$transaction_search = $connection->query("SELECT * FROM transaction_records");
+$transaction_search->execute();
+$transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <body>
@@ -400,26 +405,26 @@ $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
                 <!--Transaction section-->
                 <div class="card">
                     <div class="card-body">
-                    <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-    <div>
-        <h4 class="card-title mb-0">Transaction list</h4>
-        <h6>Manage your transaction history</h6>
-    </div>
-    <div class="dropdown">
-        <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
-            <i class="fa fa-ellipsis-v"></i>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li>
-                <a href="product/product_list.php" class="dropdown-item">Product List</a>
-            </li>
-            <li>
-                <a href="product/add_product.php" class="dropdown-item">Product Add</a>
-            </li>
-        </ul>
-    </div>
-</div>
-<br>
+                        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="card-title mb-0">Transaction list</h4>
+                                <h6>Manage your transaction history</h6>
+                            </div>
+                            <div class="dropdown">
+                                <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li>
+                                        <a href="product/product_list.php" class="dropdown-item">Product List</a>
+                                    </li>
+                                    <li>
+                                        <a href="product/add_product.php" class="dropdown-item">Product Add</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <br>
                         <div class="table-top">
                             <div class="search-set">
                                 <div class="search-path">
@@ -490,41 +495,32 @@ $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
                             <table class="table  datanew">
                                 <thead>
                                     <tr>
-
                                         <th>Id</th>
-                                        <th>Product Name</th>
-                                        <th>Category </th>
-                                        <th>price</th>
-                                        <th>Qty</th>
-                                        <th>Points</th>
+                                        <th>Transaction date</th>
+                                        <th>Employee Id </th>
+                                        <th>Cutomer Id</th>
+                                        <th>Total amount</th>
+                                        <th>Cash amount</th>
+                                        <th>Pts Added</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($productlist as $product) : ?><!--Iterating each value from admin list and assigning it to $admin-->
+                                    <?php foreach ($transaction_data as $info) : ?><!--Iterating each value from admin list and assigning it to $admin-->
                                         <tr>
 
-                                            <td><?php echo $product->id; ?></td>
+                                            <td><?php echo $info->id; ?></td>
                                             <td class="productimgname">
-                                                <a href="javascript:void(0);" class="product-img">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="product">
-                                                </a>
-                                                <a href="javascript:void(0);"><?php echo $product->product_name; ?></a>
+                                                <a href="javascript:void(0);"><?php echo $info->	tr_date; ?></a>
                                             </td>
-                                            <td><?php echo $product->category_name; ?></td>
-                                            <td>₱<?php echo $product->price; ?></td>
-                                            <td><?php echo $product->quantity; ?></td>
-                                            <td><?php echo $product->product_points; ?></td>
-
+                                            <td><?php echo $info->emp_id ; ?></td>
+                                            <td>₱<?php echo $info->customer_id ; ?></td>
+                                            <td><?php echo $info->total_amount; ?></td>
+                                            <td><?php echo $info->cash_amount; ?></td>
+                                            <td><?php echo $info->pts_added; ?></td>
                                             <td>
-                                                <a class="me-3" href="product_details.php?id=<?php echo $product->id; ?>">
+                                                <a class="me-3" href="product_details.php?id=<?php echo  $info->id; ?>">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
-                                                </a>
-                                                <a class="me-3" onclick="openEditProductModal('<?php echo $product->id; ?>', '<?php echo $product->product_name; ?>', '<?php echo $product->category_id; ?>', '<?php echo $product->price; ?>', '<?php echo $product->quantity; ?>', '<?php echo $product->product_points; ?>')">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/edit.svg" alt="img">
-                                                </a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal" data-productid="<?php echo $product->id; ?>">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/delete.svg" alt="Delete">
                                                 </a>
                                             </td>
                                         </tr>
