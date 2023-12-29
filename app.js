@@ -17,74 +17,60 @@ closeCart.addEventListener('click', () => {
     body.classList.toggle('showCart')
 });
 
-//Dark and Light Mode
-modeSwitch.addEventListener('click', () => {
-    body.classList.toggle("dark");
-
-    if(body.classList.contains("dark")){
-        modeText.innerText = "Light Mode"
-    }else{
-        modeText.innerText = "Dark Mode"
-    }
-    
-});
 
 toggle.addEventListener('click', () => {
     sidebar.classList.toggle("appear");
 });
 
-//MODAL
+//MODALS FUNCTION
 
-var modal = document.getElementById('ShowModal');
-var checkOut = document.getElementById('checkOut');
-var yesButton = document.getElementById("yes");
-var noButton = document.getElementById("no");
+// Select the CHECK OUT button by its ID
+const checkOutButton = document.getElementById('checkOut');
 
-checkOut.addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default link behavior
-    modal.style.display = 'block'; // Show the modal when Register is clicked
-});
-// Hide the modal when clicking outside of it or when clicking the 'X' button
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = 'none';
-    }
-};
+// Select the first modal by its ID
+const showModal = document.getElementById('ShowModal');
 
-// Close the modal when "I understand" button is clicked
-noButton.addEventListener('click', function() {
-    modal.style.display = 'none';
-});
-
-// Second Modal
-let modal2 = document.getElementById('ShowModal2');
-let understandButton = document.getElementById("btn");
-
-// Function to show the second modal
-function showProcessingModal() {
-    // Hide the first modal
-    modal.style.display = 'none';
-
-    // Show the second modal
-    modal2.style.display = 'block';
-
-    // Add event listener for the "I understand" button in the second modal
-    understandButton.addEventListener('click', function() {
-        // Remove the second modal
-        modal2.style.display = 'none';
-    });
+// Function to show the first modal
+function showFirstModal() {
+    showModal.style.display = 'block';
 }
 
-// Update the event listener for the "Yes" button in the first modal
-yesButton.addEventListener('click', function() {
-    // Call the function to show the second modal
-    showProcessingModal();
-});
+// Add a click event listener to the CHECK OUT button
+checkOutButton.addEventListener('click', showFirstModal);
 
-var understandBut = document.getElementById("understand");
+// Select the elements with the class of 'no' within the modal
+const noButton = document.getElementById('no');
 
-// Close the modal when "I understand" button is clicked
-understandBut.addEventListener('click', function() {
-    modal2.style.display = 'none';
-});
+// Function to close the first modal
+function closeFirstModal() {
+    showModal.style.display = 'none';
+}
 
+// Add a click event listener to the 'No' button
+noButton.addEventListener('click', closeFirstModal);
+
+// Select the 'Yes' button by its ID within the first modal
+const yesButton = document.getElementById('yes');
+
+// Select the second modal by its ID
+const showModal2 = document.getElementById('ShowModal2');
+
+// Function to show the second modal
+function showSecondModal() {
+    showModal.style.display = 'none'; // Close the first modal
+    showModal2.style.display = 'block'; // Show the second modal
+}
+
+// Add a click event listener to the 'Yes' button
+yesButton.addEventListener('click', showSecondModal);
+
+// Select the 'I understand' button by its ID within the second modal
+const understandButton = document.getElementById('understand');
+
+// Function to close the second modal
+function closeSecondModal() {
+    showModal2.style.display = 'none';
+}
+
+// Add a click event listener to the 'I understand' button
+understandButton.addEventListener('click', closeSecondModal);

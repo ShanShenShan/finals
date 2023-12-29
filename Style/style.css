@@ -352,75 +352,9 @@ header .image-text .header-text{
     flex-direction: column;
     justify-content: space-between;
     overflow-y: auto; /* Add this line to enable vertical scrolling */
+    overflow-x: hidden;
 }
 
-.menu-bar .mode{
-    background-color: var(--primary-color-light);
-    position: relative;
-    border-radius:7px ;
-    margin-bottom: 10px;
-}
-
-.menu-bar .mode .moon-sun{
-    height: 50px;
-    width: 60px;
-    display: flex;
-    align-items: center;
-}
-
-.menu-bar .mode i{
-    position: absolute;
-}
-
-.menu-bar .mode i.sun{
-    opacity: 0;
-}
-
-body.dark .menu-bar .mode i.sun{
-    opacity: 1;
-}
-
-body.dark .menu-bar .mode i.moon{
-    opacity: 0;
-}
-
-.menu-bar .mode .toggle-switch{
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    min-width: 60px;
-    cursor: pointer;
-    background-color: var(--primary-color-light);
-}
-
-.toggle-switch .switch{
-    position: relative;
-    height: 22px;
-    width: 44px;
-    border-radius:25px ;
-    background-color: var(--toggle-color);
-}
-
-.switch::before{
-    content: '';
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    background-color: var(--sidebar-color);
-    cursor: pointer;
-    transition: var(--tran-03);
-}
-
-body.dark .switch::before{
-    left: 23px;
-}
 
 /* MODAL */
 
