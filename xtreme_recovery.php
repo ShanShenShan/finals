@@ -13,9 +13,7 @@
                         <div class="login-userheading">
                             <h3>Recover your account</h3>
                         </div>
-
-                        <form action="auth/recovery.php" method="POST">
-                            
+                        <form action="auth/recovery.php" method="POST">                           
                         <div class="form-login">
                                 <label>Email</label>
                                 <div class="form-addons">

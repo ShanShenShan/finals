@@ -25,11 +25,13 @@ $code=$select_code->fetch(PDO::FETCH_OBJ);
         $name = $data->name;
         $email = $data->email;
         $code = $data->recovery_code;
+        $user_id = $data->id;
         // Declaring session to retrieve values into another webpage
         $_SESSION['username'] = $name;
         $_SESSION['role'] = $user_role;
         $_SESSION['email'] =  $email;
         $_SESSION['code'] =  $code;
+        $_SESSION['id'] =  $user_id;
         
         // Redirect based on user role
         switch ($user_role) {
@@ -63,10 +65,12 @@ $data=$select->fetch(PDO::FETCH_OBJ);
         $user_role = $data->role;
         $name = $data->name;
         $email = $data->email;
+        $user_id= $data->id;
         // Declaring session to retrieve values into another webpage
         $_SESSION['username'] = $name;
         $_SESSION['role'] = $user_role;
         $_SESSION['email'] =  $email;
+        $_SESSION['id'] =  $user_id;
         
         // Redirect based on user role
         switch ($user_role) {

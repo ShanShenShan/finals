@@ -8,7 +8,7 @@
             <!-- Left Header -->
             <div class="header-left active">
                 <a href="employee_index.php" class="logo">
-                    <img src="../assets/img/dlogo.png" alt="">
+                    <img src="../assets/img/logo.png" alt="">
                 </a>
                 <a href="employee.index.php" class="logo-small">
                     <img src="../assets/img/logo-small1.png" alt="">
@@ -157,6 +157,19 @@
                 <div class="card mb-0">
                     <div class="card-body">
                         <h4 class="card-title">Transaction History</h4>
+                        <div class="table-top">
+                            <div class="search-set">
+                                <div class="search-path">
+                                    <a class="btn btn-filter" id="filter_search">
+                                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/filter.svg" alt="img">
+                                        <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/closes.svg" alt="img"></span>
+                                    </a>
+                                </div>
+                                <div class="search-input">
+                                    <a class="btn btn-searchset"><img src="<?php echo FILEPATH; ?>/assets/img/icons/search-white.svg" alt="img"></a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive dataview">
                             <table class="table datanew">
                                 <thead>
@@ -189,6 +202,37 @@
                                         <td>5</td>
                                         <td>Cofee</td>
                                         <td>11/14/2023</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="checkboxs">
+                                                <input type="checkbox">
+                                                <span class="checkmarks"></span>
+                                            </label>
+                                        </td>
+                                        <td>002</td>
+                                        <td>black coffe</td>
+                                        <td>75</td>
+                                        <td>3</td>
+                                        <td>Cofee</td>
+                                        <td>11/19/2023</td>
+                                    </tr>
+
+                                    
+                                    <tr>
+                                        <td>
+                                            <label class="checkboxs">
+                                                <input type="checkbox">
+                                                <span class="checkmarks"></span>
+                                            </label>
+                                        </td>
+                                        <td>003</td>
+                                        <td>Shabu</td>
+                                        <td>79</td>
+                                        <td>5</td>
+                                        <td>drugs</td>
+                                        <td>11/29/2023</td>
                                     </tr>
                                 </tbody>
                             </table>
