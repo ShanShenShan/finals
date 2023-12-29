@@ -501,7 +501,6 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                                         <th>Cutomer Id</th>
                                         <th>Total amount</th>
                                         <th>Cash amount</th>
-                                        <th>Pts Added</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -514,10 +513,9 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                                                 <a href="javascript:void(0);"><?php echo $info->	tr_date; ?></a>
                                             </td>
                                             <td><?php echo $info->emp_id ; ?></td>
-                                            <td>₱<?php echo $info->customer_id ; ?></td>
+                                            <td><?php echo $info->customer_id ; ?></td>
                                             <td><?php echo $info->total_amount; ?></td>
                                             <td><?php echo $info->cash_amount; ?></td>
-                                            <td><?php echo $info->pts_added; ?></td>
                                             <td>
                                                 <a class="me-3" href="product_details.php?id=<?php echo  $info->id; ?>">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
