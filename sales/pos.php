@@ -363,7 +363,7 @@ $total_count_pending = $pending_count->fetchColumn();
                                 </div>
 
                                 <form action="<?php echo FILEPATH; ?>/process/pos_crud/checkout.php" method="post">
-                                    <input type="text" name="change" value="<?php echo $nega_total; ?>">
+                                    <input type="hidden" name="change" value="<?php echo $nega_total; ?>">
                                     <input type="hidden" name="cash-tendered" value="<?php echo $exchangeValue; ?>">
                                     <input type="hidden" name="total" value="<?php echo $sub_total; ?>">
                                     <button type="submit" class="btn-totallabel" class="btn btn-submit me-2" id="position-top-end" name="checkout-button">
