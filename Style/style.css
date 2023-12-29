@@ -383,7 +383,14 @@ header .image-text .header-text{
 
 .modal #no{
     background-color: red;
+    margin-right:5px ;
 }
+
+.modal #yes{
+   
+    margin-left: 5px;
+}
+
 
 .modal .h1-text, .modal2 .h1-text {
     text-align: center;
