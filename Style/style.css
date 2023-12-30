@@ -236,7 +236,7 @@ body.showCart .container{
     align-items: center;
 }
 
-.sidebar{
+.sidebar.appear{
     position: fixed;
     top: 0;
     left: 0;
@@ -247,13 +247,6 @@ body.showCart .container{
     transition: var(--tran-05);
 }
 
-.sidebar.appear{
-    width:  88px;
-}
-
-.sidebar.appear .text{
-    opacity: 0;
-}
 
 .sidebar li{
     height: 50px;
@@ -301,29 +294,6 @@ header .image-text .header-text{
     font-weight: 600;
 }
 
-.sidebar header .toggle{
-    position: absolute;
-    top: 50%;
-    right: -25px;
-    transform: translateY(-50%) rotate(180deg);
-    height: 25px;
-    width: 25px;
-    background-color: var(--text-color);
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    border-radius: 50%;
-    color: var(--sidebar-color);
-    font-size: 22px;
-    transition: var(--tran-03);
-}
-
-.sidebar.appear header .toggle{
-    transform: translateY(-50%);
-}
-
-
-
 
 .sidebar li a{
     width: 97%;
@@ -345,14 +315,6 @@ header .image-text .header-text{
 }
 
 .sidebar .menu-bar{
-   
-    height: calc(100% - 70px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.menu-bar {
     height: calc(100% - 70px);
     display: flex;
     flex-direction: column;

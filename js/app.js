@@ -3,7 +3,6 @@ let closeCart = document.querySelector('.close');
 let body = document.querySelector('body');
 
 const body2 = document.querySelector("body");
-      sidebar = body.querySelector(".sidebar");
       toggle = body.querySelector(".toggle");
       modeSwitch = body.querySelector(".toggle-switch");
       modeText = body.querySelector(".mode-text");
@@ -18,9 +17,6 @@ closeCart.addEventListener('click', () => {
 });
 
 
-toggle.addEventListener('click', () => {
-    sidebar.classList.toggle("appear");
-});
 
 //MODALS FUNCTION
 
