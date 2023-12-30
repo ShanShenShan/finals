@@ -1,6 +1,7 @@
 let iconCart = document.querySelector('.icon-cart');
 let closeCart = document.querySelector('.close');
 let body = document.querySelector('body');
+let addToCart = document.querySelector('.addCart');
 
 const body2 = document.querySelector("body");
       toggle = body.querySelector(".toggle");
@@ -15,6 +16,18 @@ iconCart.addEventListener('click', () => {
 closeCart.addEventListener('click', () => {
     body.classList.toggle('showCart')
 });
+
+// Select the "Add To Cart" button
+addToCart.addEventListener('click', () => {
+    // Check if the cart is not currently visible
+    if (!body.classList.contains('showCart')) {
+        // If not visible, add the 'showCart' class to make it visible
+        body.classList.add('showCart');
+    }
+    // If the cart is already visible, do nothing (you can optionally handle other logic here)
+});
+
+
 
 
 
