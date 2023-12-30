@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Query to fetch order details and group by o_id
     $query = $connection->prepare("SELECT i.product_name, c.category_name, po.o_quantity, i.product_points, i.price
-        FROM pending_orders po
+        FROM pending_order_kiosk po
         JOIN inventory i ON po.product_id = i.id
         JOIN category c ON i.category_id = c.id
         WHERE po.o_id = :orderId");

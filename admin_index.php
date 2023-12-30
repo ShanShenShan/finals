@@ -3,6 +3,7 @@
 <?php require "includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
 
 <?php
+
 // Query to select all data on the table that have admin role
 $search = $connection->query("SELECT inventory.*, category.category_name 
     FROM inventory 
@@ -11,32 +12,43 @@ $search = $connection->query("SELECT inventory.*, category.category_name
     LIMIT 4;
     ");
 
-
 $search->execute();
 $productlist = $search->fetchAll(PDO::FETCH_OBJ); // fetching all of the data as an object
 
+// Gathering data in category table
 $search_category = $connection->query("SELECT * FROM category ");
-
 $search_category->execute();
 $product_category = $search_category->fetchAll(PDO::FETCH_OBJ);
 
+// Gathering data on inventory table
 $search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
-
 $search_price->execute();
 $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
 
-$search = $connection->query("SELECT i.product_name, SUM(po.o_quantity) as total_quantity
-                             FROM pending_orders po
-                             JOIN inventory i ON po.product_id = i.id
-                             GROUP BY po.product_id");
+// Gathering data on 
+$search = $connection->query("SELECT i.product_name, SUM(tp.o_quantity) as total_quantity
+                              FROM transaction_products tp
+                              JOIN inventory i ON tp.product_id = i.id
+                             GROUP BY tp.product_id");
 $search->execute();
 
 $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
 
+// If submit button has been clicked the below code will happen
+if (isset($_POST['submit'])) {
+
+    // fetch your data here
+    // generate a syntax
+    // fetch the result either OBJ or ASSOC
+    
+
+} else {
 //getting data on transaction table
 $transaction_search = $connection->query("SELECT * FROM transaction_records");
 $transaction_search->execute();
 $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
+}
+
 ?>
 
 <body>
@@ -202,7 +214,7 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                             <a href="javascript:void(0);"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/sales1.svg" alt="img"><span>
                                     Sales</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="saleslist.php">Sales List</a></li>
+                                <li><a href="sales/sales_list.php">Sales List</a></li>
                                 <li><a href="sales/pending_list.php">Pending Orders</a></li>
                                 <li><a href="sales/pos.php">POS</a></li>
 
@@ -337,8 +349,8 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                                 <div class="card-body">
                                     <div class="page-header">
                                         <div class="page-title">
-                                            <h4>Graphs</h4>
-                                            <h6>Visual Sales Data</h6>
+                                            <h4>Visual Sales Data</h4>
+                                            <h6>Top selling products</h6>
                                         </div>
                                     </div>
                                     <div style="width: 100%; height: 300px;">
@@ -443,37 +455,28 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                             <div class="card-body pb-0">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12">
-                                        <form action="product_list.php" method="POST">
+                                        <form action="admin_indeX.php" method="POST">
                                             <div class="row">
                                                 <div class="col-lg col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <select class="select" name="name">
-                                                            <option>Choose Product</option>
-                                                            <?php foreach ($productlist as $product) : ?>
-                                                                <option value="<?php echo $product->product_name; ?>"><?php echo $product->product_name; ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
+                                                        <input type="text" name="date" placeholder="Date">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg col-sm-6 col-12">
                                                     <div class="form-group">
-                                                        <select class="select" name="category">
-                                                            <option>Choose Category</option>
-                                                            <?php foreach ($product_category as $product_category) : ?>
-                                                                <option value="<?php echo $product_category->category_name; ?>"><?php echo $product_category->category_name; ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
+                                                        <input type="text" name="emp_id" placeholder="Employee id">
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-lg col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <input type="text" name="customer_id" placeholder="Customer id">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-lg col-sm-6 col-12 ">
                                                     <div class="form-group">
-                                                        <select class="select" name="price">
-                                                            <option>Price</option>
-                                                            <?php foreach ($product_price as $product) : ?>
-                                                                <option value="<?php echo $product->price; ?>">₱<?php echo $product->price; ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
+                                                        <input type="text" name="cash-tenderes" placeholder="Cash Tendered">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-1 col-sm-6 col-12">
@@ -510,7 +513,7 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
 
                                             <td><?php echo $info->id; ?></td>
                                             <td class="productimgname">
-                                                <a href="javascript:void(0);"><?php echo $info->	tr_date; ?></a>
+                                                <a href="javascript:void(0);"><?php echo $info->tr_date; ?></a>
                                             </td>
                                             <td><?php echo $info->emp_id ; ?></td>
                                             <td><?php echo $info->customer_id ; ?></td>

@@ -30,17 +30,16 @@ if (empty($order_id)) {
     // If not found in URL, try retrieving from the session
     $order_id = isset($_SESSION['o_id']) ? $_SESSION['o_id'] : '';
 
-    // If still empty, fetch the default account id from the customers table "3012" (change its number base on the default account)
+    // If still empty, fetch the default account id from the customers table "3005" (change its number base on the default account)
     if (empty($order_id)) {
         $getLastOrderId = $connection->query("SELECT * FROM customers WHERE id=3005");
         $getLastOrderId->execute();
         $data = $getLastOrderId->fetchAll(PDO::FETCH_OBJ);
         foreach ($data as $customer_info) {
             $id = $customer_info->id;
-            $code = $customer_info->unique_code;
         }
         // Generate a new order ID by incrementing the last order ID
-        $order_id = $code;
+        $order_id = $id;
     }
 }
 
@@ -50,12 +49,12 @@ $retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_
     FROM Inventory inv 
     INNER JOIN category cat ON inv.category_id = cat.id 
     INNER JOIN pending_orders pending ON inv.id = pending.product_id
-    WHERE pending.o_id = $order_id"); // Add a condition to select orders with the specific order ID
+    WHERE pending.customer_id = $order_id"); // Add a condition to select orders with the specific order ID
 $retrieving_data->execute();
 $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 
 // Counting values from the pending table
-$pending_count = $connection->prepare("SELECT COUNT(*) FROM pending_orders WHERE o_id = :order_id");
+$pending_count = $connection->prepare("SELECT COUNT(*) FROM pending_orders WHERE customer_id = :order_id");
 $pending_count->bindParam(':order_id', $order_id, PDO::PARAM_INT);
 $pending_count->execute();
 $total_count_pending = $pending_count->fetchColumn();
@@ -263,7 +262,7 @@ $total_count_pending = $pending_count->fetchColumn();
                         <div class="order-list">
                             <div class="orderid">
                                 <h4>Order List</h4>
-                                <h5>Order Id: <?php echo isset($_SESSION['o_id']) ? $_SESSION['o_id'] : 'N/A'; ?></h5>
+                                <h5>Order Id: <?php echo isset($_SESSION['o_id']) ? $_SESSION['o_id'] : 'N/A'; ?> -  <?php echo isset($_SESSION['order_id']) ? $$_SESSION['unique_code'] : 'N/A'; ?></h5>
                             </div>
 
                         </div>
@@ -434,7 +433,7 @@ $total_count_pending = $pending_count->fetchColumn();
                                     <!--Product_id, Customer code, product_id_inventory-->
                                     <input type="text" id="edit_price" name="price" readonly>
                                     <input type="hidden" id="product_id" name="product_id">
-                                    <input type="hidden" id="$customer_code" name="customer_code" value="<?php echo '' . $order_id . ''; ?>">
+                                    <input type="hidden" id="$customer_id" name="customer_id" value="<?php echo '' . $order_id . ''; ?>">
                                 </div>
                             </div>
 
