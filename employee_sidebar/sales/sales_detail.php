@@ -109,10 +109,12 @@ WHERE
                                     <th>Storage Quantity</th>
                                     <th>Total</th>
                                     <th>Cash Tendered</th>
+                                    <th>Exchanged</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($transaction_details as $transaction_info) : ?><!--Iterating each value from admin list and assigning it to $admin-->
+                                    <?php $exchange = $transaction_info->cash_amount - $transaction_info->total_amount;?>
                                     <tr>
                                         <td><?php echo $transaction_product_id; ?></td>
                                         <td><?php echo $transaction_info->employee_id; ?></td>
@@ -126,6 +128,7 @@ WHERE
                                         <td><?php echo $transaction_info->quantity; ?></td>
                                         <td><?php echo $transaction_info->total_amount; ?></td>
                                         <td><?php echo $transaction_info->cash_amount; ?></td>
+                                        <td><?php echo $exchange;?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
