@@ -65,6 +65,22 @@ $category_Count = $select_all_category->fetchColumn();
 $select_all_products = $connection->query("SELECT COUNT(*) FROM inventory");
 $select_all_products->execute();
 $products_Count = $select_all_products->fetchColumn();
+// Displaying income
+$select_all_value = $connection->query("SELECT SUM(total_amount) FROM transaction_records");
+$select_all_value->execute();
+$shop_income = $select_all_value->fetchColumn();
+// Displaying exchange amount
+$select_all_value = $connection->query("SELECT (SUM(cash_amount) - SUM(total_amount)) AS total_diff FROM transaction_records");
+$select_all_value->execute();
+$total_exchange = $select_all_value->fetchColumn();
+// Displaying order quantity 
+$select_all_value = $connection->query("SELECT SUM(o_quantity) FROM transaction_products");
+$select_all_value->execute();
+$total_order = $select_all_value->fetchColumn();
+// Displaying order quantity 
+$select_all_value = $connection->query("SELECT SUM(quantity) FROM inventory");
+$select_all_value->execute();
+$total_inventory = $select_all_value->fetchColumn();
 ?>
 
 <body>
@@ -74,7 +90,7 @@ $products_Count = $select_all_products->fetchColumn();
             <!-- Left Header -->
             <div class="header-left active">
                 <a href="admin_index.php" class="logo">
-                    <img src="assets/img/logo.png" alt="">
+                    <img src="assets/img/logo1.png" alt="">
                 </a>
                 <a href="admin_index.php" class="logo-small">
                     <img src="assets/img/logo-small1.png" alt="">
@@ -254,7 +270,7 @@ $products_Count = $select_all_products->fetchColumn();
                                     Data</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="inventoryreport.php">Inventory</a></li>
-                                <li><a href="records.php">Records</a></li>
+                                <li><a href="data/records.php">Records</a></li>
                                 <li><a href="data/graph.php">Graphs</a></li>
                             </ul>
                         </li>
@@ -267,25 +283,27 @@ $products_Count = $select_all_products->fetchColumn();
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
+
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="dash-widget">
                             <div class="dash-widgetimg">
                                 <span><img src="assets/img/icons/dash1.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5> ₱<span class="counters" data-count="307144.00"> 307,144.00</span></h5>
-                                <h6>Total Purchase Due</h6>
+                                <h5> ₱<span class="counters" data-count="<?php echo $total_inventory;?>"></span></h5>
+                                <h6>Total Inventory quantity</h6>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="dash-widget dash1">
                             <div class="dash-widgetimg">
                                 <span><img src="assets/img/icons/dash2.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5> ₱<span class="counters" data-count="4385.00"> 4,385.00</span></h5>
-                                <h6>Total Sales Due</h6>
+                                <h5> ₱<span class="counters" data-count="<?php echo $shop_income;?>"> </span></h5>
+                                <h6>Total Income</h6>
                             </div>
                         </div>
                     </div>
@@ -295,8 +313,8 @@ $products_Count = $select_all_products->fetchColumn();
                                 <span><img src="assets/img/icons/dash3.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5> ₱<span class="counters" data-count="385656.50"> 385,656.50</span></h5>
-                                <h6>Total Sale Amount</h6>
+                                <h5> ₱<span class="counters" data-count="<?php echo $total_exchange;?>"></span></h5>
+                                <h6>Total Exchange Amount</h6>
                             </div>
                         </div>
                     </div>
@@ -306,8 +324,8 @@ $products_Count = $select_all_products->fetchColumn();
                                 <span><img src="assets/img/icons/dash4.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5>₱<span class="counters" data-count="40000.00"> 400.00</span></h5>
-                                <h6>Total Sale Amount</h6>
+                                <h5>₱<span class="counters" data-count="<?php echo $total_order;?>"></span></h5>
+                                <h6>Total Order Amount</h6>
                             </div>
                         </div>
                     </div>

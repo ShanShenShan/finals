@@ -1,6 +1,30 @@
 <?php require "../includes/header.php"; ?> <!-- Strictly requiring to include the header.php-->
 <?php require "../config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
 <?php require "../includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
+<?php
+// Displaying income
+$select_all_value = $connection->query("SELECT SUM(total_amount) FROM transaction_records");
+$select_all_value->execute();
+$shop_income = $select_all_value->fetchColumn();
+// Displaying exchange amount
+$select_all_value = $connection->query("SELECT (SUM(cash_amount) - SUM(total_amount)) AS total_diff FROM transaction_records");
+$select_all_value->execute();
+$total_exchange = $select_all_value->fetchColumn();
+// Displaying order quantity 
+$select_all_value = $connection->query("SELECT SUM(o_quantity) FROM transaction_products");
+$select_all_value->execute();
+$total_order = $select_all_value->fetchColumn();
+// Displaying order quantity 
+$select_all_value = $connection->query("SELECT SUM(quantity) FROM inventory");
+$select_all_value->execute();
+$total_inventory = $select_all_value->fetchColumn();
+
+//getting data on transaction table
+$transaction_search = $connection->query("SELECT * FROM transaction_records");
+$transaction_search->execute();
+$transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
+?>
+
 <body>
     <div class="main-wrapper">
         <!-- Header -->
@@ -8,7 +32,7 @@
             <!-- Left Header -->
             <div class="header-left active">
                 <a href="employee_index.php" class="logo">
-                    <img src="../assets/img/logo.png" alt="">
+                    <img src="../assets/img/logo1.png" alt="">
                 </a>
                 <a href="employee.index.php" class="logo-small">
                     <img src="../assets/img/logo-small1.png" alt="">
@@ -47,7 +71,7 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="profile.php">My Profile</a>
                     <a class="dropdown-item" href="generalsettings.php">Settings</a>
-                    <a class="dropdown-item" href="<?php echo"".FILEPATH."";?>/auth/logout.php">Logout</a>
+                    <a class="dropdown-item" href="<?php echo "" . FILEPATH . ""; ?>/auth/logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -63,15 +87,15 @@
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img"><span>
                                     Product</span> <span class="menu-arrow"></span></a>
-                            <ul>                               
-                                <li><a href="product/product_list.php">Product List</a></li>                             
+                            <ul>
+                                <li><a href="product/product_list.php">Product List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img"><span>
                                     Sales</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="saleslist.php">Sales List</a></li>
+                                <li><a href="sales/sales_list.php">Sales List</a></li>
                                 <li><a href="sales/pos.php">POS</a></li>
 
                             </ul>
@@ -80,8 +104,8 @@
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img"><span> People</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="people/add_customer.php">Add Customer </a></li>                              
-                                <li><a href="people/customer_list.php">Customer List</a></li>                                                              
+                                <li><a href="people/add_customer.php">Add Customer </a></li>
+                                <li><a href="people/customer_list.php">Customer List</a></li>
                             </ul>
                         </li>
 
@@ -103,60 +127,77 @@
             <div class="content">
                 <!-- Dashboard Widgets -->
                 <div class="row">
-                    <!-- Widget 1 -->
+
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="dash-widget">
                             <div class="dash-widgetimg">
-                                <span><img src="../assets/img/icons/dash1.svg" alt="img"></span>
+                                <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/dash1.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5><span class="counters" data-count="<?php echo $totalinventcount ?>"></span></h5>
-                                <h6>Total Product</h6>
+                                <h5> ₱<span class="counters" data-count="<?php echo $total_inventory; ?>"></span></h5>
+                                <h6>Total Inventory quantity</h6>
                             </div>
                         </div>
                     </div>
-                    <!-- Widget 2 -->
+
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="dash-widget dash1">
                             <div class="dash-widgetimg">
-                                <span><img src="../assets/img/icons/dash4.svg" alt="img"></span>
+                                <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/dash2.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5><span class="counters" data-count="<?php echo $totalcategorycount; ?>"></span></h5>
-                                <h6>Total Category</h6>
+                                <h5> ₱<span class="counters" data-count="<?php echo $shop_income; ?>"> </span></h5>
+                                <h6>Total Income</h6>
                             </div>
                         </div>
                     </div>
-                    <!-- Widget 3 -->
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="dash-widget dash2">
                             <div class="dash-widgetimg">
-                                <span><img src="../assets/img/icons/dash4.svg" alt="img"></span>
+                                <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/dash3.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5><span class="counters" data-count="<?php echo $totaltransactioncount; ?>"></span></h5>
-                                <h6>Total Records</h6>
+                                <h5> ₱<span class="counters" data-count="<?php echo $total_exchange; ?>"></span></h5>
+                                <h6>Total Exchange Amount</h6>
                             </div>
                         </div>
                     </div>
-                    <!-- Widget 4 -->
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="dash-widget dash3">
                             <div class="dash-widgetimg">
-                                <span><img src="../assets/img/icons/dash2.svg" alt="img"></span>
+                                <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/dash4.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5><span class="counters" data-count="<?php echo $totaltransactioncount ?>"></span></h5>
-                                <h6>Total Sale Amount</h6>
+                                <h5>₱<span class="counters" data-count="<?php echo $total_order; ?>"></span></h5>
+                                <h6>Total Order Amount</h6>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Products -->
-                <div class="card mb-0">
+                <!--transaction records -->
+                <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Transaction History</h4>
+                        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="card-title mb-0">Transaction list</h4>
+                                <h6>Manage your transaction history</h6>
+                            </div>
+                            <div class="dropdown">
+                                <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li>
+                                        <a href="product/product_list.php" class="dropdown-item">Product List</a>
+                                    </li>
+                                    <li>
+                                        <a href="product/add_product.php" class="dropdown-item">Product Add</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <br>
                         <div class="table-top">
                             <div class="search-set">
                                 <div class="search-path">
@@ -170,70 +211,39 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive dataview">
-                            <table class="table datanew">
+                        <!--Table data of the products-->
+                        <div class="table-responsive">
+                            <table class="table  datanew">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <label class="checkboxs">
-                                                <input type="checkbox" id="select-all">
-                                                <span class="checkmarks"></span>
-                                            </label>
-                                        </th>
-                                        <th>Product ID</th>
-                                        <th>Product Name</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Category</th>
-                                        <th>Date</th>
+                                        <th>Id</th>
+                                        <th>Transaction date</th>
+                                        <th>Employee Id </th>
+                                        <th>Cutomer Id</th>
+                                        <th>Total amount</th>
+                                        <th>Cash amount</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <label class="checkboxs">
-                                                <input type="checkbox">
-                                                <span class="checkmarks"></span>
-                                            </label>
-                                        </td>
-                                        <td>001</td>
-                                        <td>Capuccino</td>
-                                        <td>79</td>
-                                        <td>5</td>
-                                        <td>Cofee</td>
-                                        <td>11/14/2023</td>
-                                    </tr>
+                                    <?php foreach ($transaction_data as $info) : ?><!--Iterating each value from admin list and assigning it to $admin-->
+                                        <tr>
 
-                                    <tr>
-                                        <td>
-                                            <label class="checkboxs">
-                                                <input type="checkbox">
-                                                <span class="checkmarks"></span>
-                                            </label>
-                                        </td>
-                                        <td>002</td>
-                                        <td>black coffe</td>
-                                        <td>75</td>
-                                        <td>3</td>
-                                        <td>Cofee</td>
-                                        <td>11/19/2023</td>
-                                    </tr>
-
-                                    
-                                    <tr>
-                                        <td>
-                                            <label class="checkboxs">
-                                                <input type="checkbox">
-                                                <span class="checkmarks"></span>
-                                            </label>
-                                        </td>
-                                        <td>003</td>
-                                        <td>Shabu</td>
-                                        <td>79</td>
-                                        <td>5</td>
-                                        <td>drugs</td>
-                                        <td>11/29/2023</td>
-                                    </tr>
+                                            <td><?php echo $info->id; ?></td>
+                                            <td class="productimgname">
+                                                <a href="javascript:void(0);"><?php echo $info->tr_date; ?></a>
+                                            </td>
+                                            <td><?php echo $info->emp_id ; ?></td>
+                                            <td><?php echo $info->customer_id ; ?></td>
+                                            <td><?php echo $info->total_amount; ?></td>
+                                            <td><?php echo $info->cash_amount; ?></td>
+                                            <td>
+                                                <a class="me-3" href="sales/sales_detail.php?id=<?php echo  $info->customer_id; ?>">
+                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -243,7 +253,7 @@
         </div>
     </div>
 
-<?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
+    <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
 
 </html>

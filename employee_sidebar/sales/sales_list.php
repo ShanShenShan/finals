@@ -1,6 +1,6 @@
-<?php require "../includes/header.php"; ?> <!-- Strictly requiring to include the header.php-->
-<?php require "../config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
-<?php require "../includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
+<?php require "../../includes/header.php"; ?> <!-- Strictly requiring to include the header.php-->
+<?php require "../../config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
+<?php require "../../includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
 <?php require "../includes/sidebar.php"; ?> <!-- Strictly requiring to include the sidebar.php-->
 
 <?php
@@ -55,7 +55,7 @@ $sales_list = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as 
                                     <th>id</th>
                                     <th>Customer id</th>
                                     <th>Product id</th>
-                                    <th>Storage Quantity</th>
+                                    <th>Quantity</th>
                                     <th>Order Quantity</th>
                                     <th>Action</th>
                                 </tr>
@@ -149,7 +149,7 @@ $sales_list = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as 
         }
     </script>
 
-    <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
+    <?php require "../../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
 
 </html>

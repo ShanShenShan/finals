@@ -62,7 +62,16 @@ $existing_record = $check_existing_record->fetch(PDO::FETCH_ASSOC);
     $deleteQuery = $connection->prepare("TRUNCATE TABLE pending_orders");
     $deleteQuery->execute();
 
-    header("Location:" . FILEPATH . "/sales/pos.php");
-    exit();
+    if("admin"==$username = $_SESSION['role'])
+    {
+        header("Location:" . FILEPATH . "/sales/pos.php");
+        exit();
+    }
+    else
+    {
+        header("Location:" . FILEPATH . "/employee_sidebar/sales/pos.php");
+        exit();
+    }
+    
 }
 ?>

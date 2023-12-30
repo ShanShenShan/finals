@@ -4,7 +4,7 @@
  <div class="header">
             <div class="header-left active">
                 <a href="<?php echo"".FILEPATH."";?>/admin_index.php" class="logo">
-                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo.png" alt="">
+                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo1.png" alt="">
                 </a>
                 <a href="admin_index.php" class="logo-small">
                     <img src="<?php echo"".FILEPATH."";?>/assets/img/logo-small1.png" alt="">
@@ -103,7 +103,7 @@
                                     Data</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="inventoryreport.php">Inventory</a></li>
-                                <li><a href="records.php">Records</a></li>
+                                <li><a href="../records.php">Records</a></li>
                                 <li><a href="../data/graph.php">Graphs</a></li>
                             </ul>
                         </li>
