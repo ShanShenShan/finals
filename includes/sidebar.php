@@ -79,7 +79,7 @@
                             <a href="javascript:void(0);"><img src="<?php echo"".FILEPATH."";?>/assets/img/icons/sales1.svg" alt="img"><span>
                                     Sales</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="../sales/saleslist.php">Sales List</a></li>
+                                <li><a href="../sales/sales_list.php">Sales List</a></li>
                                 <li><a href="../sales/pending_list.php">Pending Orders</a></li>
                                 <li><a href="../sales/pos.php">POS</a></li>
 

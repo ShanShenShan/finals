@@ -49,6 +49,22 @@ $transaction_search->execute();
 $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
 }
 
+//Displaying total number of customer 
+$select_all_customeers = $connection->query("SELECT COUNT(*) FROM customers");
+$select_all_customeers->execute();
+$customer_Count = $select_all_customeers->fetchColumn();
+//Displaying total number of employees 
+$select_all_employee = $connection->query("SELECT COUNT(*) FROM employee");
+$select_all_employee->execute();
+$employee_Count = $select_all_employee->fetchColumn();
+//Displaying total number of categories
+$select_all_category = $connection->query("SELECT COUNT(*) FROM category");
+$select_all_category->execute();
+$category_Count = $select_all_category->fetchColumn();
+//Displaying total number of products
+$select_all_products = $connection->query("SELECT COUNT(*) FROM inventory");
+$select_all_products->execute();
+$products_Count = $select_all_products->fetchColumn();
 ?>
 
 <body>
@@ -298,8 +314,8 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <div class="dash-count">
                             <div class="dash-counts">
-                                <h4>100</h4>
-                                <h5>Customers</h5>
+                                <h4><?php echo $customer_Count;?></h4>
+                                <h5>Customers Loyalty Card</h5>
                             </div>
                             <div class="dash-imgs">
                                 <i data-feather="user"></i>
@@ -309,8 +325,8 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <div class="dash-count das1">
                             <div class="dash-counts">
-                                <h4>100</h4>
-                                <h5>Suppliers</h5>
+                                <h4><?php echo $employee_Count;?></h4>
+                                <h5>Employees</h5>
                             </div>
                             <div class="dash-imgs">
                                 <i data-feather="user-check"></i>
@@ -320,8 +336,8 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <div class="dash-count das2">
                             <div class="dash-counts">
-                                <h4>100</h4>
-                                <h5>Purchase Invoice</h5>
+                                <h4><?php echo $category_Count;?></h4>
+                                <h5>Category</h5>
                             </div>
                             <div class="dash-imgs">
                                 <i data-feather="file-text"></i>
@@ -331,8 +347,8 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <div class="dash-count das3">
                             <div class="dash-counts">
-                                <h4>105</h4>
-                                <h5>Sales Invoice</h5>
+                                <h4><?php echo $products_Count;?></h4>
+                                <h5>Products</h5>
                             </div>
                             <div class="dash-imgs">
                                 <i data-feather="file"></i>
@@ -400,7 +416,7 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                                                             <a href="productlist.html" class="product-img">
                                                                 <img src="assets/img/product/<?php echo $product->image; ?>" alt="product">
                                                             </a>
-                                                            <a href="productlist.html"><?php echo $product->product_name; ?></a>
+                                                            <a href="product/product_details.php?id=<?php echo $product->id;?>"><?php echo $product->product_name; ?></a>
                                                         </td>
                                                         <td>₱<?php echo $product->price; ?></td>
                                                     </tr>
@@ -520,7 +536,7 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                                             <td><?php echo $info->total_amount; ?></td>
                                             <td><?php echo $info->cash_amount; ?></td>
                                             <td>
-                                                <a class="me-3" href="product_details.php?id=<?php echo  $info->id; ?>">
+                                                <a class="me-3" href="sales/sales_detail.php?id=<?php echo  $info->customer_id; ?>">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
                                                 </a>
                                             </td>
