@@ -182,8 +182,19 @@ try {
                     labels: <?php echo json_encode(array_column($salesData, 'product_name')); ?>,
                     datasets: [{
                         data: <?php echo json_encode(array_column($salesData, 'total_quantity')); ?>,
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966','#34e3fd','	#fce630','#3B3BFF','#A530FF'
-                    ,'#613191'],
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966',
+                                            '#34e3fd', '#fce630', '#3B3BFF', '#A530FF', '#613191',
+                                            '#FF7F50', '#4CAF50', '#FFD700', '#FF69B4', '#8A2BE2',
+                                            '#20B2AA', '#FF4500', '#32CD32', '#8B008B', '#5F9EA0',
+                                            '#FF1493', '#2E8B57', '#9932CC', '#00FF7F', '#4682B4',
+                                            '#8B4513', '#00FFFF', '#DC143C', '#00CED1', '#00FA9A',
+                                            '#191970', '#8B0000', '#7B68EE', '#FFFF00', '#98FB98',
+                                            '#00BFFF', '#7CFC00', '#FF6347', '#FA8072', '#FFDAB9',
+                                            '#556B2F', '#8B008B', '#008080', '#8B4513',
+                                            '#FFA07A', '#2F4F4F', '#8B4513', '#20B2AA', '#D8BFD8',
+                                            '#FF4500', '#808000', '#8A2BE2', '#00FF00', '#000080',
+                                            '#FAEBD7', '#FFD700', '#8B4513', '#2E8B57', '#FF6347',
+                                            '#FFD700', '#4682B4', '#008080', '#556B2F', '#8B4513'],
                     }],
                 };
 
