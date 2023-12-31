@@ -25,13 +25,26 @@ $search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
 $search_price->execute();
 $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
 
-// Gathering data on 
-$search = $connection->query("SELECT i.product_name, SUM(tp.o_quantity) as total_quantity
-                              FROM transaction_products tp
-                              JOIN inventory i ON tp.product_id = i.id
-                             GROUP BY tp.product_id");
+// Gathering data for DONUT CHART
+// Get the current month and year
+$currentMonth = date('m');
+$currentYear = date('Y');
+
+
+$search = $connection->prepare("SELECT i.product_name, SUM(tp.o_quantity) as total_quantity
+                                FROM transaction_products tp
+                                JOIN inventory i ON tp.product_id = i.id
+                                JOIN transaction_records tr ON tp.tr_id = tr.id
+                                WHERE MONTH(tr.tr_date) = :currentMonth AND YEAR(tr.tr_date) = :currentYear
+                                GROUP BY tp.product_id");
+
+
+$search->bindParam(':currentMonth', $currentMonth, PDO::PARAM_INT);
+$search->bindParam(':currentYear', $currentYear, PDO::PARAM_INT);
+
 $search->execute();
 
+// Fetch the data
 $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
 
 // If submit button has been clicked the below code will happen
@@ -259,7 +272,7 @@ foreach ($kiosk_data as $data) {
                             </div>
                             <div class="dash-widgetcontent">
                                 <h5> ₱<span class="counters" data-count="<?php echo $shop_income;?>"> </span></h5>
-                                <h6>Total Income</h6>
+                                <h6>Total Income</h6><wbr>
                             </div>
                         </div>
                     </div>
@@ -281,7 +294,7 @@ foreach ($kiosk_data as $data) {
                             </div>
                             <div class="dash-widgetcontent">
                                 <h5>₱<span class="counters" data-count="<?php echo $total_order;?>"></span></h5>
-                                <h6>Total Order Amount</h6>
+                                <h6>Total Order Amount</h6><wbr>
                             </div>
                         </div>
                     </div>
@@ -339,8 +352,9 @@ foreach ($kiosk_data as $data) {
                                 <div class="card-body">
                                     <div class="page-header">
                                         <div class="page-title">
-                                            <h4>Visual Sales Data</h4>
-                                            <h6>Top selling products</h6>
+                                       <?php $rnMonth = date('F'); ?>
+                                            <h4>Top Selling Products</h4>
+                                            <h6>For the month of <?php echo $rnMonth ?></h6>
                                         </div>
                                     </div>
                                     <div style="width: 100%; height: 300px;">
@@ -532,10 +546,19 @@ foreach ($kiosk_data as $data) {
                 labels: <?php echo json_encode(array_column($salesData, 'product_name')); ?>,
                 datasets: [{
                     data: <?php echo json_encode(array_column($salesData, 'total_quantity')); ?>,
-                    backgroundColor: [
-                        '#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966',
-                        '#34e3fd', '#fce630', '#3B3BFF', '#A530FF', '#613191'
-                    ],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966',
+                                            '#34e3fd', '#fce630', '#3B3BFF', '#A530FF', '#613191',
+                                            '#FF7F50', '#4CAF50', '#FFD700', '#FF69B4', '#8A2BE2',
+                                            '#20B2AA', '#FF4500', '#32CD32', '#8B008B', '#5F9EA0',
+                                            '#FF1493', '#2E8B57', '#9932CC', '#00FF7F', '#4682B4',
+                                            '#8B4513', '#00FFFF', '#DC143C', '#00CED1', '#00FA9A',
+                                            '#191970', '#8B0000', '#7B68EE', '#FFFF00', '#98FB98',
+                                            '#00BFFF', '#7CFC00', '#FF6347', '#FA8072', '#FFDAB9',
+                                            '#556B2F', '#8B008B', '#008080', '#8B4513',
+                                            '#FFA07A', '#2F4F4F', '#8B4513', '#20B2AA', '#D8BFD8',
+                                            '#FF4500', '#808000', '#8A2BE2', '#00FF00', '#000080',
+                                            '#FAEBD7', '#FFD700', '#8B4513', '#2E8B57', '#FF6347',
+                                            '#FFD700', '#4682B4', '#008080', '#556B2F', '#8B4513'],
                 }],
             };
 
