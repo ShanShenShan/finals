@@ -74,7 +74,7 @@ elseif(isset($_POST['pending_list']))
     }
 
     // Selecting all the values that should be seen on the modal
-    $query = $connection->prepare("SELECT i.product_name, c.category_name, po.o_quantity, i.product_points, i.price,i.quantity as storage
+    $query = $connection->prepare("SELECT i.product_name, c.category_name, po.o_quantity, i.product_points, i.price, po.storage_quantity as storage
     FROM pending_order_kiosk po
     JOIN inventory i ON po.product_id = i.id
     JOIN category c ON i.category_id = c.id

@@ -89,7 +89,7 @@ foreach ($data as $information) {
         <div class="modal-dialog modal-lg"> <!-- modal-lg for a larger modal, adjust as needed -->
             <div class="modal-content">
                 <form action="<?php echo FILEPATH; ?>/process/pos_crud/pending_order.php" method="POST">
-                <?php $_SESSION['o_id'] = $customer_id;?>
+                <?php $_SESSION['orderId'] = $customer_id;?>
                     <div class="modal-header">
                         <h5 class="modal-title">Review Order Details</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

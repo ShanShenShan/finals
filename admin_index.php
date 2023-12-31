@@ -94,6 +94,15 @@ $total_order = $select_all_value->fetchColumn();
 $select_all_value = $connection->query("SELECT SUM(quantity) FROM inventory");
 $select_all_value->execute();
 $total_inventory = $select_all_value->fetchColumn();
+//Selecting all data on the kiosk pending table
+$retrieving_data = $connection->query("SELECT * FROM pending_order_kiosk");
+$retrieving_data->execute();
+$kiosk_data = $retrieving_data->fetchAll(PDO::FETCH_OBJ);
+foreach ($kiosk_data as $data) {
+    $order_id = $data->o_id;
+    $customer_id = $data->customer_id;
+    $product_id = $data->product_id;
+}
 ?>
 
 <body>
@@ -125,76 +134,23 @@ $total_inventory = $select_all_value->fetchColumn();
                         </div>
                         <div class="noti-content">
                             <ul class="notification-list">
+                                <?php foreach ($kiosk_data as $data):?>                   
                                 <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-02.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-                                                <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-03.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-06.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-                                                <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-17.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-                                                <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
+                                    <a href="sales/pending_list.php">
                                         <div class="media d-flex">
                                             <span class="avatar flex-shrink-0">
                                                 <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-13.jpg">
                                             </span>
                                             <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
-                                                <p class="noti-time"><span class="notification-time">2 days ago</span></p>
+                                                <p class="noti-details"><span class="noti-title">Kiosk System send an order</span> <?php echo $data->o_id;?> <span class="noti-title">is the order number</span></p>
                                             </div>
                                         </div>
                                     </a>
                                 </li>
+                                <?php endforeach;?>
                             </ul>
                         </div>
-                        <div class="topnav-dropdown-footer">
-                            <a href="activities.html">View all Notifications</a>
-                        </div>
+                        
                     </div>
                 </li>
 
@@ -476,10 +432,7 @@ $total_inventory = $select_all_value->fetchColumn();
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li>
-                                        <a href="product/product_list.php" class="dropdown-item">Product List</a>
-                                    </li>
-                                    <li>
-                                        <a href="product/add_product.php" class="dropdown-item">Product Add</a>
+                                        <a href="cata/records.php" class="dropdown-item">Records</a>
                                     </li>
                                 </ul>
                             </div>
