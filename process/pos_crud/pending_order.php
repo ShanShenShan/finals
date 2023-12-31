@@ -72,7 +72,7 @@ elseif(isset($_POST['pending_list']))
         $customer_id = $data->customer_id;
         $product_id = $data->product_id;
     }
-
+    
     // Selecting all the values that should be seen on the modal
     $query = $connection->prepare("SELECT i.product_name, c.category_name, po.o_quantity, i.product_points, i.price, po.storage_quantity as storage
     FROM pending_order_kiosk po
