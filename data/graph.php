@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $search = $connection->prepare("SELECT i.product_name, SUM(tp.quantity) as total_quantity
                                      FROM transaction_products tp
                                      JOIN inventory i ON tp.product_id = i.id
-                                     JOIN transaction_records tr ON tp.tr_id = tr.id
+                                     JOIN transaction_records tr ON tp.tran_id = tr.id
                                      WHERE tr.tr_date >= :start_date AND tr.tr_date < :end_date
                                      GROUP BY tp.product_id");
     $search->bindParam(":start_date", $startDate);
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $search = $connection->query("SELECT i.product_name, SUM(tp.quantity) as total_quantity
                                  FROM transaction_products tp
                                  JOIN inventory i ON tp.product_id = i.id
-                                 JOIN transaction_records tr ON tp.tr_id = tr.id
+                                 JOIN transaction_records tr ON tp.tran_id = tr.id
                                  GROUP BY tp.product_id");
     $search->execute();
 
@@ -51,7 +51,7 @@ try {
     // Fetch data from the database for the selected year
     $sqlSelectedYear = "SELECT MONTH(tr_date) as month, SUM(quantity) as total_quantity
                         FROM transaction_records tr
-                        JOIN transaction_products tp ON tr.id = tp.tr_id
+                        JOIN transaction_products tp ON tr.id = tp.tran_id
                         WHERE YEAR(tr_date) = :selectedYear
                         GROUP BY MONTH(tr_date)";
     
@@ -69,7 +69,7 @@ try {
     $previousYear = $selectedYear - 1;
     $sqlPreviousYear = "SELECT MONTH(tr_date) as month, SUM(quantity) as total_quantity
                         FROM transaction_records tr
-                        JOIN transaction_products tp ON tr.id = tp.tr_id
+                        JOIN transaction_products tp ON tr.id = tp.tran_id
                         WHERE YEAR(tr_date) = :previousYear
                         GROUP BY MONTH(tr_date)";
     

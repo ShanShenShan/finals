@@ -1,9 +1,18 @@
+<?php require "../config/connection.php"; ?>
+<?php
+session_start();
+define("FILEPATH","http://localhost/pos1");
+
+$select_all=$connection->query("SELECT * FROM inventory");
+$select_all->execute();
+$all_products=$select_all->fetchAll(PDO::FETCH_OBJ);
+
+
+
+?>
 <!DOCTYPE html>
-
 <html lang="en">
-
     <head>
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,34 +20,25 @@
         <link rel="stylesheet" href="Style/style.css">
         <link rel="shortcut icon" href="../image/logo.jpg" type="image/x-icon">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-
     </head>
 
     <body class="">
-
             <nav class="sidebar appear">
-
                 <header>
-
                     <div class="image-text">
 
-                        <a href="index.html">
+                        <a href="index.php">
                             <span class="image">
                                 <img src="image/logo.jpg" alt="">
                             </span>
-                        </a>
-                        
-                        
+                        </a>                                              
                         <div class="text header-text">
                             <span class="name">Keffie-Cafe</span>
                         </div>
                     </div>
-
-                   
-
                 </header>
-
+                
+                <!--Sidebar Section-->
                 <div class="menu-bar">
 
                     <div class="menu">
@@ -150,9 +150,9 @@
                 </div> 
 
             </nav>
-
+            <!--Cart icon and Item section-->
             <div class="container">
-
+                    <!--Cart section-->
                     <header>
                         
                         <div class="title">PRODUCT LIST</div>
@@ -169,25 +169,24 @@
                     <div class="listProduct">
                         
                         <div class="item">
+                        <?php foreach($all_products as $products):?>
+                            <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $products->image; ?>" alt="">
 
-                            <img src="image/coffee.webp" alt="">
+                            <h2><?php echo $products->product_name;?></h2>
 
-                            <h2>NAME PRODUCT</h2>
-
-                            <div class="price">₱59</div>
+                            <div class="price">₱<?php echo $products->price;?></div>
                             
                             <button class="addCart">
                                 Add To Cart
                             </button>
-
+                        <?php endforeach;?>
                         </div>
 
                     </div>
 
             </div>
-
+            <!--Checkout Session-->
             <div class="cartTab">
-
                 
                 <h1>Order Status</h1>
 
@@ -227,7 +226,7 @@
 
 
             </div>
-
+            <!--Modal pre-done Section-->
             <div class="modal" id="ShowModal" tabindex="-1" aria-labelledby="ShowModal1" aria-hidden="true" style="display: none;">
 
                 <div class="h1-text">
@@ -238,7 +237,7 @@
                 <button class="btn" id="yes">Yes</button>
                 
             </div>
-
+            <!--Modal done Section-->
             <div class="modal2" id="ShowModal2" tabindex="-1" aria-labelledby="ShowModal2" aria-hidden="true" style="display: none;">
 
                 <div class="h1-text">
@@ -250,6 +249,7 @@
                 
             </div>
 
+            <!--Show product Description modal-->
             <div class="modal3" id="ShowModal3" tabindex="-1" aria-labelledby="ShowModal3" aria-hidden="true" style="display: none;">
         
                 <div class="item">

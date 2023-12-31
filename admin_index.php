@@ -34,7 +34,7 @@ $currentYear = date('Y');
 $search = $connection->prepare("SELECT i.product_name, SUM(tp.o_quantity) as total_quantity
                                 FROM transaction_products tp
                                 JOIN inventory i ON tp.product_id = i.id
-                                JOIN transaction_records tr ON tp.tr_id = tr.id
+                                JOIN transaction_records tr ON tp.tran_id = tr.id
                                 WHERE MONTH(tr.tr_date) = :currentMonth AND YEAR(tr.tr_date) = :currentYear
                                 GROUP BY tp.product_id");
 
