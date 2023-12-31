@@ -172,9 +172,9 @@ $all_products=$select_all->fetchAll(PDO::FETCH_OBJ);
                         
                             <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $products->image; ?>" alt="">
 
-                            <h2><?php echo $products->product_name;?></h2>
+                            <h2><?php //echo $products->product_name;?></h2>
 
-                            <div class="price">₱<?php echo $products->price;?></div>
+                            <div class="price">₱<?php //echo $products->price;?></div>
                             
                             <button class="addCart">
                                 Add To Cart
