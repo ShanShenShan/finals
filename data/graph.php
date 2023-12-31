@@ -143,7 +143,7 @@ try {
 
                         <div name="bar-tQuantity" style="width: 100%; position: relative;">
                             <?php if (count($salesData) > 0) : ?>
-                                <canvas id="salesChart" width="800" height="680"></canvas>
+                                <canvas id="salesChart" width="800" height="600"></canvas>
                             <?php else : ?>
                                 <p>No data found</p>
                             <?php endif; ?>
