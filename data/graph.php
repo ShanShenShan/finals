@@ -97,6 +97,9 @@ try {
 }
 ?>
 
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
 
 <body>
     <div class="main-wrapper">
@@ -111,35 +114,42 @@ try {
 
                 <div class="card">
                     <div class="card-body">
-                        <div name="donut-tQuantity" style="width: 50%; position: relative;">
+
+                        <div class="donut">
+
+                            <div name="donut-tQuantity" style="width: 100%; position: relative;">
+                                <?php if (count($salesData) > 0) : ?>
+                                    <canvas id="donutChartContainer" style="height: 3400px;"></canvas>
+                                <?php else : ?>
+                                    <p>No data found</p>
+                                <?php endif; ?>
+                            </div>
+
+                            <div name="donutQuantityFilter" style="width: 100%; position: relative;">
+                                <!-- Date Filter Form -->
+                                <form method="POST" action="">
+                                    <label for="start_date">Start:</label>
+                                        <input type="date" name="start_date" id="start_date" value="<?php echo isset($startDate) ? $startDate : ''; ?>">
+                                    <br><label for="end_date">End:</label>
+                                        <input type="date" name="end_date" id="end_date" value="<?php echo isset($endDate) ? $endDate : ''; ?>">
+                                        <button type="submit">Filter</button>
+                                        <button type="button" onclick="resetDates()">Reset</button>
+                                 </form>
+                            </div>
+
+                        </div>
+
+                        <div class="bar">
+
+                        <div name="bar-tQuantity" style="width: 100%; position: relative;">
                             <?php if (count($salesData) > 0) : ?>
-                                <canvas id="donutChartContainer" style="height: 300px;"></canvas>
+                                <canvas id="salesChart" width="800" height="680"></canvas>
                             <?php else : ?>
                                 <p>No data found</p>
                             <?php endif; ?>
                         </div>
 
-                        <div name="donutQuantityFilter" style="width: 50%; position: relative;">
-                            <!-- Date Filter Form -->
-                            <form method="POST" action="">
-                                <label for="start_date">Start:</label>
-                                    <input type="date" name="start_date" id="start_date" value="<?php echo isset($startDate) ? $startDate : ''; ?>">
-                                <br><label for="end_date">End:</label>
-                                    <input type="date" name="end_date" id="end_date" value="<?php echo isset($endDate) ? $endDate : ''; ?>">
-                                    <button type="submit">Filter</button>
-                                    <button type="button" onclick="resetDates()">Reset</button>
-                            </form>
-                        </div>
-
-                        <div name="bar-tQuantity" style="width: 90%; position: relative;">
-                            <?php if (count($salesData) > 0) : ?>
-                                <canvas id="salesChart" width="800" height="400"></canvas>
-                            <?php else : ?>
-                                <p>No data found</p>
-                            <?php endif; ?>
-                        </div>
-
-                        <div name="barQuantityFilter" style="width: 50%; position: relative;">
+                        <div name="barQuantityFilter" style="width: 100%; position: relative;">
                             <!-- Year selector -->
                             <form method="get">
                                 <label for="year">Select Year:</label>
@@ -149,13 +159,16 @@ try {
                                     $currentYear = date('Y');
                                     for ($i = $currentYear; $i >= $currentYear - 10; $i--) {
                                         echo "<option value=\"$i\" " . ($selectedYear == $i ? "selected" : "") . ">$i</option>";
-                                    }
+                                    }   
                                     ?>
                                 </select>
                             </form>
                         </div>
 
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
