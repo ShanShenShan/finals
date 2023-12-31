@@ -167,9 +167,9 @@ $all_products=$select_all->fetchAll(PDO::FETCH_OBJ);
                     </header>
 
                     <div class="listProduct">
-                        
+                    <?php foreach($all_products as $products):?>
                         <div class="item">
-                        <?php foreach($all_products as $products):?>
+                        
                             <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $products->image; ?>" alt="">
 
                             <h2><?php echo $products->product_name;?></h2>
@@ -179,9 +179,9 @@ $all_products=$select_all->fetchAll(PDO::FETCH_OBJ);
                             <button class="addCart">
                                 Add To Cart
                             </button>
-                        <?php endforeach;?>
+                        
                         </div>
-
+                        <?php endforeach;?>
                     </div>
 
             </div>
