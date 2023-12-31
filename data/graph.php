@@ -210,13 +210,13 @@ var salesChart = new Chart(ctx, {
     data: {
         labels: <?php echo json_encode($monthNames); ?>,
         datasets: [{
-            label: 'Total Quantity Sold (' + <?php echo $selectedYear; ?> + ')',
+            label: 'Quantity sold this year (' + <?php echo $selectedYear; ?> + ')',
             data: <?php echo json_encode($quantitiesSelectedYear); ?>,
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
         }, {
-            label: 'Total Quantity Sold (' + <?php echo $previousYear; ?> + ')',
+            label: 'Previous year (' + <?php echo $previousYear; ?> + ')',
             data: <?php echo json_encode($quantitiesPreviousYear); ?>,
             backgroundColor: 'rgba(255, 99, 132, 0.2)', // Different color for the previous year
             borderColor: 'rgba(255, 99, 132, 1)',

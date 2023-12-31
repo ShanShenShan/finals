@@ -25,13 +25,26 @@ $search_price = $connection->query("SELECT * FROM inventory GROUP BY price ");
 $search_price->execute();
 $product_price = $search_price->fetchAll(PDO::FETCH_OBJ);
 
-// Gathering data on 
-$search = $connection->query("SELECT i.product_name, SUM(tp.o_quantity) as total_quantity
-                              FROM transaction_products tp
-                              JOIN inventory i ON tp.product_id = i.id
-                             GROUP BY tp.product_id");
+// Gathering data for DONUT CHART
+// Get the current month and year
+$currentMonth = date('m');
+$currentYear = date('Y');
+
+
+$search = $connection->prepare("SELECT i.product_name, SUM(tp.o_quantity) as total_quantity
+                                FROM transaction_products tp
+                                JOIN inventory i ON tp.product_id = i.id
+                                JOIN transaction_records tr ON tp.tr_id = tr.id
+                                WHERE MONTH(tr.tr_date) = :currentMonth AND YEAR(tr.tr_date) = :currentYear
+                                GROUP BY tp.product_id");
+
+
+$search->bindParam(':currentMonth', $currentMonth, PDO::PARAM_INT);
+$search->bindParam(':currentYear', $currentYear, PDO::PARAM_INT);
+
 $search->execute();
 
+// Fetch the data
 $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
 
 // If submit button has been clicked the below code will happen
@@ -303,7 +316,7 @@ $total_inventory = $select_all_value->fetchColumn();
                             </div>
                             <div class="dash-widgetcontent">
                                 <h5> ₱<span class="counters" data-count="<?php echo $shop_income;?>"> </span></h5>
-                                <h6>Total Income</h6>
+                                <h6>Total Income</h6><wbr>
                             </div>
                         </div>
                     </div>
@@ -325,7 +338,7 @@ $total_inventory = $select_all_value->fetchColumn();
                             </div>
                             <div class="dash-widgetcontent">
                                 <h5>₱<span class="counters" data-count="<?php echo $total_order;?>"></span></h5>
-                                <h6>Total Order Amount</h6>
+                                <h6>Total Order Amount</h6><wbr>
                             </div>
                         </div>
                     </div>
@@ -383,8 +396,9 @@ $total_inventory = $select_all_value->fetchColumn();
                                 <div class="card-body">
                                     <div class="page-header">
                                         <div class="page-title">
-                                            <h4>Visual Sales Data</h4>
-                                            <h6>Top selling products</h6>
+                                       <?php $rnMonth = date('F'); ?>
+                                            <h4>Top Selling Products</h4>
+                                            <h6>For the month of <?php echo $rnMonth ?></h6>
                                         </div>
                                     </div>
                                     <div style="width: 100%; height: 300px;">
