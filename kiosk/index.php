@@ -1,42 +1,18 @@
-<?php 
-require "../config/connection.php";
+<?php require "../config/connection.php"; ?>
+<?php
 session_start();
-
 define("FILEPATH", "http://localhost/pos1");
 
-// Fetch all products from the inventory along with their categories
 $select_all = $connection->query("SELECT inventory.*, category.category_name
 FROM inventory
 JOIN category ON inventory.category_id = category.id
 ");
+$select_all->execute();
 $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
-// Check if the session variables are set
-if (!isset($_SESSION['kiosk_email'])) {
-    // If no email is set but an ID is present, retrieve a default account ID from the database
-    $default_account = $connection->query("SELECT * FROM customers WHERE id = 3007");
-    $customer_data = $default_account->fetchAll(PDO::FETCH_OBJ);
-    foreach($customer_data as $data)
-    {
-        $customer_id = $data->id;
-        $order_id = $data->unique_code;
-    }
-    // Store the customer ID and order_id in the session for future use
-    //$_SESSION['o_id'] = $customer_id;
-} else {
-    // If session variables are set, retrieve the ID and assign it to a session variable
-    $customer_id = $_SESSION['id'];
-    //$_SESSION['o_id'] = $customer_id;
-    $verified_account = $connection->query("SELECT unique_code FROM customers WHERE id = $customer_id");
-    $order_id = $verified_account->fetchColumn();
-}
+
+
 ?>
-
-
-<!-- IMPORTANT NOTES!!! IMPORTANT NOTES!!!IMPORTANT     DESTTROY THE SESSION, add to cart      NOTES!!!IMPORTANT NOTES!!!IMPORTANT NOTES!!! -->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,7 +37,7 @@ if (!isset($_SESSION['kiosk_email'])) {
                     </span>
                 </a>
                 <div class="text header-text">
-                    <span class="name">Keffie-Cafe <?php echo $customer_id;?></span> <!--pansamantalang order id-->
+                    <span class="name">Keffie-Cafe</span>
                 </div>
             </div>
         </header>
@@ -74,98 +50,98 @@ if (!isset($_SESSION['kiosk_email'])) {
                 <ul class="menu-links">
 
                     <li class="nav-link">
-                        <a href="sidebars/coffee.php">
+                        <a href="sidebars/coffee.html">
                             <i class='bx bxs-coffee-bean icon'></i>
                             <span class="text nav-text">Coffee</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/hotdrinks.php">
+                        <a href="sidebars/hotdrinks.html">
                             <i class='bx bx-coffee-togo icon'></i>
                             <span class="text nav-text">Hot Drinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/frappes.php">
+                        <a href="sidebars/frappes.html">
                             <i class='bx bxs-coffee-alt icon'></i>
                             <span class="text nav-text">Frappes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/icedrinks.php">
+                        <a href="sidebars/icedrinks.html">
                             <i class='bx bxs-coffee icon'></i>
                             <span class="text nav-text">Iced Drinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/milk.php">
+                        <a href="sidebars/milk.html">
                             <i class='bx bxs-leaf icon'></i>
                             <span class="text nav-text">Milk Teas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/fruit.php">
+                        <a href="sidebars/fruit.html">
                             <i class='bx bxs-lemon icon'></i>
                             <span class="text nav-text">Fruit Teas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/softdrinks.php">
+                        <a href="sidebars/softdrinks.html">
                             <i class='bx bxs-drink icon'></i>
                             <span class="text nav-text">Softdrinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/rice.php">
+                        <a href="sidebars/rice.html">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">Rice Meals</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/breakfast.php">
+                        <a href="sidebars/breakfast.html">
                             <i class='bx bxs-baguette icon'></i>
                             <span class="text nav-text">All Day Breakfast</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/pasta.php">
+                        <a href="sidebars/pasta.html">
                             <i class='bx bxs-bowl-hot icon'></i>
                             <span class="text nav-text">Pasta & Noodles</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/kiddiepasta.php">
+                        <a href="sidebars/kiddiepasta.html">
                             <i class='bx bxs-bowl-hot icon'></i>
                             <span class="text nav-text">Kiddie Pasta</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/soup.php">
+                        <a href="sidebars/soup.html">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">Soup & Vegetables</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/alltime.php">
+                        <a href="sidebars/alltime.html">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">All Time Favorites</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/addons.php">
+                        <a href="sidebars/addons.html">
                             <i class='bx bx-cart-add icon'></i>
                             <span class="text nav-text">Add - Ons</span>
                         </a>
@@ -196,24 +172,13 @@ if (!isset($_SESSION['kiosk_email'])) {
 
         <div class="listProduct">
             <?php foreach ($all_products as $product) : ?>
-                <?php
-                    // 
-                    $storage_quantity=$connection->query("SELECT quantity FROM inventory where id =$product->id ");
-                    $storage_quantity->execute();
-                    $quantity=$storage_quantity->fetchColumn(); 00000000000000000000000
-                    ?>
-                <form action="<?php echo FILEPATH;?>/process/pos_crud/kiosk_process.php" method="POST">
-                    <div class="item">
-                        <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="" data-productname="<?php echo htmlspecialchars($product->product_name); ?>" data-category="<?php echo htmlspecialchars($product->category_name); ?>" data-price="<?php echo htmlspecialchars($product->price); ?>" data-description="<?php echo htmlspecialchars($product->description); ?>" data-image="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" data-id="<?php echo htmlspecialchars($product->id); ?>"> <!-- Include product ID -->
-                        <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
-                        <div class="price">₱<?php echo $product->price; ?></div>
-                        <input type="hidden" value="<?php echo $product->id ?>"><!-- Include product ID -->
-                        <input type="hidden" value="<?php echo $customer_id; ?>">
-                        <input type="hidden" value="<?php echo $order_id; ?>">
-                        <input type="text" value="<?php echo $quantity; ?>">
-                        <button type="submit" name="add-to-cart" class="addCart"> Add To Cart</button>
-                    </div>
-                </form>
+                <div class="item">
+                    <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="" data-productname="<?php echo htmlspecialchars($product->product_name); ?>" data-category="<?php echo htmlspecialchars($product->category_name); ?>" data-price="<?php echo htmlspecialchars($product->price); ?>" data-description="<?php echo htmlspecialchars($product->description); ?>" data-image="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" data-id="<?php echo htmlspecialchars($product->id); ?>"> <!-- Include product ID -->
+                    <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
+                    <div class="price">₱<?php echo htmlspecialchars($product->price); ?></div>
+                    <input type="hidden" value="<?php echo htmlspecialchars($product->id); ?>"><!-- Include product ID -->
+                    <button class="addCart">Add To Cart</button>
+                </div>
             <?php endforeach; ?>
         </div>
 
@@ -221,6 +186,9 @@ if (!isset($_SESSION['kiosk_email'])) {
     </div>
     <!--Checkout Session-->
     <div class="cartTab">
+
+       
+        <h5>Customer id: 1234</h5>   
 
         <h1>Order Status</h1>
 
@@ -302,9 +270,16 @@ if (!isset($_SESSION['kiosk_email'])) {
                 <button class="btn" id="close">
                     Close
                 </button>
+                <button class="btn" id="addToCart">
+                    Add To Cart
+                </button>
             </div>
         </div>
     </div>
+
+
+
+
     <script src="js/app.js"></script>
 </body>
 

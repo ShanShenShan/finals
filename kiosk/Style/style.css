@@ -130,7 +130,7 @@ header .icon-cart span{
     /* top right bottom left */
     inset: 0 -420px 0 auto;
     display: grid;
-    grid-template-rows: 70px 1fr 70px;
+    grid-template-rows: 5px 70px 1fr 70px;
     transition:  0.5s;
 }
 
