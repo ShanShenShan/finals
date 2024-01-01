@@ -50,142 +50,104 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                 <ul class="menu-links">
 
                     <li class="nav-link">
-                        <a href="sidebars/coffee.html">
+                        <a href="sidebars/coffee.php">
                             <i class='bx bxs-coffee-bean icon'></i>
                             <span class="text nav-text">Coffee</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/hotdrinks.html">
+                        <a href="sidebars/hotdrinks.php">
                             <i class='bx bx-coffee-togo icon'></i>
                             <span class="text nav-text">Hot Drinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/frappes.html">
+                        <a href="sidebars/frappes.php">
                             <i class='bx bxs-coffee-alt icon'></i>
                             <span class="text nav-text">Frappes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/icedrinks.html">
+                        <a href="sidebars/icedrinks.php">
                             <i class='bx bxs-coffee icon'></i>
                             <span class="text nav-text">Iced Drinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/milk.html">
+                        <a href="sidebars/milk.php">
                             <i class='bx bxs-leaf icon'></i>
                             <span class="text nav-text">Milk Teas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/fruit.html">
+                        <a href="sidebars/fruit.php">
                             <i class='bx bxs-lemon icon'></i>
                             <span class="text nav-text">Fruit Teas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/softdrinks.html">
+                        <a href="sidebars/softdrinks.php">
                             <i class='bx bxs-drink icon'></i>
                             <span class="text nav-text">Softdrinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/rice.html">
+                        <a href="sidebars/rice.php">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">Rice Meals</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/breakfast.html">
+                        <a href="sidebars/breakfast.php">
                             <i class='bx bxs-baguette icon'></i>
                             <span class="text nav-text">All Day Breakfast</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/pasta.html">
+                        <a href="sidebars/pasta.php">
                             <i class='bx bxs-bowl-hot icon'></i>
                             <span class="text nav-text">Pasta & Noodles</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/kiddiepasta.html">
+                        <a href="sidebars/kiddiepasta.php">
                             <i class='bx bxs-bowl-hot icon'></i>
                             <span class="text nav-text">Kiddie Pasta</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/soup.html">
+                        <a href="sidebars/soup.php">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">Soup & Vegetables</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/alltime.html">
+                        <a href="sidebars/alltime.php">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">All Time Favorites</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/addons.html">
+                        <a href="sidebars/addons.php">
                             <i class='bx bx-cart-add icon'></i>
                             <span class="text nav-text">Add - Ons</span>
                         </a>
                     </li>
 
-<<<<<<< HEAD
-            </nav>
-            <!--Cart icon and Item section-->
-            <div class="container">
-                    <!--Cart section-->
-                    <header>
-                        
-                        <div class="title">PRODUCT LIST</div>
-
-                        <div class="icon-cart">
-
-                            <i class='bx bx-cart'></i>
-                            <span>0</span>
-
-                        </div>
-                       
-                    </header>
-
-                    <div class="listProduct">
-                        <?php foreach($all_products as $products):?>
-                            <div class="item">
-                        
-                                <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $products->image; ?>" alt="">
-
-                                <h5><?php echo $products->product_name;?></h5>
-
-                                <div class="price">₱<?php echo $products->price;?></div>
-                            
-                                <button class="addCart">
-                                Add To Cart
-                                </button>
-                        
-                            </div>
-                        
-                        <?php endforeach;?>
-                    </div>
-=======
                 </ul>
->>>>>>> 98f08b2619fb89c6b1d13b55188cd2ee5c4c822c
 
             </div>
 
