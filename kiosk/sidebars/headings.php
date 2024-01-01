@@ -162,4 +162,3 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                 </div> 
 
             </nav>
->>>>>>> 98f08b2619fb89c6b1d13b55188cd2ee5c4c822c:kiosk/sidebars/headings.php
