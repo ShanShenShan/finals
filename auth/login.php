@@ -53,7 +53,8 @@ if (isset($_POST['signin-button'])) {
                         header("location: " . FILEPATH . "/employee_sidebar/employee_index.php");
                         exit;
                     case 'customer':
-                        header("location: " . FILEPATH . "/customer_ui/customer_index.php");
+                        $_SESSION['kiosk_email'] = $email ;
+                        header("location: " . FILEPATH . "/kiosk/index.php");
                         exit;
                     case 'admin':
                         header("location: " . FILEPATH . "/admin_index.php");

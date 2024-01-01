@@ -43,7 +43,9 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
     </div>
     <!--Checkout Session-->
     <div class="cartTab">
-
+        
+        <h6>Customer id: 1234</h6> 
+        
         <h1>Order Status</h1>
 
         <div class="listCart">
