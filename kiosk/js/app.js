@@ -3,10 +3,6 @@ let closeCart = document.querySelector('.close');
 let body = document.querySelector('body');
 let addToCart = document.querySelector('.addCart');
 
-const body2 = document.querySelector("body");
-      toggle = body.querySelector(".toggle");
-      modeSwitch = body.querySelector(".toggle-switch");
-      modeText = body.querySelector(".mode-text");
 
 //if the user click the icon and the body will have class .showCart the cartTab will appear
 iconCart.addEventListener('click', () => {
