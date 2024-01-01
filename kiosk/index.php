@@ -3,6 +3,7 @@
 session_start();
 define("FILEPATH", "http://localhost/pos1");
 
+// Displaying the products
 $select_all = $connection->query("SELECT inventory.*, category.category_name
 FROM inventory
 JOIN category ON inventory.category_id = category.id
@@ -10,7 +11,7 @@ JOIN category ON inventory.category_id = category.id
 $select_all->execute();
 $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
-
+// Getting the customer id from the database
 
 ?>
 <!DOCTYPE html>
@@ -266,9 +267,6 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
             <div class="buttons">
                 <button class="btn" id="close">
                     Close
-                </button>
-                <button class="btn" id="addToCart">
-                    Add To Cart
                 </button>
             </div>
         </div>
