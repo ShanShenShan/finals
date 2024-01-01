@@ -1,3 +1,18 @@
+<?php require "../../config/connection.php"; ?>
+<?php
+session_start();
+define("FILEPATH", "http://localhost/pos1");
+
+$select_all = $connection->query("SELECT inventory.*, category.category_name
+FROM inventory
+JOIN category ON inventory.category_id = category.id
+");
+$select_all->execute();
+$all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
+
+
+
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -43,98 +58,98 @@
                         <ul class="menu-links">
 
                             <li class="nav-link">
-                                <a href="coffee.html">
+                                <a href="coffee.php">
                                     <i class='bx bxs-coffee-bean icon'></i>
                                     <span class="text nav-text">Coffee</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="hotdrinks.html">
+                                <a href="hotdrinks.php">
                                     <i class='bx bx-coffee-togo icon'></i>
                                     <span class="text nav-text">Hot Drinks</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="frappes.html">
+                                <a href="frappes.php">
                                     <i class='bx bxs-coffee-alt icon' ></i>
                                     <span class="text nav-text">Frappes</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="icedrinks.html">
+                                <a href="icedrinks.php">
                                     <i class='bx bxs-coffee icon'></i>
                                     <span class="text nav-text">Iced Drinks</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="milk.html">
+                                <a href="milk.php">
                                     <i class='bx bxs-leaf icon'></i>
                                     <span class="text nav-text">Milk Teas</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="fruit.html">
+                                <a href="fruit.php">
                                     <i class='bx bxs-lemon icon' ></i>
                                     <span class="text nav-text">Fruit Teas</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="softdrinks.html">
+                                <a href="softdrinks.php">
                                     <i class='bx bxs-drink icon'></i>
                                     <span class="text nav-text">Softdrinks</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="rice.html">
+                                <a href="rice.php">
                                     <i class='bx bxs-bowl-rice icon' ></i>
                                     <span class="text nav-text">Rice Meals</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="breakfast.html">
+                                <a href="breakfast.php">
                                     <i class='bx bxs-baguette icon' ></i>
                                     <span class="text nav-text">All Day Breakfast</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="pasta.html">
+                                <a href="pasta.php">
                                     <i class='bx bxs-bowl-hot icon' ></i>
                                     <span class="text nav-text">Pasta & Noodles</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="kiddiepasta.html">
+                                <a href="kiddiepasta.php">
                                     <i class='bx bxs-bowl-hot icon' ></i>
                                     <span class="text nav-text">Kiddie Pasta</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="soup.html">
+                                <a href="soup.php">
                                     <i class='bx bxs-bowl-rice icon' ></i>
                                     <span class="text nav-text">Soup & Vegetables</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="alltime.html">
+                                <a href="alltime.php">
                                     <i class='bx bxs-bowl-rice icon' ></i>
                                     <span class="text nav-text">All Time Favorites</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="addons.html">
+                                <a href="addons.php">
                                     <i class='bx bx-cart-add icon'></i>
                                     <span class="text nav-text">Add - Ons</span>
                                 </a>

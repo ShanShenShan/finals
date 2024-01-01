@@ -2,45 +2,16 @@
 <?php require "headings.php"; ?>
 <!--Removing headings-->
 
-<?php
+              <!--Cart icon and Item section-->
+              <?php
 $select_all = $connection->query("SELECT inventory.*, category.category_name
  FROM inventory
 JOIN category ON inventory.category_id = category.id
- where category.category_name = 'Add - Ons'
+ where category.category_name = 'All - Time Favorites'
 ");
 $select_all->execute();
 $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 ?>
-
-<div class="container">
-        <!--Cart section-->
-        <header>
-
-            <div class="title">PRODUCT LIST</div>
-
-            <div class="icon-cart">
-
-                <i class='bx bx-cart'></i>
-                <span>0</span>
-
-            </div>
-
-        </header>
-
-        <div class="listProduct">
-            <?php foreach ($all_products as $product) : ?>
-                <div class="item">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="" data-productname="<?php echo htmlspecialchars($product->product_name); ?>" data-category="<?php echo htmlspecialchars($product->category_name); ?>" data-price="<?php echo htmlspecialchars($product->price); ?>" data-description="<?php echo htmlspecialchars($product->description); ?>" data-image="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" data-id="<?php echo htmlspecialchars($product->id); ?>"> <!-- Include product ID -->
-                    <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
-                    <div class="price">₱<?php echo htmlspecialchars($product->price); ?></div>
-                    <input type="hidden" value="<?php echo htmlspecialchars($product->id); ?>"><!-- Include product ID -->
-                    <button class="addCart">Add To Cart</button>
-                </div>
-            <?php endforeach; ?>
-        </div>
-
-
-    </div>
     <!--Checkout Session-->
     <div class="cartTab">
 

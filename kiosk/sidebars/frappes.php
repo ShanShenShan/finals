@@ -6,7 +6,7 @@
 $select_all = $connection->query("SELECT inventory.*, category.category_name
  FROM inventory
 JOIN category ON inventory.category_id = category.id
- where category.category_name = 'Add - Ons'
+ where category.category_name = 'Frappes'
 ");
 $select_all->execute();
 $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);

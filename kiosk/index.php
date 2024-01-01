@@ -273,10 +273,6 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
             </div>
         </div>
     </div>
-
-
-
-
     <script src="js/app.js"></script>
 </body>
 
