@@ -1,15 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
+
     <link rel="stylesheet" href="Style/style2.css">
+
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <style>
-        /* CSS styles can go here */
-    </style>
+
+
 </head>
+
 <body>
 
     <div class="modal fade" id="ShowModal1" tabindex="-1" aria-labelledby="ShowModal1" aria-hidden="true" style="display: none;">
@@ -52,7 +57,7 @@
             </div>
 
             <div class="continue">
-                <a href="index.html">Continue without an account</a>
+                <a href="index.php">Continue without an account</a>
             </div>
             
         </form>
