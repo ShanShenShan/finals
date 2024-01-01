@@ -116,11 +116,7 @@ input[type="date"] {
     font-family: Arial, sans-serif;
   }
 
-  /* Adjust the appearance of the arrow icon in some browsers */
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-}
+
 
 
 

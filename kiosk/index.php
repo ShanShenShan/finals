@@ -3,6 +3,7 @@
 session_start();
 define("FILEPATH", "http://localhost/pos1");
 
+// Displaying the products
 $select_all = $connection->query("SELECT inventory.*, category.category_name
 FROM inventory
 JOIN category ON inventory.category_id = category.id
@@ -10,7 +11,7 @@ JOIN category ON inventory.category_id = category.id
 $select_all->execute();
 $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
-
+// Getting the customer id from the database
 
 ?>
 <!DOCTYPE html>
@@ -50,98 +51,98 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                 <ul class="menu-links">
 
                     <li class="nav-link">
-                        <a href="sidebars/coffee.html">
+                        <a href="sidebars/coffee.php">
                             <i class='bx bxs-coffee-bean icon'></i>
                             <span class="text nav-text">Coffee</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/hotdrinks.html">
+                        <a href="sidebars/hotdrinks.php">
                             <i class='bx bx-coffee-togo icon'></i>
                             <span class="text nav-text">Hot Drinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/frappes.html">
+                        <a href="sidebars/frappes.php">
                             <i class='bx bxs-coffee-alt icon'></i>
                             <span class="text nav-text">Frappes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/icedrinks.html">
+                        <a href="sidebars/icedrinks.php">
                             <i class='bx bxs-coffee icon'></i>
                             <span class="text nav-text">Iced Drinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/milk.html">
+                        <a href="sidebars/milk.php">
                             <i class='bx bxs-leaf icon'></i>
                             <span class="text nav-text">Milk Teas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/fruit.html">
+                        <a href="sidebars/fruit.php">
                             <i class='bx bxs-lemon icon'></i>
                             <span class="text nav-text">Fruit Teas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/softdrinks.html">
+                        <a href="sidebars/softdrinks.php">
                             <i class='bx bxs-drink icon'></i>
                             <span class="text nav-text">Softdrinks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/rice.html">
+                        <a href="sidebars/rice.php">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">Rice Meals</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/breakfast.html">
+                        <a href="sidebars/breakfast.php">
                             <i class='bx bxs-baguette icon'></i>
                             <span class="text nav-text">All Day Breakfast</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/pasta.html">
+                        <a href="sidebars/pasta.php">
                             <i class='bx bxs-bowl-hot icon'></i>
                             <span class="text nav-text">Pasta & Noodles</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/kiddiepasta.html">
+                        <a href="sidebars/kiddiepasta.php">
                             <i class='bx bxs-bowl-hot icon'></i>
                             <span class="text nav-text">Kiddie Pasta</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/soup.html">
+                        <a href="sidebars/soup.php">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">Soup & Vegetables</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/alltime.html">
+                        <a href="sidebars/alltime.php">
                             <i class='bx bxs-bowl-rice icon'></i>
                             <span class="text nav-text">All Time Favorites</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="sidebars/addons.html">
+                        <a href="sidebars/addons.php">
                             <i class='bx bx-cart-add icon'></i>
                             <span class="text nav-text">Add - Ons</span>
                         </a>
@@ -267,16 +268,9 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                 <button class="btn" id="close">
                     Close
                 </button>
-                <button class="btn" id="addToCart">
-                    Add To Cart
-                </button>
             </div>
         </div>
     </div>
-
-
-
-
     <script src="js/app.js"></script>
 </body>
 
