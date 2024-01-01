@@ -97,6 +97,9 @@ try {
 }
 ?>
 
+<head>
+    <link rel="stylesheet" href="graph.css">
+</head>
 
 <body>
     <div class="main-wrapper">
@@ -111,35 +114,51 @@ try {
 
                 <div class="card">
                     <div class="card-body">
-                        <div name="donut-tQuantity" style="width: 50%; position: relative;">
+
+                        <div class="donut">
+
+                            <div name="donut-tQuantity" style="width: 450px; position: relative;">
+                                <?php if (count($salesData) > 0) : ?>
+                                    <canvas id="donutChartContainer" style="height: 280px;"></canvas>
+                                <?php else : ?>
+                                    <p>No data found</p>
+                                <?php endif; ?>
+                            </div>
+
+                            <div name="donutQuantityFilter" style="width: 100%; position: relative;" class="donutQuantityFilter">
+                                <!-- Date Filter Form -->
+
+                                <div class="wrapper-form">
+
+                                <form method="POST" action="">
+                                    <label for="start_date" class="form-start">Start:</label>
+                                        <input type="date" name="start_date" id="start_date" value="<?php echo isset($startDate) ? $startDate : ''; ?>">
+                                        <br>
+    
+                                    <label for="end_date" class="form-end">End:</label>
+                                        <input class="end" type="date" name="end_date" id="end_date" value="<?php echo isset($endDate) ? $endDate : ''; ?>">
+                                        <br>
+                                     <button type="submit" class="filter">Filter</button>
+                                     <button type="button" onclick="resetDates()" class="reset">Reset</button>
+                                </form>
+                                    
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="bar">
+
+                        <div name="bar-tQuantity" style="width: 100%; position: relative;">
                             <?php if (count($salesData) > 0) : ?>
-                                <canvas id="donutChartContainer" style="height: 300px;"></canvas>
+                                <canvas id="salesChart" width="800" height="600"></canvas>
                             <?php else : ?>
                                 <p>No data found</p>
                             <?php endif; ?>
                         </div>
 
-                        <div name="donutQuantityFilter" style="width: 50%; position: relative;">
-                            <!-- Date Filter Form -->
-                            <form method="POST" action="">
-                                <label for="start_date">Start:</label>
-                                    <input type="date" name="start_date" id="start_date" value="<?php echo isset($startDate) ? $startDate : ''; ?>">
-                                <br><label for="end_date">End:</label>
-                                    <input type="date" name="end_date" id="end_date" value="<?php echo isset($endDate) ? $endDate : ''; ?>">
-                                    <button type="submit">Filter</button>
-                                    <button type="button" onclick="resetDates()">Reset</button>
-                            </form>
-                        </div>
-
-                        <div name="bar-tQuantity" style="width: 90%; position: relative;">
-                            <?php if (count($salesData) > 0) : ?>
-                                <canvas id="salesChart" width="800" height="400"></canvas>
-                            <?php else : ?>
-                                <p>No data found</p>
-                            <?php endif; ?>
-                        </div>
-
-                        <div name="barQuantityFilter" style="width: 50%; position: relative;">
+                        <div name="barQuantityFilter" style="width: 100%; position: relative;">
                             <!-- Year selector -->
                             <form method="get">
                                 <label for="year">Select Year:</label>
@@ -149,13 +168,16 @@ try {
                                     $currentYear = date('Y');
                                     for ($i = $currentYear; $i >= $currentYear - 10; $i--) {
                                         echo "<option value=\"$i\" " . ($selectedYear == $i ? "selected" : "") . ">$i</option>";
-                                    }
+                                    }   
                                     ?>
                                 </select>
                             </form>
                         </div>
 
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
@@ -215,34 +237,34 @@ try {
         });
 
         // Use Chart.js to create a bar graph
-var ctx = document.getElementById('salesChart').getContext('2d');
-var salesChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: <?php echo json_encode($monthNames); ?>,
-        datasets: [{
-            label: 'Quantity sold this year (' + <?php echo $selectedYear; ?> + ')',
-            data: <?php echo json_encode($quantitiesSelectedYear); ?>,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }, {
-            label: 'Previous year (' + <?php echo $previousYear; ?> + ')',
-            data: <?php echo json_encode($quantitiesPreviousYear); ?>,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Different color for the previous year
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                max: <?php echo max($upperLimitSelectedYear, $upperLimitPreviousYear); ?> // Set the max value for the Y-axis
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode($monthNames); ?>,
+                datasets: [{
+                    label: 'Quantity sold this year (' + <?php echo $selectedYear; ?> + ')',
+                    data: <?php echo json_encode($quantitiesSelectedYear); ?>,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Previous year (' + <?php echo $previousYear; ?> + ')',
+                    data: <?php echo json_encode($quantitiesPreviousYear); ?>,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Different color for the previous year
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: <?php echo max($upperLimitSelectedYear, $upperLimitPreviousYear); ?> // Set the max value for the Y-axis
+                    }
+                }
             }
-        }
-    }
-});
+        });
     </script>
 </body>
 

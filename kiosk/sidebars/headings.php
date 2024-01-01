@@ -1,4 +1,18 @@
+<?php require "../../config/connection.php"; ?>
+<?php
+session_start();
+define("FILEPATH", "http://localhost/pos1");
 
+$select_all = $connection->query("SELECT inventory.*, category.category_name
+FROM inventory
+JOIN category ON inventory.category_id = category.id
+");
+$select_all->execute();
+$all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
+
+
+
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -24,7 +38,7 @@
 
                     <div class="image-text">
 
-                        <a href="../index.html">
+                        <a href="../index.php">
                             <span class="image">
                                 <img src="../image/logo.jpg" alt="">
                             </span>
@@ -35,7 +49,6 @@
                         </div>
                     </div>
 
-
                 </header>
 
                 <div class="menu-bar">
@@ -45,98 +58,98 @@
                         <ul class="menu-links">
 
                             <li class="nav-link">
-                                <a href="coffee.html">
+                                <a href="coffee.php">
                                     <i class='bx bxs-coffee-bean icon'></i>
                                     <span class="text nav-text">Coffee</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="hotdrinks.html">
+                                <a href="hotdrinks.php">
                                     <i class='bx bx-coffee-togo icon'></i>
                                     <span class="text nav-text">Hot Drinks</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="frappes.html">
+                                <a href="frappes.php">
                                     <i class='bx bxs-coffee-alt icon' ></i>
                                     <span class="text nav-text">Frappes</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="icedrinks.html">
+                                <a href="icedrinks.php">
                                     <i class='bx bxs-coffee icon'></i>
                                     <span class="text nav-text">Iced Drinks</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="milk.html">
+                                <a href="milk.php">
                                     <i class='bx bxs-leaf icon'></i>
                                     <span class="text nav-text">Milk Teas</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="fruit.html">
+                                <a href="fruit.php">
                                     <i class='bx bxs-lemon icon' ></i>
                                     <span class="text nav-text">Fruit Teas</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="softdrinks.html">
+                                <a href="softdrinks.php">
                                     <i class='bx bxs-drink icon'></i>
                                     <span class="text nav-text">Softdrinks</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="rice.html">
+                                <a href="rice.php">
                                     <i class='bx bxs-bowl-rice icon' ></i>
                                     <span class="text nav-text">Rice Meals</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="breakfast.html">
+                                <a href="breakfast.php">
                                     <i class='bx bxs-baguette icon' ></i>
                                     <span class="text nav-text">All Day Breakfast</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="pasta.html">
+                                <a href="pasta.php">
                                     <i class='bx bxs-bowl-hot icon' ></i>
                                     <span class="text nav-text">Pasta & Noodles</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="kiddiepasta.html">
+                                <a href="kiddiepasta.php">
                                     <i class='bx bxs-bowl-hot icon' ></i>
                                     <span class="text nav-text">Kiddie Pasta</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="soup.html">
+                                <a href="soup.php">
                                     <i class='bx bxs-bowl-rice icon' ></i>
                                     <span class="text nav-text">Soup & Vegetables</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="alltime.html">
+                                <a href="alltime.php">
                                     <i class='bx bxs-bowl-rice icon' ></i>
                                     <span class="text nav-text">All Time Favorites</span>
                                 </a>
                             </li>
 
                             <li class="nav-link">
-                                <a href="addons.html">
+                                <a href="addons.php">
                                     <i class='bx bx-cart-add icon'></i>
                                     <span class="text nav-text">Add - Ons</span>
                                 </a>
@@ -149,127 +162,3 @@
                 </div> 
 
             </nav>
-
-            <div class="container">
-
-                    <header>
-                        
-                        <div class="title">PRODUCT LIST</div>
-
-                        <div class="icon-cart">
-
-                            <i class='bx bx-cart'></i>
-                            <span>0</span>
-
-                        </div>
-                       
-                    </header>
-
-                    <div class="listProduct">
-                        
-                        <div class="item">
-
-                            <img src="../image/foods.jpg" alt="">
-
-                            <h2>NAME PRODUCT</h2>
-
-                            <div class="price">₱59</div>
-                            
-                            <button class="addCart">
-                                Add To Cart
-                            </button>
-
-                        </div>
-
-                    </div>
-
-            </div>
-
-            <div class="cartTab">
-
-                <h1>Order Status</h1>
-
-                <div class="listCart">
-
-                    <div class="item">
-
-                        <img src="../image/foods.jpg" alt="">
-
-                        <div class="name">
-
-                            <div class="name">NAME</div>
-                            <div class="variant">VARIANT</div>
-                            
-                        </div>
-
-                        <div class="totalPrice">
-                            ₱ 59
-                        </div>
-
-                        <div class="quantity">
-                            <span class="minus"><</span>
-                            <span>1</span>
-                            <span class="plus">></span>   
-                        </div>
-
-                        <i class='bx bx-trash icon'></i>
-
-                    </div>
-
-                </div>
-
-                <div class="btn">
-                    <button class="close">CLOSE</button>
-                    <button class="checkOut" id="checkOut">CHECK OUT</button>
-                </div>
-
-            </div>
-
-            <div class="modal" id="ShowModal" tabindex="-1" aria-labelledby="ShowModal1" aria-hidden="true" style="display: none;">
-                <div class="h1-text">
-                    <h4>Are you sure to proceed <br> to check out your orders?</h4>
-                </div>
-                
-                <button class="btn" id="no">No</button>
-                <button class="btn" id="yes">Yes</button>
-                
-            </div>
-
-            <div class="modal2" id="ShowModal2" tabindex="-1" aria-labelledby="ShowModal2" aria-hidden="true" style="display: none;">
-                <div class="h1-text">
-                    <h4>Your order is being processed</h4>
-                    <p>Please submit this order ID to the counter section. Thank you!</p>
-                </div>
-                
-                <button class="btn" id="understand">I understand</button>
-                
-            </div>
-
-            <div class="modal3" id="ShowModal3" tabindex="-1" aria-labelledby="ShowModal3" aria-hidden="true" style="display: none;">
-                <div class="item">
-                    <img src="../image/coffee.webp" alt="">
-                    <h4>NAME PRODUCT</h4>
-                    <h5>Category</h5>
-                    <div class="price">₱59</div>
-                    
-                    <div class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo eaque odit iste minima consectetur, sit, saepe iure quia porro cum optio ducimus exercita
-                    </div>
-                        
-                    <div class="buttons">
-                        <button class="btn" id="close">
-                            Close
-                        </button>
-                                            
-                        <button class="btn" id="addToCart">
-                           Add To Cart
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            
-        <script src="../js/app.js"></script>
-    </body>
-
-</html>

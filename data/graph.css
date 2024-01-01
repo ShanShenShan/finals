@@ -1,0 +1,139 @@
+#donutQuantityFilter,
+#bar-tQuantity,
+#barQuantityFilter {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+#donutChartContainer,
+#salesChart {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+[name="donut-tQuantity"] {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+#donutChartContainer {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+
+.page-header{
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+#donutChartContainer {
+    max-width: 80%; /* Adjust the maximum width of the container */
+    margin: 0 auto;
+}
+
+#donutChartContainer canvas {
+    width: 200px; /* Set the desired width */
+    height: 250px; /* Set the desired height */
+}
+
+.card{
+    border: none;
+    background: none;
+}
+.card-body{
+    display: flex;
+    height: 600px;
+    gap: 20px;
+}
+
+.donut{
+    width: 40%;
+    padding: 20px 15px;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    box-shadow: 1px 1px 15px rgba(24, 24, 24, 0.2);
+}
+
+.bar{   
+    width:60% ;
+    padding: 20px 15px;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    box-shadow: 1px 1px 15px rgba(24, 24, 24, 0.2);
+}
+
+.donutQuantityFilter{
+    position: relative;
+    height: 200px;
+}
+
+.donutQuantityFilter form{
+    position: absolute;
+    top: 15%;
+    left:30%;
+    width: 300px;
+}
+
+.donutQuantityFilter form input{
+    margin-top: 10px;
+}
+
+.donutQuantityFilter form button{
+    margin-top: 10px;
+    display: inline-block;
+    width: 75px;
+    border: none;
+}
+
+.donutQuantityFilter form .reset{
+    margin-left: 9px;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.donutQuantityFilter form .filter{
+    margin-left: 9px;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+input[type="date"] {
+    /* Add your styles here */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+  }
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+

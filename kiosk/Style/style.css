@@ -33,8 +33,8 @@ body.dark{
 }
 
 .container{
-    width: 900px;
-    max-width: 90vh;
+    width: 1100px;
+    max-width: 100vh;
     margin: auto;
     text-align: center;
     padding-top: 10px;
@@ -77,7 +77,7 @@ header .icon-cart span{
 /* LISTPRODUCTS */
 
 .listProduct .item img{
-    width: 100px;
+    width: 125px;
     height: 90px;
     filter: drop-shadow(0 30px 40px rgba(0,0,0,0.5));
     border-radius: 5px;
@@ -85,19 +85,22 @@ header .icon-cart span{
 
 .listProduct{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
 .listProduct .item{
-    background-color: #eeeee6;
+    background-color:#e6ccb2;
     padding: 20px;
     border-radius: 20px;
+    width: 235px;
+    box-shadow: 1px 1px 15px rgba(24, 24, 24, 0.2);
 }
 
-.listProduct .item h2{
-    font-weight: 500;
-    font-size: large;
+.listProduct .item h5{
+    font-weight: 700;
+    max-width: 150ch;
+    font-size: 11px;
 }
 
 
@@ -136,7 +139,7 @@ body.showCart .cartTab {
 }
 
 body.showCart .container{
-    transform: translateX(-130px);
+    transform: translateX(-110px);
 }
 
 .cartTab h1{
@@ -165,6 +168,8 @@ body.showCart .container{
 .cartTab .listCart .item img{
     width: 90px;
     height: 80px;
+    margin-left: 12px;
+    border-radius: 5px;
 }
 
 .cartTab .listCart .item{
@@ -413,7 +418,7 @@ header .image-text .header-text{
     z-index: 1; /*Ensure the modal appears on top of other elements */
     backdrop-filter: blur(4px) brightness(80%);
     text-align: center;
-    box-shadow: 1px 1   px 15px rgba(24, 24, 24, 0.2);
+    box-shadow: 1px 1px 15px rgba(24, 24, 24, 0.2);
 }
 
 .modal3 .item img{
