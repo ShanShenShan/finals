@@ -34,14 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
 $selectedYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 
 try {
-    // Setting up a connection into the database using constants from connection.php
-    $connection = new PDO("mysql:host=" . host . ";dbname=" . database, user, password);
     
-    // Generating an error message
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // Initialize arrays for all months with zero sales for both selected year and the previous year
     $monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -235,7 +232,9 @@ try {
                 });
             <?php endif; ?>
         });
-
+        </script>
+        
+        <script>
         // Use Chart.js to create a bar graph
         var ctx = document.getElementById('salesChart').getContext('2d');
         var salesChart = new Chart(ctx, {
