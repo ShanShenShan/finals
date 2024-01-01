@@ -361,7 +361,7 @@ foreach ($kiosk_data as $data) {
                                         <?php if (count($salesData) > 0) : ?>
                                             <canvas id="donutChartContainer" style="margin-left: 20%;"></canvas>
                                         <?php else : ?>
-                                            <p>No data found</p>
+                                            <p>No data found for this month</p>
                                         <?php endif; ?>
                                     </div>
                                 </div>

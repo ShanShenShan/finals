@@ -97,7 +97,7 @@
     function openReviewModal(orderId) {
         // Implement AJAX call to fetch order details based on orderId
         $.ajax({
-            url: '../process/pos_crud/get_order_details2.php',
+            url: '../process/pos_crud/get_order_details.php',
             method: 'POST',
             data: {orderId: orderId},
             success: function(response) {
