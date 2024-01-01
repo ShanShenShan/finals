@@ -94,7 +94,7 @@ header .icon-cart span{
     padding: 20px;
     border-radius: 20px;
     width: 235px;
-    box-shadow: 1px 1   px 15px rgba(24, 24, 24, 0.2);
+    box-shadow: 1px 1px 15px rgba(24, 24, 24, 0.2);
 }
 
 .listProduct .item h5{
@@ -418,7 +418,7 @@ header .image-text .header-text{
     z-index: 1; /*Ensure the modal appears on top of other elements */
     backdrop-filter: blur(4px) brightness(80%);
     text-align: center;
-    box-shadow: 1px 1   px 15px rgba(24, 24, 24, 0.2);
+    box-shadow: 1px 1px 15px rgba(24, 24, 24, 0.2);
 }
 
 .modal3 .item img{

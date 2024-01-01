@@ -29,8 +29,6 @@ addToCart.addEventListener('click', () => {
 
 
 
-
-
 //MODALS FUNCTION
 
 // Select the CHECK OUT button by its ID
