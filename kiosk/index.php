@@ -167,20 +167,20 @@ $all_products=$select_all->fetchAll(PDO::FETCH_OBJ);
                     </header>
 
                     <div class="listProduct">
-                    <?php foreach($all_products as $products):?>
-                        <div class="item">
+                        <?php foreach($all_products as $products):?>
+                            <div class="item">
                         
-                            <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $products->image; ?>" alt="">
+                                <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $products->image; ?>" alt="">
 
-                            <h5><?php echo $products->product_name;?></h5>
+                                <h5><?php echo $products->product_name;?></h5>
 
-                            <div class="price">₱<?php echo $products->price;?></div>
+                                <div class="price">₱<?php echo $products->price;?></div>
                             
-                            <button class="addCart">
+                                <button class="addCart">
                                 Add To Cart
-                            </button>
+                                </button>
                         
-                        </div>
+                            </div>
                         
                         <?php endforeach;?>
                     </div>
