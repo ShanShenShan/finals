@@ -24,6 +24,8 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
     <link rel="stylesheet" href="Style/style.css">
     <link rel="shortcut icon" href="../image/logo.jpg" type="image/x-icon">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/4a85ec1aea.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body class="">
@@ -93,7 +95,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
                     <li class="nav-link">
                         <a href="sidebars/softdrinks.php">
-                            <i class='bx bxs-drink icon'></i>
+                            <i class="fa-solid fa-bottle-water icon"></i>
                             <span class="text nav-text">Softdrinks</span>
                         </a>
                     </li>
@@ -107,7 +109,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
                     <li class="nav-link">
                         <a href="sidebars/breakfast.php">
-                            <i class='bx bxs-baguette icon'></i>
+                            <i class="fa-solid fa-egg icon"></i>
                             <span class="text nav-text">All Day Breakfast</span>
                         </a>
                     </li>
@@ -135,7 +137,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
                     <li class="nav-link">
                         <a href="sidebars/alltime.php">
-                            <i class='bx bxs-bowl-rice icon'></i>
+                            <i class='bx bxs-star icon'></i>
                             <span class="text nav-text">All Time Favorites</span>
                         </a>
                     </li>
@@ -150,7 +152,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                     <li class="nav-link">
                        <a href="login.php">
                            <i class='bx bx-log-out icon' ></i>
-                           <span class="text nav-text">Log-out</span>
+                           <span class="text nav-text">Log Out</span>
                        </a>
                     </li>
 
