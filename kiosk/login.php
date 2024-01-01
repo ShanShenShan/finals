@@ -1,3 +1,6 @@
+<?php require "../config/connection.php"; 
+session_start();
+define("FILEPATH", "http://localhost/pos1");?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -32,17 +35,17 @@
 
     <div class="wrapper">
 
-        <form action="index.html">
+        <form action="<?php echo FILEPATH;?>/auth/login.php" method="POST">
 
             <h1>Login</h1>
 
             <div class="input-box">
-                <input type="text" placeholder="Username" required>
+                <input type="text" name="email" placeholder="Email" required>
                 <i class='bx bxs-user'></i>
             </div>
 
             <div class="input-box">
-                <input type="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password" required>
                 <i class='bx bxs-lock-alt' ></i>
             </div>
 
@@ -50,7 +53,7 @@
                 <a href="#">Forgot Password?</a>
             </div>
 
-            <button class="btn" type="submit">Login</button>
+            <input type="submit" class="btn" name="signin-button" value="Login">
 
             <div class="register-link">
                 <p>Don't have an account? <a href="#" id="registerLink">Register</a></p>

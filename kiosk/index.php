@@ -1,19 +1,42 @@
-<?php require "../config/connection.php"; ?>
-<?php
+<?php 
+require "../config/connection.php";
 session_start();
+
 define("FILEPATH", "http://localhost/pos1");
 
-// Displaying the products
+// Fetch all products from the inventory along with their categories
 $select_all = $connection->query("SELECT inventory.*, category.category_name
 FROM inventory
 JOIN category ON inventory.category_id = category.id
 ");
-$select_all->execute();
 $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
-// Getting the customer id from the database
-
+// Check if the session variables are set
+if (!isset($_SESSION['kiosk_email'])) {
+    // If no email is set but an ID is present, retrieve a default account ID from the database
+    $default_account = $connection->query("SELECT * FROM customers WHERE id = 3007");
+    $customer_data = $default_account->fetchAll(PDO::FETCH_OBJ);
+    foreach($customer_data as $data)
+    {
+        $customer_id = $data->id;
+        $order_id = $data->unique_code;
+    }
+    // Store the customer ID and order_id in the session for future use
+    //$_SESSION['o_id'] = $customer_id;
+} else {
+    // If session variables are set, retrieve the ID and assign it to a session variable
+    $customer_id = $_SESSION['id'];
+    //$_SESSION['o_id'] = $customer_id;
+    $verified_account = $connection->query("SELECT unique_code FROM customers WHERE id = $customer_id");
+    $order_id = $verified_account->fetchColumn();
+}
 ?>
+
+
+<!-- IMPORTANT NOTES!!! IMPORTANT NOTES!!!IMPORTANT     DESTTROY THE SESSION, add to cart      NOTES!!!IMPORTANT NOTES!!!IMPORTANT NOTES!!! -->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +61,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                     </span>
                 </a>
                 <div class="text header-text">
-                    <span class="name">Keffie-Cafe</span>
+                    <span class="name">Keffie-Cafe <?php echo $customer_id;?></span> <!--pansamantalang order id-->
                 </div>
             </div>
         </header>
@@ -173,13 +196,24 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
         <div class="listProduct">
             <?php foreach ($all_products as $product) : ?>
-                <div class="item">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="" data-productname="<?php echo htmlspecialchars($product->product_name); ?>" data-category="<?php echo htmlspecialchars($product->category_name); ?>" data-price="<?php echo htmlspecialchars($product->price); ?>" data-description="<?php echo htmlspecialchars($product->description); ?>" data-image="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" data-id="<?php echo htmlspecialchars($product->id); ?>"> <!-- Include product ID -->
-                    <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
-                    <div class="price">₱<?php echo htmlspecialchars($product->price); ?></div>
-                    <input type="hidden" value="<?php echo htmlspecialchars($product->id); ?>"><!-- Include product ID -->
-                    <button class="addCart">Add To Cart</button>
-                </div>
+                <?php
+                    // 
+                    $storage_quantity=$connection->query("SELECT quantity FROM inventory where id =$product->id ");
+                    $storage_quantity->execute();
+                    $quantity=$storage_quantity->fetchColumn(); 00000000000000000000000
+                    ?>
+                <form action="<?php echo FILEPATH;?>/process/pos_crud/kiosk_process.php" method="POST">
+                    <div class="item">
+                        <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="" data-productname="<?php echo htmlspecialchars($product->product_name); ?>" data-category="<?php echo htmlspecialchars($product->category_name); ?>" data-price="<?php echo htmlspecialchars($product->price); ?>" data-description="<?php echo htmlspecialchars($product->description); ?>" data-image="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" data-id="<?php echo htmlspecialchars($product->id); ?>"> <!-- Include product ID -->
+                        <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
+                        <div class="price">₱<?php echo $product->price; ?></div>
+                        <input type="hidden" value="<?php echo $product->id ?>"><!-- Include product ID -->
+                        <input type="hidden" value="<?php echo $customer_id; ?>">
+                        <input type="hidden" value="<?php echo $order_id; ?>">
+                        <input type="text" value="<?php echo $quantity; ?>">
+                        <button type="submit" name="add-to-cart" class="addCart"> Add To Cart</button>
+                    </div>
+                </form>
             <?php endforeach; ?>
         </div>
 
