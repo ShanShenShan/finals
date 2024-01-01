@@ -79,7 +79,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
                     <li class="nav-link">
                         <a href="sidebars/milk.php">
-                            <i class='bx bxs-leaf icon'></i>
+                            <i class='bx bxs-leaf icon logout'></i>
                             <span class="text nav-text">Milk Teas</span>
                         </a>
                     </li>
@@ -145,6 +145,13 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                             <i class='bx bx-cart-add icon'></i>
                             <span class="text nav-text">Add - Ons</span>
                         </a>
+                    </li>
+
+                    <li class="nav-link">
+                       <a href="login.php">
+                           <i class='bx bx-log-out icon' ></i>
+                           <span class="text nav-text">Log-out</span>
+                       </a>
                     </li>
 
                 </ul>
