@@ -12,6 +12,7 @@ if (isset($_GET['id'])) {
     inv.price,
     inv.image,
     tp.id AS transaction_product_id,
+    tp.tran_id,
     tp.tr_id AS tr_id,
     tp.product_id,
     tp.quantity,
@@ -39,6 +40,7 @@ WHERE
 
     foreach ($transaction_details as $transaction_info) {
         $customer_id = $transaction_info->tr_id;
+        $tran_id = $transaction_info->tran_id;
         $transaction_product_id = $transaction_info->transaction_product_id;
         $product_id = $transaction_info->product_id;
         $product_name = $transaction_info->product_name;
@@ -116,7 +118,7 @@ WHERE
                                 <?php foreach ($transaction_details as $transaction_info) : ?><!--Iterating each value from admin list and assigning it to $admin-->
                                     <?php $exchange = $transaction_info->cash_amount - $transaction_info->total_amount;?>
                                     <tr>
-                                        <td><?php echo $transaction_product_id; ?></td>
+                                        <td><?php echo $tran_id; ?></td>
                                         <td><?php echo $transaction_info->employee_id; ?></td>
                                         <td><?php echo $transaction_info->employee_name; ?></td>
                                         <td><?php echo $transaction_info->tr_id; ?></td>

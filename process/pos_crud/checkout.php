@@ -28,8 +28,9 @@ if (isset($_POST['checkout-button'])) {
         $tran_id = $highest_id + 1;
 
         // Insert into transaction product table
-        $insert_transac_product = $connection->prepare("INSERT INTO transaction_products (tran_id,tr_id, product_id, quantity, o_quantity) VALUES(:tr_id,:tr_id, :product_id, :quantity, :order_quantity)");
-        $insert_transac_product->bindParam(':tr_id', $tran_id, PDO::PARAM_INT); // Use tran_id here
+        $insert_transac_product = $connection->prepare("INSERT INTO transaction_products (tran_id,tr_id, product_id, quantity, o_quantity) VALUES(:tran_id,:tr_id, :product_id, :quantity, :order_quantity)");
+        $insert_transac_product->bindParam(':tran_id', $tran_id, PDO::PARAM_INT); // Use tran_id here
+        $insert_transac_product->bindParam(':tr_id', $customer_id, PDO::PARAM_INT);
         $insert_transac_product->bindParam(':product_id', $product_id, PDO::PARAM_INT);
         $insert_transac_product->bindParam(':quantity', $quantity, PDO::PARAM_INT);
         $insert_transac_product->bindParam(':order_quantity', $o_quantity, PDO::PARAM_INT);
