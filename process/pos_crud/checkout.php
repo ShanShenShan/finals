@@ -45,7 +45,7 @@ if (isset($_POST['checkout-button'])) {
             // Inserting values on the transaction record
             $insert_transac_record = $connection->prepare("INSERT INTO transaction_records (tr_date, emp_id, customer_id, total_amount, cash_amount) VALUES(NOW(), :emp_id, :customer_id, :total_amount, :cash_amount)");
             $insert_transac_record->bindParam(':emp_id', $user_id, PDO::PARAM_INT);
-            $insert_transac_record->bindParam(':customer_id', $tr_id, PDO::PARAM_INT);
+            $insert_transac_record->bindParam(':customer_id', $customer_id, PDO::PARAM_INT);
             $insert_transac_record->bindParam(':total_amount', $total, PDO::PARAM_INT);
             $insert_transac_record->bindParam(':cash_amount', $cash_tendered, PDO::PARAM_INT);
             $insert_transac_record->execute();
@@ -58,6 +58,21 @@ if (isset($_POST['checkout-button'])) {
         $update = $connection->query("UPDATE customers SET unique_code = $code WHERE id = $id");
         unset($_SESSION['o_id']); // Unset the specific session variable
     }
+
+    /*
+        //delete pending with same o_id
+        $deletePending_collect = $connection->query("SELECT o_id FROM pending_orders");
+        $deletePending_collect->execute();
+        $deletePending_collect = $deletePending_collect->fetchAll(PDO::FETCH_OBJ);
+    
+        foreach ($deletePending_collect as $collectedPending_oid) {
+            $delOid = $collectedPending_oid->o_id;
+    
+            $deletePending = $connection->prepare("DELETE FROM pending_order_kiosk WHERE o_id = :deloid");
+            $deletePending->bindParam(':deloid', $delOid, PDO::PARAM_INT);
+            $deletePending->execute();
+        }
+    */
 
     $deleteQuery = $connection->prepare("TRUNCATE TABLE pending_orders");
     $deleteQuery->execute();
