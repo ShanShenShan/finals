@@ -188,7 +188,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
     <div class="cartTab">
 
        
-        <h5>Customer id: 1234</h5>   
+        <h6>Customer id: 1234</h6>   
 
         <h1>Order Status</h1>
 
@@ -218,6 +218,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                 <i class='bx bx-trash icon'></i>
 
             </div>
+            
 
         </div>
 
