@@ -1,3 +1,4 @@
+<<<<<<< HEAD:kiosk/sidebars/addons.html
 
 <!DOCTYPE html>
 
@@ -273,3 +274,154 @@
     </body>
 
 </html>
+=======
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Keffie-Cafe</title>
+        <link rel="stylesheet" href="../Style/style.css">
+        <link rel="shortcut icon" href="../image/logo.jpg" type="image/x-icon">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+
+    </head>
+
+    <body class="">
+
+            <nav class="sidebar appear">
+
+                <header>
+
+                    <div class="image-text">
+
+                        <a href="../index.php">
+                            <span class="image">
+                                <img src="../image/logo.jpg" alt="">
+                            </span>
+                        </a>
+                        
+                        <div class="text header-text">
+                            <span class="name">Keffie-Cafe</span>
+                        </div>
+                    </div>
+
+                </header>
+
+                <div class="menu-bar">
+
+                    <div class="menu">
+
+                        <ul class="menu-links">
+
+                            <li class="nav-link">
+                                <a href="coffee.html">
+                                    <i class='bx bxs-coffee-bean icon'></i>
+                                    <span class="text nav-text">Coffee</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="hotdrinks.html">
+                                    <i class='bx bx-coffee-togo icon'></i>
+                                    <span class="text nav-text">Hot Drinks</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="frappes.html">
+                                    <i class='bx bxs-coffee-alt icon' ></i>
+                                    <span class="text nav-text">Frappes</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="icedrinks.html">
+                                    <i class='bx bxs-coffee icon'></i>
+                                    <span class="text nav-text">Iced Drinks</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="milk.html">
+                                    <i class='bx bxs-leaf icon'></i>
+                                    <span class="text nav-text">Milk Teas</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="fruit.html">
+                                    <i class='bx bxs-lemon icon' ></i>
+                                    <span class="text nav-text">Fruit Teas</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="softdrinks.html">
+                                    <i class='bx bxs-drink icon'></i>
+                                    <span class="text nav-text">Softdrinks</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="rice.html">
+                                    <i class='bx bxs-bowl-rice icon' ></i>
+                                    <span class="text nav-text">Rice Meals</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="breakfast.html">
+                                    <i class='bx bxs-baguette icon' ></i>
+                                    <span class="text nav-text">All Day Breakfast</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="pasta.html">
+                                    <i class='bx bxs-bowl-hot icon' ></i>
+                                    <span class="text nav-text">Pasta & Noodles</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="kiddiepasta.html">
+                                    <i class='bx bxs-bowl-hot icon' ></i>
+                                    <span class="text nav-text">Kiddie Pasta</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="soup.html">
+                                    <i class='bx bxs-bowl-rice icon' ></i>
+                                    <span class="text nav-text">Soup & Vegetables</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="alltime.html">
+                                    <i class='bx bxs-bowl-rice icon' ></i>
+                                    <span class="text nav-text">All Time Favorites</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="addons.html">
+                                    <i class='bx bx-cart-add icon'></i>
+                                    <span class="text nav-text">Add - Ons</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                        
+                    </div>
+
+                </div> 
+
+            </nav>
+>>>>>>> 98f08b2619fb89c6b1d13b55188cd2ee5c4c822c:kiosk/sidebars/headings.php

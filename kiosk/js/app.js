@@ -29,8 +29,6 @@ addToCart.addEventListener('click', () => {
 
 
 
-
-
 //MODALS FUNCTION
 
 // Select the CHECK OUT button by its ID
@@ -94,14 +92,51 @@ productImages.forEach((image) => {
     image.addEventListener('click', showThirdModal);
 });
 
-// Function to show the third modal
-function showThirdModal() {
-    // Select the third modal by its ID
-    const showModal3 = document.getElementById('ShowModal3');
+document.addEventListener('DOMContentLoaded', () => {
+    const productImages = document.querySelectorAll('.listProduct .item img');
 
-    // Display the third modal
+    productImages.forEach((image) => {
+        image.addEventListener('click', () => {
+            const productName = image.dataset.productname;
+            const category = image.dataset.category;
+            const price = image.dataset.price;
+            const description = image.dataset.description;
+            const imageSrc = image.dataset.image;
+            const productId = image.dataset.id; // Get product ID
+
+            showThirdModal(productName, category, price, description, imageSrc, productId);
+        });
+    });
+});
+
+function showThirdModal(productName, category, price, description, imageSrc, productId) {
+    const showModal3 = document.getElementById('ShowModal3');
     showModal3.style.display = 'block';
+
+    const modalContent = showModal3.querySelector('.item');
+    const pictureElement = modalContent.querySelector('picture');
+
+    const imageElement = pictureElement.querySelector('img');
+    imageElement.srcset = `${imageSrc}, ${imageSrc.replace('.jpg', '.webp')}`;
+    imageElement.src = imageSrc;
+    imageElement.alt = productName;
+
+    modalContent.querySelector('h4').innerText = productName;
+    modalContent.querySelector('h5').innerText = category;
+    modalContent.querySelector('.price').innerText = `₱${price}`;
+    modalContent.querySelector('.description').innerText = description;
+
+    // Set product ID in the hidden input
+    const productIdInput = modalContent.querySelector('.product-id');
+    productIdInput.setAttribute('value', productId);
 }
+
+
+
+
+
+
+
 
 // Select the 'Close' button within the third modal
 const closeModal3Button = document.querySelector('#ShowModal3 button');
