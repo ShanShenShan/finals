@@ -1,7 +1,12 @@
 <?php require "../config/connection.php"; ?>
 <?php
+// Fetch the latest o_id from the pending_order_kiosk table
+$latestOrderIdQuery = $connection->query("SELECT MAX(o_id) AS latest_o_id FROM pending_order_kiosk");
+$latestOrderIdResult = $latestOrderIdQuery->fetch(PDO::FETCH_ASSOC);
+$latestOrderId = ($latestOrderIdResult['latest_o_id']) ? $latestOrderIdResult['latest_o_id'] : 0;
+
 session_start();
-define("FILEPATH", "http://localhost/pos1");
+define("FILEPATH", "http://localhost/pos2/finals");
 
 $select_all = $connection->query("SELECT inventory.*, category.category_name
 FROM inventory
@@ -256,7 +261,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
             <p>Please submit this order ID to the counter section. Thank you!</p>
         </div>
 
-        <button class="btn" id="understand">I understand</button>
+        <button class="btn" id="understand" onClick="window.location.reload();">I understand</button>
 
     </div>
 
@@ -408,16 +413,10 @@ $("#yes").on("click", function () {
 
     // Process the order and insert into the database
     if (cart.length > 0) {
-        // Find the latest o_id
-        // NEEDS FIXING ASAP!!!!!!
-        // KELANGAN o_id ung dinedetect nya hindi product_id
-        var latestOrderId = 0;
-        if (cart.length > 0) {
-            latestOrderId = Math.max(...cart.map(item => item.id));
-        }
+        
 
         // Increment o_id for the new order
-        var newOrderId = latestOrderId + 1;
+        var newOrderId = <?php echo $latestOrderId + 1; ?>;
 
         // Prepare the SQL statement
         var insertStatement = "INSERT INTO pending_order_kiosk (o_id, product_id, customer_id, o_quantity, storage_quantity) VALUES ";
