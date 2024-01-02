@@ -43,9 +43,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                     </span>
                 </a>
                 <div class="text header-text">
-                <a href="index.php">
                     <span class="name">Keffie-Cafe</span>
-                </a>
                 </div>
             </div>
         </header>
