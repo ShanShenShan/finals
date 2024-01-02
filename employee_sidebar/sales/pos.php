@@ -1,6 +1,7 @@
 <?php require "../../includes/header.php"; ?> <!-- Strictly requiring to include the header.php-->
 <?php require "../../config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
 <?php require "../../includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
+
 <?php
 $sub_total = 0;
 $exchangeValue = 0;
@@ -69,7 +70,7 @@ $total_count_pending = $pending_count->fetchColumn();
 
             <div class="header-left border-0 ">
                 <a href="../employee_index.php" class="logo">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/logo1.png" alt="">
+                    <img src="<?php echo FILEPATH; ?>/assets/img/logo.png" alt="">
                 </a>
                 <a href="index.html" class="logo-small">
                     <img src="<?php echo FILEPATH; ?>/assets/img/logo-small1.png" alt="">
@@ -409,7 +410,7 @@ $total_count_pending = $pending_count->fetchColumn();
                 </div>
                 <div class="modal-body">
                     <!--FORM ACTION-->
-                    <form action="../../process/pos_crud/pending_order.php" method="POST">
+                    <form action="../process/pos_crud/pending_order.php" method="POST">
                         <!--Product_name-->
                         <div class="form-group">
                             <input type="text" style=" display: block; margin: 0 auto; border: none; color: black;
