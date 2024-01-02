@@ -1,3 +1,7 @@
+<?php
+session_start();
+define("FILEPATH", "http://localhost/pos1");
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -11,8 +15,6 @@
         <link rel="stylesheet" href="../Style/style.css">
         <link rel="shortcut icon" href="../image/logo.jpg" type="image/x-icon">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <script src="https://kit.fontawesome.com/4a85ec1aea.js" crossorigin="anonymous"></script>
-        
 
 
     </head>
@@ -88,7 +90,7 @@
 
                             <li class="nav-link">
                                 <a href="softdrinks.php">
-                                    <i class="fa-solid fa-bottle-water icon"></i>
+                                    <i class='bx bxs-drink icon'></i>
                                     <span class="text nav-text">Softdrinks</span>
                                 </a>
                             </li>
@@ -102,7 +104,7 @@
 
                             <li class="nav-link">
                                 <a href="breakfast.php">
-                                    <i class="fa-solid fa-egg icon"></i>
+                                    <i class='bx bxs-baguette icon' ></i>
                                     <span class="text nav-text">All Day Breakfast</span>
                                 </a>
                             </li>
@@ -130,7 +132,7 @@
 
                             <li class="nav-link">
                                 <a href="alltime.php">
-                                    <i class='bx bxs-star icon'></i>
+                                    <i class='bx bxs-bowl-rice icon' ></i>
                                     <span class="text nav-text">All Time Favorites</span>
                                 </a>
                             </li>
@@ -139,13 +141,6 @@
                                 <a href="addons.php">
                                     <i class='bx bx-cart-add icon'></i>
                                     <span class="text nav-text">Add - Ons</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-link">
-                                <a href="<?php echo FILEPATH;?>/auth/logout.php?kiosk-logout">
-                                    <i class='bx bx-log-out icon' ></i>
-                                    <span class="text nav-text">Log Out</span>
                                 </a>
                             </li>
 

@@ -1,5 +1,7 @@
-
+<?php require "../../config/connection.php"; ?>
 <?php require "headings.php"; ?>
+
+
 <!--Removing headings-->
 
 <?php

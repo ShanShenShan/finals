@@ -1,5 +1,7 @@
-
+<?php require "../../config/connection.php"; ?>
 <?php require "headings.php"; ?>
+
+
 <!--Removing headings-->
 
 <?php
@@ -44,8 +46,8 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
     <!--Checkout Session-->
     <div class="cartTab">
 
-        <h6>Customer id: 1234</h6>  
-              
+        <h6>Customer id: 1234</h6> 
+
         <h1>Order Status</h1>
 
         <div class="listCart">
@@ -132,6 +134,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
             </div>
         </div>
     </div>
+    <?php require "../js/add_cart.php"; ?>
     <script src="../js/app.js"></script>
 </body>
 
