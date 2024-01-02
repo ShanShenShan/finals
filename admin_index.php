@@ -112,7 +112,7 @@ foreach ($kiosk_data as $data) {
             <!-- Left Header -->
             <div class="header-left active">
                 <a href="admin_index.php" class="logo">
-                    <img src="assets/img/logo1.png" alt="">
+                    <img src="assets/img/logo.png" alt="">
                 </a>
                 <a href="admin_index.php" class="logo-small">
                     <img src="assets/img/logo-small1.png" alt="">
@@ -259,7 +259,7 @@ foreach ($kiosk_data as $data) {
                                 <span><img src="assets/img/icons/dash1.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5> ₱<span class="counters" data-count="<?php echo $total_inventory;?>"></span></h5>
+                                <h5> <span class="counters" data-count="<?php echo $total_inventory;?>"></span></h5>
                                 <h6>Total Inventory quantity</h6>
                             </div>
                         </div>
@@ -293,7 +293,7 @@ foreach ($kiosk_data as $data) {
                                 <span><img src="assets/img/icons/dash4.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5>₱<span class="counters" data-count="<?php echo $total_order;?>"></span></h5>
+                                <h5><span class="counters" data-count="<?php echo $total_order;?>"></span></h5>
                                 <h6>Total Order Amount</h6><wbr>
                             </div>
                         </div>

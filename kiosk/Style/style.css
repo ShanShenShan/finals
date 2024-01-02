@@ -123,12 +123,12 @@ header .icon-cart span{
 
 .cartTab{
     border: 1px solid black;
-    width: 420px;
+    width: 462px;
     background-color: #353432;
     color: #eee;
     position: fixed;
     /* top right bottom left */
-    inset: 0 -420px 0 auto;
+    inset: 0 -462px 0 auto;
     display: grid;
     grid-template-rows: 2px 70px 1fr 70px;
     transition:  0.5s;
@@ -182,7 +182,7 @@ body.showCart .container{
 .cartTab .listCart .item img{
     width: 90px;
     height: 80px;
-    margin-left: 12px;
+    margin-left: 8px;
     border-radius: 5px;
 }
 
@@ -194,7 +194,7 @@ body.showCart .container{
 
 .cartTab .listCart .item{
     display: grid;
-    grid-template-columns: 90px 110px 35px 1fr 40px;
+    grid-template-columns: 90px 110px 35px 1fr 50px;
     gap: 10px;
     text-align: center;
     align-items: center;
@@ -212,6 +212,9 @@ body.showCart .container{
 .listCart .quantity span:nth-child(2){
     background-color: transparent;
     color: #eee;
+}
+.listCart .item .totalPrice{
+    margin-right: px;
 }
 
 .listCart .item:nth-child(even){

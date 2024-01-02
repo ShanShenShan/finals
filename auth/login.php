@@ -2,7 +2,6 @@
 require "../includes/header.php";       // Strictly requiring to include the header.php
 require "../config/connection.php";     // Strictly requiring to include the connection.php
 
-session_start();
 
 // if there is no session being set it will forcefully go into signin.php
 if (!isset($_SESSION['username'])) {
