@@ -200,7 +200,7 @@ if (!isset($_SESSION['kiosk_email'])) {
                     // 
                     $storage_quantity=$connection->query("SELECT quantity FROM inventory where id =$product->id ");
                     $storage_quantity->execute();
-                    $quantity=$storage_quantity->fetchColumn(); 00000000000000000000000
+                    $quantity=$storage_quantity->fetchColumn();
                     ?>
                 <form action="<?php echo FILEPATH;?>/process/pos_crud/kiosk_process.php" method="POST">
                     <div class="item">
