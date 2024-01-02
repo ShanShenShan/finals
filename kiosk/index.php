@@ -3,13 +3,13 @@
 session_start();
 define("FILEPATH", "http://localhost/pos1");
 
+// Displaying all of the items on the webpage
 $select_all = $connection->query("SELECT inventory.*, category.category_name
 FROM inventory
 JOIN category ON inventory.category_id = category.id
 ");
 $select_all->execute();
 $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
-
 
 if (empty($_SESSION['email'])) {
     // If the session email is empty, select default account
@@ -29,8 +29,6 @@ if (empty($_SESSION['email'])) {
     $verified_account->execute();
     $order_id = $verified_account->fetchColumn();
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -217,7 +215,8 @@ if (empty($_SESSION['email'])) {
                         <input type="hidden" value="<?php echo $product->id ?>"><!-- Include product ID -->
                         <input type="hidden" value="<?php echo $customer_id; ?>">
                         <input type="hidden" value="<?php echo $order_id; ?>">
-                        <input type="hidden" value="<?php echo $quantity; ?>">
+                        <input type="hidden" value="<?php echo $quantity; ?>">      <!-- ITO YUNG STORAGE QUANTITY NA GALING SA DATABASE PER PRODUCT-->
+                        <!-- NEED LANG MINUS YUNG BILANG NG BINILI NIYA SA VALUE NITO. BAGO IALAGAY SA DATABASE -->
                         <button type="submit" name="add-to-cart" class="addCart"> Add To Cart</button>
                     </div>
                 
