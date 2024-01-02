@@ -188,7 +188,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                     $storage_quantity->execute();
                     $quantity=$storage_quantity->fetchColumn();
                     ?>
-                <form action="<?php echo FILEPATH;?>/process/pos_crud/kiosk_process.php" method="POST">
+                
                     <div class="item">
                         <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="" data-productname="<?php echo htmlspecialchars($product->product_name); ?>" data-category="<?php echo htmlspecialchars($product->category_name); ?>" data-price="<?php echo htmlspecialchars($product->price); ?>" data-description="<?php echo htmlspecialchars($product->description); ?>" data-image="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" data-id="<?php echo htmlspecialchars($product->id); ?>"> <!-- Include product ID -->
                         <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
@@ -199,7 +199,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                         <input type="text" value="<?php echo $quantity; ?>">
                         <button type="submit" name="add-to-cart" class="addCart"> Add To Cart</button>
                     </div>
-                </form>
+                
             <?php endforeach; ?>
         </div>
 
