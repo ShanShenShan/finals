@@ -112,7 +112,7 @@ foreach ($kiosk_data as $data) {
             <!-- Left Header -->
             <div class="header-left active">
                 <a href="admin_index.php" class="logo">
-                    <img src="assets/img/logo1.png" alt="">
+                    <img src="assets/img/logo.png" alt="">
                 </a>
                 <a href="admin_index.php" class="logo-small">
                     <img src="assets/img/logo-small1.png" alt="">

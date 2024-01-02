@@ -3,6 +3,7 @@
 session_start();
 define("FILEPATH", "http://localhost/pos1");
 
+// Displaying all of the items on the webpage
 $select_all = $connection->query("SELECT inventory.*, category.category_name
 FROM inventory
 JOIN category ON inventory.category_id = category.id
@@ -10,8 +11,24 @@ JOIN category ON inventory.category_id = category.id
 $select_all->execute();
 $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
-
-
+if (empty($_SESSION['email'])) {
+    // If the session email is empty, select default account
+    $default_account = $connection->prepare("SELECT * FROM customers WHERE id = 3007");
+    $default_account->execute();
+    $default_account_data = $default_account->fetchAll(PDO::FETCH_OBJ);
+    
+    foreach ($default_account_data as $information) {
+        $customer_id = $information->id;
+        $order_id = $information->unique_code;
+    }
+} else {
+    // If session email exists, use session id and retrieve order_id
+    $customer_id = $_SESSION['id'];
+    $verified_account = $connection->prepare("SELECT unique_code FROM customers WHERE id = :customer_id");
+    $verified_account->bindParam(':customer_id', $customer_id);
+    $verified_account->execute();
+    $order_id = $verified_account->fetchColumn();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -151,11 +168,13 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                     </li>
 
                     <li class="nav-link">
-                       <a href="login.php">
-                           <i class='bx bx-log-out icon' ></i>
-                           <span class="text nav-text">Log Out</span>
-                       </a>
+                        <a href="<?php echo FILEPATH;?>/auth/logout.php?kiosk-logout">
+                            <i class='bx bx-log-out icon'></i>
+                            <span class="text nav-text">Log Out</span>
+                        </a>
                     </li>
+
+
 
                 </ul>
 
@@ -182,13 +201,25 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
         <div class="listProduct">
             <?php foreach ($all_products as $product) : ?>
-                <div class="item">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="" data-productname="<?php echo htmlspecialchars($product->product_name); ?>" data-category="<?php echo htmlspecialchars($product->category_name); ?>" data-price="<?php echo htmlspecialchars($product->price); ?>" data-description="<?php echo htmlspecialchars($product->description); ?>" data-image="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" data-id="<?php echo htmlspecialchars($product->id); ?>"> <!-- Include product ID -->
-                    <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
-                    <div class="price">₱<?php echo htmlspecialchars($product->price); ?></div>
-                    <input type="hidden" value="<?php echo htmlspecialchars($product->id); ?>"><!-- Include product ID -->
-                    <button class="addCart">Add To Cart</button>
-                </div>
+                <?php
+                    // 
+                    $storage_quantity=$connection->query("SELECT quantity FROM inventory where id =$product->id ");
+                    $storage_quantity->execute();
+                    $quantity=$storage_quantity->fetchColumn();
+                    ?>
+                
+                    <div class="item">
+                        <img src="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" alt="" data-productname="<?php echo htmlspecialchars($product->product_name); ?>" data-category="<?php echo htmlspecialchars($product->category_name); ?>" data-price="<?php echo htmlspecialchars($product->price); ?>" data-description="<?php echo htmlspecialchars($product->description); ?>" data-image="<?php echo FILEPATH; ?>/assets/img/product/<?php echo $product->image; ?>" data-id="<?php echo htmlspecialchars($product->id); ?>"> <!-- Include product ID -->
+                        <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
+                        <div class="price">₱<?php echo $product->price; ?></div>
+                        <input type="hidden" value="<?php echo $product->id ?>"><!-- Include product ID -->
+                        <input type="hidden" value="<?php echo $customer_id; ?>">
+                        <input type="hidden" value="<?php echo $order_id; ?>">
+                        <input type="hidden" value="<?php echo $quantity; ?>">      <!-- ITO YUNG STORAGE QUANTITY NA GALING SA DATABASE PER PRODUCT-->
+                        <!-- NEED LANG MINUS YUNG BILANG NG BINILI NIYA SA VALUE NITO. BAGO IALAGAY SA DATABASE -->
+                        <button type="submit" name="add-to-cart" class="addCart"> Add To Cart</button>
+                    </div>
+                
             <?php endforeach; ?>
         </div>
 
@@ -198,7 +229,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
     <div class="cartTab">
 
        
-        <h6>Customer id: 1234</h6>   
+        <h6>Customer id: <?php echo $customer_id;?></h6>   
 
         <h1>Order Status</h1>
 
