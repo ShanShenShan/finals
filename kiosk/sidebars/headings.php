@@ -1,18 +1,3 @@
-<?php require "../../config/connection.php"; ?>
-<?php
-session_start();
-define("FILEPATH", "http://localhost/pos1");
-
-$select_all = $connection->query("SELECT inventory.*, category.category_name
-FROM inventory
-JOIN category ON inventory.category_id = category.id
-");
-$select_all->execute();
-$all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
-
-
-
-?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -26,6 +11,8 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
         <link rel="stylesheet" href="../Style/style.css">
         <link rel="shortcut icon" href="../image/logo.jpg" type="image/x-icon">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <script src="https://kit.fontawesome.com/4a85ec1aea.js" crossorigin="anonymous"></script>
+        
 
 
     </head>
@@ -101,7 +88,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
                             <li class="nav-link">
                                 <a href="softdrinks.php">
-                                    <i class='bx bxs-drink icon'></i>
+                                    <i class="fa-solid fa-bottle-water icon"></i>
                                     <span class="text nav-text">Softdrinks</span>
                                 </a>
                             </li>
@@ -115,7 +102,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
                             <li class="nav-link">
                                 <a href="breakfast.php">
-                                    <i class='bx bxs-baguette icon' ></i>
+                                    <i class="fa-solid fa-egg icon"></i>
                                     <span class="text nav-text">All Day Breakfast</span>
                                 </a>
                             </li>
@@ -143,7 +130,7 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
 
                             <li class="nav-link">
                                 <a href="alltime.php">
-                                    <i class='bx bxs-bowl-rice icon' ></i>
+                                    <i class='bx bxs-star icon'></i>
                                     <span class="text nav-text">All Time Favorites</span>
                                 </a>
                             </li>
@@ -152,6 +139,13 @@ $all_products = $select_all->fetchAll(PDO::FETCH_OBJ);
                                 <a href="addons.php">
                                     <i class='bx bx-cart-add icon'></i>
                                     <span class="text nav-text">Add - Ons</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-link">
+                                <a href="<?php echo FILEPATH;?>/auth/logout.php?kiosk-logout">
+                                    <i class='bx bx-log-out icon' ></i>
+                                    <span class="text nav-text">Log Out</span>
                                 </a>
                             </li>
 
