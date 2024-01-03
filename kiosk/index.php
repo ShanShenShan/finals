@@ -20,7 +20,7 @@ $latestOrderId = ($latestOrderIdResult['latest_o_id']) ? $latestOrderIdResult['l
 
 if (empty($_SESSION['email'])) {
     // If the session email is empty, select default account
-    $default_account = $connection->prepare("SELECT * FROM customers WHERE id = 3007");
+    $default_account = $connection->prepare("SELECT * FROM customers WHERE id = 3005");
     $default_account->execute();
     $default_account_data = $default_account->fetchAll(PDO::FETCH_OBJ);
 
@@ -319,7 +319,9 @@ if (empty($_SESSION['email'])) {
             <p>Please submit this order ID to the counter section. Thank you!</p>
         </div>
 
-        <button class="btn" id="understand" onClick="window.location.href=window.location.href">I understand</button>
+        <a href="<?php echo FILEPATH;?>/auth/logout.php?kiosk-logout">
+        <button class="btn" id="understand">I understand</button>
+        </a>
 
     </div>
 
