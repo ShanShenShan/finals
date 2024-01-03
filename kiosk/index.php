@@ -201,7 +201,7 @@ if (empty($_SESSION['email'])) {
 
                 <i class='bx bx-cart'></i>
                 <span>0</span>
-
+               
             </div>
 
         </header>
