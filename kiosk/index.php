@@ -242,7 +242,7 @@ if (empty($_SESSION['email'])) {
                 <div class="price">₱<?php echo $product->price; ?></div>
                 <input type="hidden" value="<?php echo $product->id ?>">
                 <input type="hidden" value="<?php echo $customer_id; ?>">
-                <input type="text" value="<?php echo $order_id; ?>">
+                <input type="hidden" value="<?php echo $order_id; ?>">
                 <button type="submit" name="add-to-cart" class="addCart"> Add To Cart</button>
             </div>
 
