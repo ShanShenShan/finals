@@ -60,10 +60,6 @@ header .icon-cart{
     position: relative;
 }
 
-header .icon-cart .fixed{
-    position: sticky;
-}
-
 header .icon-cart span{
     width: 30px;
     height: 30px;

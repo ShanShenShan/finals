@@ -199,11 +199,9 @@ if (empty($_SESSION['email'])) {
 
             <div class="icon-cart">
 
-                <div class="fixed">
-                    <i class='bx bx-cart'></i>
-                    <span>0</span>
-                </div>
-                
+                <i class='bx bx-cart'></i>
+                <span>0</span>
+               
             </div>
 
         </header>
