@@ -49,7 +49,7 @@ $retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_
     FROM Inventory inv 
     INNER JOIN category cat ON inv.category_id = cat.id 
     INNER JOIN pending_orders pending ON inv.id = pending.product_id
-    WHERE pending.customer_id = $order_id"); // Add a condition to select orders with the specific order ID
+    WHERE pending.o_id = $order_id"); // Add a condition to select orders with the specific order ID
 $retrieving_data->execute();
 $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 

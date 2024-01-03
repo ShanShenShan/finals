@@ -13,6 +13,13 @@ if (isset($_POST['checkout-button'])) {
     $collecting_data->execute();
     $collected_data = $collecting_data->fetchAll(PDO::FETCH_OBJ);
 
+    // Read the highest id from transaction_records
+    $get_highest_id = $connection->query("SELECT MAX(id) AS max_id FROM transaction_records");
+    $highest_id = $get_highest_id->fetch(PDO::FETCH_ASSOC)['max_id'];
+
+    // Increment the highest id
+    $tran_id = $highest_id + 1;
+
     foreach ($collected_data as $pending_data) {
         $tr_id = $pending_data->o_id;
         $product_id = $pending_data->product_id;
@@ -20,12 +27,7 @@ if (isset($_POST['checkout-button'])) {
         $o_quantity = $pending_data->o_quantity;
 
 
-        // Read the highest id from transaction_records
-        $get_highest_id = $connection->query("SELECT MAX(id) AS max_id FROM transaction_records");
-        $highest_id = $get_highest_id->fetch(PDO::FETCH_ASSOC)['max_id'];
-
-        // Increment the highest id
-        $tran_id = $highest_id + 1;
+        
 
         // Insert into transaction product table
         $insert_transac_product = $connection->prepare("INSERT INTO transaction_products (tran_id,tr_id, product_id, quantity, o_quantity) VALUES(:tran_id,:tr_id, :product_id, :quantity, :order_quantity)");

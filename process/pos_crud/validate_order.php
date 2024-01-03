@@ -2,6 +2,9 @@
 
 require "../../config/connection.php";
 
+// Start the session
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Validate and sanitize the input
     $orderId = filter_input(INPUT_POST, 'orderId', FILTER_SANITIZE_NUMBER_INT);
@@ -17,6 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                         WHERE po.o_id = :orderId");
     $insertQuery->bindParam(':orderId', $orderId, PDO::PARAM_INT);
     $insertQuery->execute();
+
+    // Store o_id in the session
+    $_SESSION['o_id'] = $orderId;
 
     // Output a success message
     echo "Entries transferred successfully to pending_orders!";
