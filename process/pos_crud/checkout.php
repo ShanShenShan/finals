@@ -43,7 +43,7 @@ if (isset($_POST['checkout-button'])) {
         $product_data_update->execute();
 
         // Getting the right id
-        $right_cutomer_data = $connection->query("SELECT id FROM customers WHERE unique_code=$customer_id");
+        $right_cutomer_data = $connection->query("SELECT id FROM customers WHERE unique_code=$customer_id-1");
         $right_cutomer_data->execute();
         $right_customer_id = $right_cutomer_data->FETCHCOLUMN();
 
