@@ -25,7 +25,7 @@ if (isset($_POST['submit-button-edit'])) {
             $product_info->execute();
             $product_table_info = $product_info->fetch(PDO::FETCH_ASSOC);
         
-            $customer_info = $connection->prepare("SELECT unique_code FROM customers WHERE id = :id");
+            $customer_info = $connection->prepare("SELECT unique_code FROM customers WHERE unique_code = :id");
             $customer_info->bindParam(':id', $customer_id, PDO::PARAM_INT);
             $customer_info->execute();
             $customer_data = $customer_info->fetch(PDO::FETCH_ASSOC);

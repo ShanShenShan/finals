@@ -36,7 +36,7 @@ if (empty($order_id)) {
         $getLastOrderId->execute();
         $data = $getLastOrderId->fetchAll(PDO::FETCH_OBJ);
         foreach ($data as $customer_info) {
-            $id = $customer_info->id;
+            $id = $customer_info->unique_code;
         }
         // Generate a new order ID by incrementing the last order ID
         $order_id = $id;
@@ -54,7 +54,7 @@ $retrieving_data->execute();
 $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 
 // Counting values from the pending table
-$pending_count = $connection->prepare("SELECT COUNT(*) FROM pending_orders WHERE customer_id = :order_id");
+$pending_count = $connection->prepare("SELECT COUNT(*) FROM pending_orders WHERE o_id = :order_id");
 $pending_count->bindParam(':order_id', $order_id, PDO::PARAM_INT);
 $pending_count->execute();
 $total_count_pending = $pending_count->fetchColumn();
@@ -69,7 +69,7 @@ $total_count_pending = $pending_count->fetchColumn();
 
             <div class="header-left border-0 ">
                 <a href="../admin_index.php" class="logo">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/logo.png" alt="">
+                    <img src="<?php echo FILEPATH; ?>/assets/img/logo2.png" alt="">
                 </a>
                 <a href="index.html" class="logo-small">
                     <img src="<?php echo FILEPATH; ?>/assets/img/logo-small1.png" alt="">

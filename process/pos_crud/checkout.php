@@ -13,13 +13,6 @@ if (isset($_POST['checkout-button'])) {
     $collecting_data->execute();
     $collected_data = $collecting_data->fetchAll(PDO::FETCH_OBJ);
 
-    // Read the highest id from transaction_records
-    $get_highest_id = $connection->query("SELECT MAX(id) AS max_id FROM transaction_records");
-    $highest_id = $get_highest_id->fetch(PDO::FETCH_ASSOC)['max_id'];
-
-    // Increment the highest id
-    $tran_id = $highest_id + 1;
-
     foreach ($collected_data as $pending_data) {
         $tr_id = $pending_data->o_id;
         $product_id = $pending_data->product_id;
@@ -27,7 +20,12 @@ if (isset($_POST['checkout-button'])) {
         $o_quantity = $pending_data->o_quantity;
 
 
-        
+        // Read the highest id from transaction_records
+        $get_highest_id = $connection->query("SELECT MAX(id) AS max_id FROM transaction_records");
+        $highest_id = $get_highest_id->fetch(PDO::FETCH_ASSOC)['max_id'];
+
+        // Increment the highest id
+        $tran_id = $highest_id + 1;
 
         // Insert into transaction product table
         $insert_transac_product = $connection->prepare("INSERT INTO transaction_products (tran_id,tr_id, product_id, quantity, o_quantity) VALUES(:tran_id,:tr_id, :product_id, :quantity, :order_quantity)");
@@ -44,11 +42,10 @@ if (isset($_POST['checkout-button'])) {
         $product_data_update->bindParam(':product_id', $product_id, PDO::PARAM_INT);
         $product_data_update->execute();
 
-        // Syntax to get the right customer id
-        $getting_customer_id = $connection->query("SELECT customer_id FROM pending_order_kiosk where o_id = $customer_id");
-        $getting_customer_id->execute();
-        $right_customer_id = $getting_customer_id->fetchColumn();
-
+        // Getting the right id
+        $right_cutomer_data = $connection->query("SELECT id FROM customers WHERE unique_code=$customer_id");
+        $right_cutomer_data->execute();
+        $right_customer_id = $right_cutomer_data->FETCHCOLUMN();
 
             // Inserting values on the transaction record
             $insert_transac_record = $connection->prepare("INSERT INTO transaction_records (tr_date, emp_id, customer_id, total_amount, cash_amount) VALUES(NOW(), :emp_id, :customer_id, :total_amount, :cash_amount)");
@@ -62,9 +59,10 @@ if (isset($_POST['checkout-button'])) {
 
     if (isset($_SESSION['o_id'])) {
         $code = $tr_id + 1;
-        $id = $_SESSION['o_id'];
-        $update = $connection->query("UPDATE customers SET unique_code = $code WHERE id = $id");
+
+        $update = $connection->query("UPDATE customers SET unique_code = $code WHERE id = $right_customer_id");
         unset($_SESSION['o_id']); // Unset the specific session variable
+        unset($_SESSION['orderId']); 
     }
 
     
