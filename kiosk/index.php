@@ -394,7 +394,7 @@ if (empty($_SESSION['email'])) {
                 '<img src="' + item.image + '" alt="">' +
                 '<div class="name">' +
                 '<div class="name">' + item.name + '</div>' +
-                '<div class="category">Category: ' + item.category + '</div>' + // Correct the attribute to fetch category
+                '<div class="category">' + item.category + '</div>' + // Correct the attribute to fetch category
                 '</div>' +
                 '<div class="totalPrice">' + item.price + '</div>' +
                 '<div class="quantity">' +
