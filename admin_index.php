@@ -506,23 +506,42 @@ $kiosk_total_orders = $retrieving_data->fetchColumn();
                                     <tr>
                                         <th>Id</th>
                                         <th>Transaction date</th>
-                                        <th>Employee Id </th>
-                                        <th>Cutomer Id</th>
+                                        <th>Employee</th>
+                                        <th>Cutomer</th>
                                         <th>Total amount</th>
                                         <th>Cash amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($transaction_data as $info) : ?><!--Iterating each value from admin list and assigning it to $admin-->
+                                    <?php foreach ($transaction_data as $info) : ?>
                                         <tr>
-
                                             <td><?php echo $info->id; ?></td>
                                             <td class="productimgname">
                                                 <a href="data/records.php"><?php echo $info->tr_date; ?></a>
                                             </td>
-                                            <td><?php echo $info->emp_id; ?></td>
-                                            <td><?php echo $info->customer_id; ?></td>
+                                            <td>
+                                                <?php
+                                                // Fetching employee name
+                                                $empId = $info->emp_id;
+                                                $empQuery = $connection->prepare("SELECT name FROM users WHERE id = :empId");
+                                                $empQuery->bindParam(':empId', $empId, PDO::PARAM_INT);
+                                                $empQuery->execute();
+                                                $employeeName = $empQuery->fetchColumn();
+                                                echo $employeeName;
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                // Fetching customer name
+                                                $customerId = $info->customer_id;
+                                                $customerQuery = $connection->prepare("SELECT name FROM users WHERE id = :customerId");
+                                                $customerQuery->bindParam(':customerId', $customerId, PDO::PARAM_INT);
+                                                $customerQuery->execute();
+                                                $customerName = $customerQuery->fetchColumn();
+                                                echo $customerName;
+                                                ?>
+                                            </td>
                                             <td><?php echo $info->total_amount; ?></td>
                                             <td><?php echo $info->cash_amount; ?></td>
                                             <td>
