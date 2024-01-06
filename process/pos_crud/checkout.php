@@ -60,8 +60,8 @@ if (isset($_POST['checkout-button'])) {
         unset($_SESSION['default_id']); 
     }
 
-    /*
-        //delete pending with same o_id
+    
+        //delete from pending kiosk with same o_id
         $deletePending_collect = $connection->query("SELECT o_id FROM pending_orders");
         $deletePending_collect->execute();
         $deletePending_collect = $deletePending_collect->fetchAll(PDO::FETCH_OBJ);
@@ -73,7 +73,7 @@ if (isset($_POST['checkout-button'])) {
             $deletePending->bindParam(':deloid', $delOid, PDO::PARAM_INT);
             $deletePending->execute();
         }
-    */
+    
 
     $deleteQuery = $connection->prepare("TRUNCATE TABLE pending_orders");
     $deleteQuery->execute();

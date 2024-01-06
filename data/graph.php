@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Adjust the end date to cover the entire day
     $endDate = date('Y-m-d', strtotime($endDate));
 
-    $search = $connection->prepare("SELECT i.product_name, SUM(tp.quantity) as total_quantity
+    $search = $connection->prepare("SELECT i.product_name, SUM(tp.o_quantity) as total_quantity
                                      FROM transaction_products tp
                                      JOIN inventory i ON tp.product_id = i.id
                                      JOIN transaction_records tr ON tp.tran_id = tr.id
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $salesData = $search->fetchAll(PDO::FETCH_ASSOC);
 } else {
     // Default query without date filtering
-    $search = $connection->query("SELECT i.product_name, SUM(tp.quantity) as total_quantity
+    $search = $connection->query("SELECT i.product_name, SUM(tp.o_quantity) as total_quantity
                                  FROM transaction_products tp
                                  JOIN inventory i ON tp.product_id = i.id
                                  JOIN transaction_records tr ON tp.tran_id = tr.id
@@ -46,7 +46,7 @@ try {
     $quantitiesPreviousYear = array_fill(0, 12, 0); // Assuming 0-indexed months
     
     // Fetch data from the database for the selected year
-    $sqlSelectedYear = "SELECT MONTH(tr_date) as month, SUM(quantity) as total_quantity
+    $sqlSelectedYear = "SELECT MONTH(tr_date) as month, SUM(o_quantity) as total_quantity
                         FROM transaction_records tr
                         JOIN transaction_products tp ON tr.id = tp.tran_id
                         WHERE YEAR(tr_date) = :selectedYear
@@ -64,7 +64,7 @@ try {
 
     // Fetch data from the database for the previous year
     $previousYear = $selectedYear - 1;
-    $sqlPreviousYear = "SELECT MONTH(tr_date) as month, SUM(quantity) as total_quantity
+    $sqlPreviousYear = "SELECT MONTH(tr_date) as month, SUM(o_quantity) as total_quantity
                         FROM transaction_records tr
                         JOIN transaction_products tp ON tr.id = tp.tran_id
                         WHERE YEAR(tr_date) = :previousYear

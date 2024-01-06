@@ -25,7 +25,7 @@ define("FILEPATH", "http://localhost/pos1");?>
         
 
         <div class="h1-text">
-            <h4>Kindly ask our employee about this, <br> Thank you.</h4>
+            <h4>Please kindly ask our employee about account registration, <br> Thank you.</h4>
         </div>
 
         <button class="btn">I understood</button>
