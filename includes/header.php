@@ -1,7 +1,7 @@
 <?php 
 
 session_start();
-define("FILEPATH","http://localhost/pos2/finals");
+define("FILEPATH","http://localhost/pos1/");
  
 
 

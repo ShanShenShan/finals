@@ -21,43 +21,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// possible join session 
-// Displaying order details
-// Getting the stored or a new order ID
-$order_id = isset($_GET['orderId']) ? $_GET['orderId'] : '';
+
+// If not found in URL, try retrieving from the session
+$order_id = isset($_SESSION['o_id']) ? $_SESSION['o_id'] : '';
 
 if (empty($order_id)) {
+    
+        // Fetch the latest o_id from the pending_orders table
+        $latestOrderIdQuery = $connection->query("SELECT MAX(o_id) AS latest_o_id FROM pending_orders");
+        $latestOrderIdResult = $latestOrderIdQuery->fetch(PDO::FETCH_ASSOC);
+        $latestOrderId = ($latestOrderIdResult['latest_o_id']) ? $latestOrderIdResult['latest_o_id'] : 0;
+
+        $id = $latestOrderId;
+
+        // Store the order ID in the session for future use
+        $_SESSION['o_id'] = $id; // eto ung session sa order id
+        $_SESSION['default_id'] = 3005; // eto ung session sa order id
+        $retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id, pending.id as id 
+            FROM Inventory inv 
+            INNER JOIN category cat ON inv.category_id = cat.id 
+            INNER JOIN pending_orders pending ON inv.id = pending.product_id
+            WHERE pending.o_id = $id"); // Add a condition to select orders with the specific order ID
+        $retrieving_data->execute();
+        $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
+  
+}
+else
+{
     // If not found in URL, try retrieving from the session
     $order_id = isset($_SESSION['o_id']) ? $_SESSION['o_id'] : '';
 
-    // If still empty, fetch the default account id from the customers table "3005" (change its number base on the default account)
-    if (empty($order_id)) {
-        $getLastOrderId = $connection->query("SELECT * FROM customers WHERE id=3005");
-        $getLastOrderId->execute();
-        $data = $getLastOrderId->fetchAll(PDO::FETCH_OBJ);
-        foreach ($data as $customer_info) {
-            $id = $customer_info->unique_code;
-        }
-        // Generate a new order ID by incrementing the last order ID
-        $order_id = $id;
-    }
+    // getting the Id from the pending Kiosk
+    $customer_real_id = $connection->query("SELECT customer_id FROM pending_order_kiosk WHERE o_id=$order_id");
+    $customer_real_id->execute();
+    $Customer_id = $customer_real_id->fetchColumn();
+
+    $_SESSION['default_id'] = $Customer_id; // eto ung session sa order id
+    $retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id, pending.id as id 
+        FROM Inventory inv 
+        INNER JOIN category cat ON inv.category_id = cat.id 
+        INNER JOIN pending_orders pending ON inv.id = pending.product_id
+        WHERE pending.o_id = $order_id"); // Add a condition to select orders with the specific order ID
+    $retrieving_data->execute();
+    $pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Store the order ID in the session for future use
-$_SESSION['o_id'] = $order_id; // eto ung session sa order id
-$retrieving_data = $connection->query("SELECT inv.id AS product_id, inv.product_name, cat.category_name, pending.o_quantity AS ordered_quantity, inv.price, inv.image, inv.quantity, pending.o_id as order_id, pending.id as id 
-    FROM Inventory inv 
-    INNER JOIN category cat ON inv.category_id = cat.id 
-    INNER JOIN pending_orders pending ON inv.id = pending.product_id
-    WHERE pending.o_id = $order_id"); // Add a condition to select orders with the specific order ID
-$retrieving_data->execute();
-$pending_order_data = $retrieving_data->fetchAll(PDO::FETCH_ASSOC);
 
 // Counting values from the pending table
 $pending_count = $connection->prepare("SELECT COUNT(*) FROM pending_orders WHERE o_id = :order_id");
 $pending_count->bindParam(':order_id', $order_id, PDO::PARAM_INT);
 $pending_count->execute();
 $total_count_pending = $pending_count->fetchColumn();
+
+//Selecting all data on the kiosk pending table
+$retrieving_data = $connection->query("SELECT * FROM pending_order_kiosk GROUP BY o_id;");
+$retrieving_data->execute();
+$kiosk_data = $retrieving_data->fetchAll(PDO::FETCH_OBJ);
+
+//Selecting all data on the kiosk pending table
+$retrieving_data = $connection->query("SELECT COUNT(*)
+FROM (
+    SELECT o_id
+    FROM pending_order_kiosk
+    GROUP BY o_id
+) AS groups");
+$retrieving_data->execute();
+$kiosk_total_orders = $retrieving_data->fetchColumn();
 ?>
 
 <body>
@@ -69,7 +98,7 @@ $total_count_pending = $pending_count->fetchColumn();
 
             <div class="header-left border-0 ">
                 <a href="../admin_index.php" class="logo">
-                    <img src="<?php echo FILEPATH; ?>/assets/img/logo2.png" alt="">
+                    <img src="<?php echo FILEPATH; ?>/assets/img/logo.png" alt="">
                 </a>
                 <a href="index.html" class="logo-small">
                     <img src="<?php echo FILEPATH; ?>/assets/img/logo-small1.png" alt="">
@@ -79,87 +108,34 @@ $total_count_pending = $pending_count->fetchColumn();
 
             <ul class="nav user-menu">
 
-                <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill"><?php echo $kiosk_total_orders;?></span>
                     </a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span class="notification-title">Notifications</span>
-                            <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                            <a href="#" class="clear-noti" id="clearAll"> Clear All </a>
                         </div>
                         <div class="noti-content">
                             <ul class="notification-list">
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-02.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-                                                <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                                <?php foreach ($kiosk_data as $data) : ?>
+                                    <li class="notification-message">
+                                        <a href="<?php echo FILEPATH?>/sales/pending_list.php">
+                                            <div class="media d-flex">
+                                                <span class="avatar flex-shrink-0">
+                                                    <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-13.jpg">
+                                                </span>
+                                                <div class="media-body flex-grow-1">
+                                                    <p class="noti-details"><span class="noti-title">Kiosk System send an order</span> <?php echo $data->o_id; ?> <span class="noti-title">is the order number</span></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-03.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-06.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-                                                <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-17.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-                                                <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-13.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
-                                                <p class="noti-time"><span class="notification-time">2 days ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
-                        <div class="topnav-dropdown-footer">
-                            <a href="activities.html">View all Notifications</a>
-                        </div>
+
                     </div>
                 </li>
 
@@ -262,7 +238,7 @@ $total_count_pending = $pending_count->fetchColumn();
                         <div class="order-list">
                             <div class="orderid">
                                 <h4>Order List</h4>
-                                <h5>Order Id: <?php echo isset($_SESSION['o_id']) ? $_SESSION['o_id'] : 'N/A'; ?> -  <?php echo isset($_SESSION['order_id']) ? $$_SESSION['unique_code'] : 'N/A'; ?></h5>
+                                <h5>Order Id: <?php echo isset($_SESSION['o_id']) ? $_SESSION['o_id'] : 'N/A'; ?> -  <?php echo isset($_SESSION['default_id']) ? $_SESSION['default_id'] : 'N/A'; ?></h5>
                             </div>
 
                         </div>
@@ -432,8 +408,8 @@ $total_count_pending = $pending_count->fetchColumn();
                                     <label>Price</label>
                                     <!--Product_id, Customer code, product_id_inventory-->
                                     <input type="text" id="edit_price" name="price" readonly>
-                                    <input type="hidden" id="product_id" name="product_id">
-                                    <input type="hidden" id="$customer_id" name="customer_id" value="<?php echo '' . $order_id . ''; ?>">
+                                    <input type="text" id="product_id" name="product_id">
+                                    <input type="text" id="order_id" name="order_id" value="<?php echo '' . $order_id . ''; ?>">
                                 </div>
                             </div>
 
@@ -461,6 +437,7 @@ $total_count_pending = $pending_count->fetchColumn();
 
     <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
+<script>src="https://code.jquery.com/jquery-3.6.0.min.js"</script>
 <script>
     function productOrder_modal(id, price, category_name, product_name, quantity ,initial) {
 
@@ -559,6 +536,32 @@ $total_count_pending = $pending_count->fetchColumn();
             inputField.style.border = ""; // Show borders if hidden previously
         }
     }
+    $(document).ready(function() {
+        $('#clearAll').on('click', function(e) {
+            e.preventDefault(); // Prevent the default behavior of the anchor tag
+
+            if (confirm("Are you sure you want to clear all?")) {
+                $.ajax({
+                    url: '../process/pos_crud/kiosk_process.php',
+                    method: 'POST',
+                    data: {
+                        clear_all: true
+                    },
+                    success: function(response) {
+                        // Handle success (optional)
+                        alert('All data cleared!');
+                        // Redirect if needed
+                        window.location.href = 'pos.php';
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error (optional)
+                        console.error(xhr.responseText);
+                        alert('Error clearing data!');
+                    }
+                });
+            }
+        });
+    });
 </script>
 
 </html>

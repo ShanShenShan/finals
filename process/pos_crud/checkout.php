@@ -8,6 +8,7 @@ if (isset($_POST['checkout-button'])) {
     $exchange = trim($_POST['change']);
     $customer_id = $_SESSION['o_id'];
     $user_id = $_SESSION['id'];
+    $customer_id_real = $_SESSION['default_id'];
 
     $collecting_data = $connection->query("SELECT * FROM pending_orders");
     $collecting_data->execute();
@@ -42,30 +43,24 @@ if (isset($_POST['checkout-button'])) {
         $product_data_update->bindParam(':product_id', $product_id, PDO::PARAM_INT);
         $product_data_update->execute();
 
-        // Getting the right id
-        $right_cutomer_data = $connection->query("SELECT id FROM customers WHERE unique_code=$customer_id-1");
-        $right_cutomer_data->execute();
-        $right_customer_id = $right_cutomer_data->FETCHCOLUMN();
-
-            // Inserting values on the transaction record
-            $insert_transac_record = $connection->prepare("INSERT INTO transaction_records (tr_date, emp_id, customer_id, total_amount, cash_amount) VALUES(NOW(), :emp_id, :customer_id, :total_amount, :cash_amount)");
-            $insert_transac_record->bindParam(':emp_id', $user_id, PDO::PARAM_INT);
-            $insert_transac_record->bindParam(':customer_id', $right_customer_id, PDO::PARAM_INT);
-            $insert_transac_record->bindParam(':total_amount', $total, PDO::PARAM_INT);
-            $insert_transac_record->bindParam(':cash_amount', $cash_tendered, PDO::PARAM_INT);
-            $insert_transac_record->execute();
+           
         
     }
-
+ // Inserting values on the transaction record
+ $insert_transac_record = $connection->prepare("INSERT INTO transaction_records (tr_date, emp_id, customer_id, total_amount, cash_amount) VALUES(NOW(), :emp_id, :customer_id, :total_amount, :cash_amount)");
+ $insert_transac_record->bindParam(':emp_id', $user_id, PDO::PARAM_INT);
+ $insert_transac_record->bindParam(':customer_id', $customer_id_real, PDO::PARAM_INT);
+ $insert_transac_record->bindParam(':total_amount', $total, PDO::PARAM_INT);
+ $insert_transac_record->bindParam(':cash_amount', $cash_tendered, PDO::PARAM_INT);
+ $insert_transac_record->execute();
     if (isset($_SESSION['o_id'])) {
-        $code = $tr_id + 1;
 
-        $update = $connection->query("UPDATE customers SET unique_code = $code WHERE id = $right_customer_id");
         unset($_SESSION['o_id']); // Unset the specific session variable
         unset($_SESSION['orderId']); 
+        unset($_SESSION['default_id']); 
     }
 
-    
+    /*
         //delete pending with same o_id
         $deletePending_collect = $connection->query("SELECT o_id FROM pending_orders");
         $deletePending_collect->execute();
@@ -78,7 +73,7 @@ if (isset($_POST['checkout-button'])) {
             $deletePending->bindParam(':deloid', $delOid, PDO::PARAM_INT);
             $deletePending->execute();
         }
-    
+    */
 
     $deleteQuery = $connection->prepare("TRUNCATE TABLE pending_orders");
     $deleteQuery->execute();

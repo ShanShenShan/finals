@@ -52,9 +52,7 @@ if (isset($_POST['signin-button'])) {
                         header("location: " . FILEPATH . "/employee_sidebar/employee_index.php");
                         exit;
                     case 'customer':
-                        $_SESSION['kiosk_email'] = $email ;
-                        header("location: " . FILEPATH . "/kiosk/index.php");
-                        exit;
+                        error_feedback("Unathorized User!!");
                     case 'admin':
                         header("location: " . FILEPATH . "/admin_index.php");
                         exit;
@@ -82,4 +80,6 @@ function error_feedback($message)
     echo "<script>window.location.href= " . FILEPATH . "/signin.php</script>";
     exit;
 }
+
+
 ?>

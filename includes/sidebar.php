@@ -4,7 +4,7 @@
  <div class="header">
             <div class="header-left active">
                 <a href="<?php echo"".FILEPATH."";?>/admin_index.php" class="logo">
-                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo1.png" alt="">
+                    <img src="<?php echo"".FILEPATH."";?>/assets/img/logo.png" alt="">
                 </a>
                 <a href="admin_index.php" class="logo-small">
                     <img src="<?php echo"".FILEPATH."";?>/assets/img/logo-small1.png" alt="">

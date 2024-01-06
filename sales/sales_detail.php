@@ -6,7 +6,7 @@
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    $query = $connection->prepare("SELECT
+    $query = $connection->prepare("SELECT 
     inv.product_name,
     cat.category_name,
     inv.price,
@@ -20,40 +20,27 @@ if (isset($_GET['id'])) {
     tr.total_amount,
     tr.cash_amount,
     tr.emp_id AS employee_id,
+    tr.tr_date,
+    tr.customer_id,
     usr.name AS employee_name
-FROM
-    inventory inv
-INNER JOIN
+FROM 
+    transaction_records tr
+JOIN 
+    transaction_products tp ON tr.id = tp.tran_id
+JOIN 
+    inventory inv ON tp.product_id = inv.id
+JOIN 
     category cat ON inv.category_id = cat.id
-INNER JOIN
-    transaction_products tp ON inv.id = tp.product_id
-INNER JOIN
-    transaction_records tr ON tp.tr_id = tr.customer_id
-INNER JOIN
+JOIN 
     users usr ON tr.emp_id = usr.id
-WHERE
-    tr.customer_id = :id");
+WHERE 
+    tr.id = :id");
 
     $query->bindParam(':id', $id, PDO::PARAM_INT);
     $query->execute();
     $transaction_details = $query->fetchAll(PDO::FETCH_OBJ);
 
-    foreach ($transaction_details as $transaction_info) {
-        $customer_id = $transaction_info->tr_id;
-        $tran_id = $transaction_info->tran_id;
-        $transaction_product_id = $transaction_info->transaction_product_id;
-        $product_id = $transaction_info->product_id;
-        $product_name = $transaction_info->product_name;
-        $category_name = $transaction_info->category_name;
-        $product_price = $transaction_info->price;
-        $storage = $transaction_info->quantity;
-        $order_quantity = $transaction_info->o_quantity;
-        $product_image = $transaction_info->image;
-        $total_amount = $transaction_info->total_amount;
-        $cash_amount = $transaction_info->cash_amount;
 
-        // Use the fetched data here as needed
-    }
 }
 
 
@@ -102,38 +89,44 @@ WHERE
                                     <th>Transaction id</th>
                                     <th>Employee id</th>
                                     <th>Employee name</th>
-                                    <th>Customer</th>
+                                    <th>Transaction Date</th>
+                                    <th>Customer id</th>
                                     <th>Product id </th>
                                     <th>Product Name</th>
                                     <th>Category</th>
+                                    <th>Storage Quantity</th>
                                     <th>Price</th>
                                     <th>Order Quantity</th>
-                                    <th>Storage Quantity</th>
+                                    <th>Sub Total</th>
+                                    
                                     <th>Total</th>
                                     <th>Cash Tendered</th>
                                     <th>Cash exchange</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($transaction_details as $transaction_info) : ?><!--Iterating each value from admin list and assigning it to $admin-->
-                                    <?php $exchange = $transaction_info->cash_amount - $transaction_info->total_amount;?>
+                                <?php foreach ($transaction_details as $transaction_info) : ?>
                                     <tr>
-                                        <td><?php echo $tran_id; ?></td>
+                                     
+                                        <td><?php echo $transaction_info->tran_id; ?></td>
                                         <td><?php echo $transaction_info->employee_id; ?></td>
                                         <td><?php echo $transaction_info->employee_name; ?></td>
-                                        <td><?php echo $transaction_info->tr_id; ?></td>
+                                        <td><?php echo $transaction_info->tr_date; ?></td>
+                                        <td><?php echo $transaction_info->customer_id; ?></td>
                                         <td><?php echo $transaction_info->product_id; ?></td>
                                         <td><?php echo $transaction_info->product_name; ?></td>
                                         <td><?php echo $transaction_info->category_name; ?></td>
-                                        <td><?php echo $transaction_info->price;?></td>
-                                        <td><?php echo $transaction_info->o_quantity; ?></td>
                                         <td><?php echo $transaction_info->quantity; ?></td>
+                                        <td><?php echo $transaction_info->price; ?></td>
+                                        <td><?php echo $transaction_info->o_quantity; ?></td>
+                                        <td><?php echo $subtotal = $transaction_info->price * $transaction_info->o_quantity;?></td>                                     
                                         <td><?php echo $transaction_info->total_amount; ?></td>
-                                        <td><?php echo $transaction_info->cash_amount;?></td>
-                                        <td><?php echo $exchange;?></td>
+                                        <td><?php echo $transaction_info->cash_amount; ?></td>
+                                        <td><?php echo $transaction_info->cash_amount - $transaction_info->total_amount; ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
+
                         </table>
                     </div>
                 </div>

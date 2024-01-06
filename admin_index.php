@@ -53,13 +53,13 @@ if (isset($_POST['submit'])) {
     // fetch your data here
     // generate a syntax
     // fetch the result either OBJ or ASSOC
-    
+
 
 } else {
-//getting data on transaction table
-$transaction_search = $connection->query("SELECT * FROM transaction_records");
-$transaction_search->execute();
-$transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
+    //getting data on transaction table
+    $transaction_search = $connection->query("SELECT * FROM transaction_records");
+    $transaction_search->execute();
+    $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
 }
 
 //Displaying total number of customer 
@@ -95,14 +95,19 @@ $select_all_value = $connection->query("SELECT SUM(quantity) FROM inventory");
 $select_all_value->execute();
 $total_inventory = $select_all_value->fetchColumn();
 //Selecting all data on the kiosk pending table
-$retrieving_data = $connection->query("SELECT * FROM pending_order_kiosk");
+$retrieving_data = $connection->query("SELECT * FROM pending_order_kiosk GROUP BY o_id;");
 $retrieving_data->execute();
 $kiosk_data = $retrieving_data->fetchAll(PDO::FETCH_OBJ);
-foreach ($kiosk_data as $data) {
-    $order_id = $data->o_id;
-    $customer_id = $data->customer_id;
-    $product_id = $data->product_id;
-}
+
+//Selecting all data on the kiosk pending table
+$retrieving_data = $connection->query("SELECT COUNT(*)
+FROM (
+    SELECT o_id
+    FROM pending_order_kiosk
+    GROUP BY o_id
+) AS groups");
+$retrieving_data->execute();
+$kiosk_total_orders = $retrieving_data->fetchColumn();
 ?>
 
 <body>
@@ -125,32 +130,32 @@ foreach ($kiosk_data as $data) {
 
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill"><?php echo $kiosk_total_orders; ?></span>
                     </a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span class="notification-title">Notifications</span>
-                            <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                            <a href="#" class="clear-noti" id="clearAll"> Clear All </a>
                         </div>
                         <div class="noti-content">
                             <ul class="notification-list">
-                                <?php foreach ($kiosk_data as $data):?>                   
-                                <li class="notification-message">
-                                    <a href="sales/pending_list.php">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-13.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Kiosk System send an order</span> <?php echo $data->o_id;?> <span class="noti-title">is the order number</span></p>
+                                <?php foreach ($kiosk_data as $data) : ?>
+                                    <li class="notification-message">
+                                        <a href="sales/pending_list.php">
+                                            <div class="media d-flex">
+                                                <span class="avatar flex-shrink-0">
+                                                    <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-13.jpg">
+                                                </span>
+                                                <div class="media-body flex-grow-1">
+                                                    <p class="noti-details"><span class="noti-title">Kiosk System send an order</span> <?php echo $data->o_id; ?> <span class="noti-title">is the order number</span></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <?php endforeach;?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
-                        
+
                     </div>
                 </li>
 
@@ -259,19 +264,19 @@ foreach ($kiosk_data as $data) {
                                 <span><img src="assets/img/icons/dash1.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5> <span class="counters" data-count="<?php echo $total_inventory;?>"></span></h5>
+                                <h5> <span class="counters" data-count="<?php echo $total_inventory; ?>"></span></h5>
                                 <h6>Total Inventory quantity</h6>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="dash-widget dash1">
                             <div class="dash-widgetimg">
                                 <span><img src="assets/img/icons/dash2.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5> ₱<span class="counters" data-count="<?php echo $shop_income;?>"> </span></h5>
+                                <h5> ₱<span class="counters" data-count="<?php echo $shop_income; ?>"> </span></h5>
                                 <h6>Total Income</h6><wbr>
                             </div>
                         </div>
@@ -282,7 +287,7 @@ foreach ($kiosk_data as $data) {
                                 <span><img src="assets/img/icons/dash3.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5> ₱<span class="counters" data-count="<?php echo $total_exchange;?>"></span></h5>
+                                <h5> ₱<span class="counters" data-count="<?php echo $total_exchange; ?>"></span></h5>
                                 <h6>Total Exchange Amount</h6>
                             </div>
                         </div>
@@ -293,7 +298,7 @@ foreach ($kiosk_data as $data) {
                                 <span><img src="assets/img/icons/dash4.svg" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5><span class="counters" data-count="<?php echo $total_order;?>"></span></h5>
+                                <h5><span class="counters" data-count="<?php echo $total_order; ?>"></span></h5>
                                 <h6>Total Order Amount</h6><wbr>
                             </div>
                         </div>
@@ -301,7 +306,7 @@ foreach ($kiosk_data as $data) {
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <div class="dash-count">
                             <div class="dash-counts">
-                                <h4><?php echo $customer_Count;?></h4>
+                                <h4><?php echo $customer_Count; ?></h4>
                                 <h5>Customers Loyalty Card</h5>
                             </div>
                             <div class="dash-imgs">
@@ -312,7 +317,7 @@ foreach ($kiosk_data as $data) {
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <div class="dash-count das1">
                             <div class="dash-counts">
-                                <h4><?php echo $employee_Count;?></h4>
+                                <h4><?php echo $employee_Count; ?></h4>
                                 <h5>Employees</h5>
                             </div>
                             <div class="dash-imgs">
@@ -323,7 +328,7 @@ foreach ($kiosk_data as $data) {
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <div class="dash-count das2">
                             <div class="dash-counts">
-                                <h4><?php echo $category_Count;?></h4>
+                                <h4><?php echo $category_Count; ?></h4>
                                 <h5>Category</h5>
                             </div>
                             <div class="dash-imgs">
@@ -334,7 +339,7 @@ foreach ($kiosk_data as $data) {
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <div class="dash-count das3">
                             <div class="dash-counts">
-                                <h4><?php echo $products_Count;?></h4>
+                                <h4><?php echo $products_Count; ?></h4>
                                 <h5>Products</h5>
                             </div>
                             <div class="dash-imgs">
@@ -352,7 +357,7 @@ foreach ($kiosk_data as $data) {
                                 <div class="card-body">
                                     <div class="page-header">
                                         <div class="page-title">
-                                       <?php $rnMonth = date('F'); ?>
+                                            <?php $rnMonth = date('F'); ?>
                                             <h4>Top Selling Products</h4>
                                             <h6>For the month of <?php echo $rnMonth ?></h6>
                                         </div>
@@ -401,10 +406,10 @@ foreach ($kiosk_data as $data) {
                                                     <tr>
                                                         <td><?php echo $product->id; ?></td>
                                                         <td class="productimgname">
-                                                            <a href="productlist.html" class="product-img">
+                                                            <a href="product/product_details.php?id=<?php echo $product->id; ?>" class="product-img">
                                                                 <img src="assets/img/product/<?php echo $product->image; ?>" alt="product">
                                                             </a>
-                                                            <a href="product/product_details.php?id=<?php echo $product->id;?>"><?php echo $product->product_name; ?></a>
+                                                            <a href="product/product_details.php?id=<?php echo $product->id; ?>"><?php echo $product->product_name; ?></a>
                                                         </td>
                                                         <td>₱<?php echo $product->price; ?></td>
                                                     </tr>
@@ -468,7 +473,7 @@ foreach ($kiosk_data as $data) {
                                                         <input type="text" name="emp_id" placeholder="Employee id">
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-lg col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <input type="text" name="customer_id" placeholder="Customer id">
@@ -514,14 +519,14 @@ foreach ($kiosk_data as $data) {
 
                                             <td><?php echo $info->id; ?></td>
                                             <td class="productimgname">
-                                                <a href="javascript:void(0);"><?php echo $info->tr_date; ?></a>
+                                                <a href="data/records.php"><?php echo $info->tr_date; ?></a>
                                             </td>
-                                            <td><?php echo $info->emp_id ; ?></td>
-                                            <td><?php echo $info->customer_id ; ?></td>
+                                            <td><?php echo $info->emp_id; ?></td>
+                                            <td><?php echo $info->customer_id; ?></td>
                                             <td><?php echo $info->total_amount; ?></td>
                                             <td><?php echo $info->cash_amount; ?></td>
                                             <td>
-                                                <a class="me-3" href="sales/sales_detail.php?id=<?php echo  $info->customer_id; ?>">
+                                                <a class="me-3" href="sales/sales_list.php?id=<?php echo  $info->id; ?>">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
                                                 </a>
                                             </td>
@@ -538,7 +543,7 @@ foreach ($kiosk_data as $data) {
 
     <?php require "includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         <?php if (count($salesData) > 0) : ?>
@@ -547,18 +552,19 @@ foreach ($kiosk_data as $data) {
                 datasets: [{
                     data: <?php echo json_encode(array_column($salesData, 'total_quantity')); ?>,
                     backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#ff9966',
-                                            '#34e3fd', '#fce630', '#3B3BFF', '#A530FF', '#613191',
-                                            '#FF7F50', '#4CAF50', '#FFD700', '#FF69B4', '#8A2BE2',
-                                            '#20B2AA', '#FF4500', '#32CD32', '#8B008B', '#5F9EA0',
-                                            '#FF1493', '#2E8B57', '#9932CC', '#00FF7F', '#4682B4',
-                                            '#8B4513', '#00FFFF', '#DC143C', '#00CED1', '#00FA9A',
-                                            '#191970', '#8B0000', '#7B68EE', '#FFFF00', '#98FB98',
-                                            '#00BFFF', '#7CFC00', '#FF6347', '#FA8072', '#FFDAB9',
-                                            '#556B2F', '#8B008B', '#008080', '#8B4513',
-                                            '#FFA07A', '#2F4F4F', '#8B4513', '#20B2AA', '#D8BFD8',
-                                            '#FF4500', '#808000', '#8A2BE2', '#00FF00', '#000080',
-                                            '#FAEBD7', '#FFD700', '#8B4513', '#2E8B57', '#FF6347',
-                                            '#FFD700', '#4682B4', '#008080', '#556B2F', '#8B4513'],
+                        '#34e3fd', '#fce630', '#3B3BFF', '#A530FF', '#613191',
+                        '#FF7F50', '#4CAF50', '#FFD700', '#FF69B4', '#8A2BE2',
+                        '#20B2AA', '#FF4500', '#32CD32', '#8B008B', '#5F9EA0',
+                        '#FF1493', '#2E8B57', '#9932CC', '#00FF7F', '#4682B4',
+                        '#8B4513', '#00FFFF', '#DC143C', '#00CED1', '#00FA9A',
+                        '#191970', '#8B0000', '#7B68EE', '#FFFF00', '#98FB98',
+                        '#00BFFF', '#7CFC00', '#FF6347', '#FA8072', '#FFDAB9',
+                        '#556B2F', '#8B008B', '#008080', '#8B4513',
+                        '#FFA07A', '#2F4F4F', '#8B4513', '#20B2AA', '#D8BFD8',
+                        '#FF4500', '#808000', '#8A2BE2', '#00FF00', '#000080',
+                        '#FAEBD7', '#FFD700', '#8B4513', '#2E8B57', '#FF6347',
+                        '#FFD700', '#4682B4', '#008080', '#556B2F', '#8B4513'
+                    ],
                 }],
             };
 
@@ -583,6 +589,32 @@ foreach ($kiosk_data as $data) {
                 },
             });
         <?php endif; ?>
+    });
+    $(document).ready(function() {
+        $('#clearAll').on('click', function(e) {
+            e.preventDefault(); // Prevent the default behavior of the anchor tag
+
+            if (confirm("Are you sure you want to clear all?")) {
+                $.ajax({
+                    url: 'process/pos_crud/kiosk_process.php',
+                    method: 'POST',
+                    data: {
+                        clear_all: true
+                    },
+                    success: function(response) {
+                        // Handle success (optional)
+                        alert('All data cleared!');
+                        // Redirect if needed
+                        window.location.href = 'admin_index.php';
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error (optional)
+                        console.error(xhr.responseText);
+                        alert('Error clearing data!');
+                    }
+                });
+            }
+        });
     });
 </script>
 

@@ -18,8 +18,8 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
         <div class="content">
             <div class="page-header">
                 <div class="page-title">
-                    <h4>Transaction Product List</h4>
-                    <h6>Manage your Transaction Product List</h6>
+                    <h4>Transaction History List</h4>
+                    <h6>Manage your Transaction History List</h6>
                 </div>
             </div>
 
@@ -73,7 +73,7 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                                             <td><?php echo $info->total_amount; ?></td>
                                             <td><?php echo $info->cash_amount; ?></td>
                                             <td>
-                                                <a class="me-3" href="<?php echo FILEPATH;?>/sales/sales_detail.php?id=<?php echo  $info->customer_id; ?>">
+                                                <a class="me-3" href="<?php echo FILEPATH;?>/sales/sales_list.php?id=<?php echo  $info->id; ?>">
                                                     <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
                                                 </a>
                                             </td>

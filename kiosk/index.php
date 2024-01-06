@@ -1,7 +1,7 @@
 <?php require "../config/connection.php"; ?>
 <?php
 session_start();
-define("FILEPATH", "http://localhost/pos1");
+define("FILEPATH", "http://localhost/pos1/");
 
 // Fetch the latest o_id from the pending_order_kiosk table
 $latestOrderIdQuery = $connection->query("SELECT MAX(o_id) AS latest_o_id FROM pending_order_kiosk");
@@ -25,9 +25,7 @@ if (empty($_SESSION['email'])) {
     $default_account_data = $default_account->fetchAll(PDO::FETCH_OBJ);
 
     foreach ($default_account_data as $information) {
-        $customer_id = $information->id;
-        $order_id = $information->unique_code;
-    }
+        $customer_id = $information->id;    }
 } else {
     // If session email exists, use session id and retrieve order_id
     $customer_id = $_SESSION['id'];
@@ -242,7 +240,7 @@ if (empty($_SESSION['email'])) {
                 <div class="price">₱<?php echo $product->price; ?></div>
                 <input type="hidden" value="<?php echo $product->id ?>">
                 <input type="hidden" value="<?php echo $customer_id; ?>">
-                <input type="hidden" value="<?php echo $quantity; ?>">
+                <input type="hidden" value="<?php echo $latestOrderId; ?>">
                 <button type="submit" name="add-to-cart" class="addCart"> Add To Cart</button>
             </div>
 
@@ -316,7 +314,7 @@ if (empty($_SESSION['email'])) {
 
         <div class="h1-text">
             <h4>Your order is being processed</h4>
-            <p>Please submit this order ID <?php echo $latestOrderId + 1; ?> to the counter section. Thank you!</p>
+            <p>Please submit this order ID <?php echo $latestOrderId+1;?> to the counter section. Thank you!</p>
         </div>
 
         <a href="<?php echo FILEPATH;?>/auth/logout.php?kiosk-logout">
@@ -343,9 +341,6 @@ if (empty($_SESSION['email'])) {
             <div class="buttons">
                 <button class="btn" id="close">
                     Close
-                </button>
-                <button class="btn" id="addToCart">
-                    Add To Cart
                 </button>
             </div>
         </div>
@@ -476,7 +471,7 @@ $("#yes").on("click", function () {
     if (cart.length > 0) {
         
         // Increment o_id for the new order
-        var newOrderId = <?php echo $latestOrderId + 1; ?>;
+        var newOrderId = <?php echo $latestOrderId+1; ?>;
         // kapag na updated yun guds auto increment
         var customers_Id = <?php echo $customer_id;?>; 
 

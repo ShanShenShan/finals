@@ -23,6 +23,21 @@ $total_inventory = $select_all_value->fetchColumn();
 $transaction_search = $connection->query("SELECT * FROM transaction_records");
 $transaction_search->execute();
 $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
+
+//Selecting all data on the kiosk pending table
+$retrieving_data = $connection->query("SELECT * FROM pending_order_kiosk GROUP BY o_id;");
+$retrieving_data->execute();
+$kiosk_data = $retrieving_data->fetchAll(PDO::FETCH_OBJ);
+
+//Selecting all data on the kiosk pending table
+$retrieving_data = $connection->query("SELECT COUNT(*)
+FROM (
+    SELECT o_id
+    FROM pending_order_kiosk
+    GROUP BY o_id
+) AS groups");
+$retrieving_data->execute();
+$kiosk_total_orders = $retrieving_data->fetchColumn();
 ?>
 
 <body>
@@ -32,7 +47,7 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
             <!-- Left Header -->
             <div class="header-left active">
                 <a href="employee_index.php" class="logo">
-                    <img src="../assets/img/logo1.png" alt="">
+                    <img src="../assets/img/logo.png" alt="">
                 </a>
                 <a href="employee.index.php" class="logo-small">
                     <img src="../assets/img/logo-small1.png" alt="">
@@ -42,6 +57,36 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
 
             <!-- User Menu -->
             <ul class="nav user-menu">
+                <li class="nav-item dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <img src="<?php echo FILEPATH; ?>/assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill"><?php echo $kiosk_total_orders; ?></span>
+                    </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span class="notification-title">Notifications</span>
+                            <a href="#" class="clear-noti" id="clearAll"> Clear All </a>
+                        </div>
+                        <div class="noti-content">
+                            <ul class="notification-list">
+                                <?php foreach ($kiosk_data as $data) : ?>
+                                    <li class="notification-message">
+                                        <a href="sales/pending_list.php">
+                                            <div class="media d-flex">
+                                                <span class="avatar flex-shrink-0">
+                                                    <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-13.jpg">
+                                                </span>
+                                                <div class="media-body flex-grow-1">
+                                                    <p class="noti-details"><span class="noti-title">Kiosk System send an order</span> <?php echo $data->o_id; ?> <span class="noti-title">is the order number</span></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+
+                    </div>
+                </li>
                 <li class="nav-item dropdown has-arrow main-drop">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
                         <span class="user-img"><img src="../assets/img/profiles/avator1.jpg" alt=""><span class="status online"></span></span>
@@ -234,8 +279,8 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
                                             <td class="productimgname">
                                                 <a href="javascript:void(0);"><?php echo $info->tr_date; ?></a>
                                             </td>
-                                            <td><?php echo $info->emp_id ; ?></td>
-                                            <td><?php echo $info->customer_id ; ?></td>
+                                            <td><?php echo $info->emp_id; ?></td>
+                                            <td><?php echo $info->customer_id; ?></td>
                                             <td><?php echo $info->total_amount; ?></td>
                                             <td><?php echo $info->cash_amount; ?></td>
                                             <td>
@@ -256,5 +301,34 @@ $transaction_data =  $transaction_search->fetchAll(PDO::FETCH_OBJ);
 
     <?php require "../includes/footer.php"; ?> <!-- Strictly requiring to include the footer.php-->
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#clearAll').on('click', function(e) {
+            e.preventDefault(); // Prevent the default behavior of the anchor tag
+
+            if (confirm("Are you sure you want to clear all?")) {
+                $.ajax({
+                    url: '../process/pos_crud/kiosk_process.php',
+                    method: 'POST',
+                    data: {
+                        clear_all: true
+                    },
+                    success: function(response) {
+                        // Handle success (optional)
+                        alert('All data cleared!');
+                        // Redirect if needed
+                        window.location.href = 'employee_index.php';
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error (optional)
+                        console.error(xhr.responseText);
+                        alert('Error clearing data!');
+                    }
+                });
+            }
+        });
+    });
+</script>
 
 </html>

@@ -1,9 +1,0 @@
-product_Listings.php
-*.rar
-*.sql
-/config/connection.php
-/includes/header.php
-*.png
-*.jpg
-*.jpeg
-shancode.php

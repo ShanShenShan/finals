@@ -35,7 +35,7 @@ define("FILEPATH", "http://localhost/pos1");?>
 
     <div class="wrapper">
 
-        <form action="<?php echo FILEPATH;?>/auth/login.php" method="POST">
+        <form action="<?php echo FILEPATH;?>/auth/login_kiosk.php" method="POST">
 
             <h1>Login</h1>
 
@@ -50,10 +50,10 @@ define("FILEPATH", "http://localhost/pos1");?>
             </div>
 
             <div class="remember-forgot">
-                <a href="#">Forgot Password?</a>
+                <a href="recovery.php">Forgot Password?</a>
             </div>
 
-            <input type="submit" class="btn" name="signin-button" value="Login">
+            <input type="submit" class="btn" name="kiosk-signin-button" value="Login">
 
             <div class="register-link">
                 <p>Don't have an account? <a href="#" id="registerLink">Register</a></p>
