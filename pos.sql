@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2024 at 11:35 AM
+-- Generation Time: Jan 06, 2024 at 06:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -20,6 +20,96 @@ SET time_zone = "+00:00";
 --
 -- Database: `pos`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `recovery_code` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `recovery_code`) VALUES
+(1010, 2185),
+(1011, 7631);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `category_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`id`, `category_name`) VALUES
+(1, 'Softdrinks'),
+(2, 'Coffee'),
+(4, 'Frappes'),
+(5, 'Fruit Teas'),
+(6, 'Milk Teas'),
+(7, 'Pasta & Noodles'),
+(8, 'All - Day Breakfast'),
+(9, 'All - Time Favorites'),
+(10, 'Add - Ons'),
+(11, 'Kiddie Pasta'),
+(12, 'Soup & Vegetables'),
+(13, 'Rice Meals'),
+(14, 'Iced Drinks'),
+(15, 'Hot Drinks');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL,
+  `recovery_code` int(4) NOT NULL,
+  `points` int(11) NOT NULL,
+  `unique_code` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `recovery_code`, `points`, `unique_code`) VALUES
+(3005, 2098, 0, 16),
+(3006, 9675, 0, 9675),
+(3007, 3313, 0, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee`
+--
+
+CREATE TABLE `employee` (
+  `id` int(11) NOT NULL,
+  `recovery_code` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`id`, `recovery_code`) VALUES
+(2003, 7558);
 
 -- --------------------------------------------------------
 
@@ -122,9 +212,122 @@ INSERT INTO `inventory` (`id`, `product_name`, `category_id`, `price`, `quantity
 (95, 'Caramel Sauce', 10, 20.00, 100, 1, 'caramel sauce.jpg', 'Indulge your sweet tooth with the rich and luscious addition of Caramel Sauce, drizzled to perfection for a delightful burst of caramelized goodness.'),
 (96, 'Sugar Syrup', 10, 10.00, 100, 1, 'sugar syrup.jpg', 'Customize your beverage to your preferred sweetness level by incorporating our Sugar Syrup, ensuring your drink is tailored to your exact taste preferences.');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pending_orders`
+--
+
+CREATE TABLE `pending_orders` (
+  `id` int(11) NOT NULL,
+  `o_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `o_quantity` int(11) NOT NULL,
+  `storage_quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pending_order_kiosk`
+--
+
+CREATE TABLE `pending_order_kiosk` (
+  `id` int(11) NOT NULL,
+  `o_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `o_quantity` int(11) NOT NULL,
+  `storage_quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction_products`
+--
+
+CREATE TABLE `transaction_products` (
+  `id` int(11) NOT NULL,
+  `tran_id` int(11) NOT NULL,
+  `tr_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `o_quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction_records`
+--
+
+CREATE TABLE `transaction_records` (
+  `id` int(11) NOT NULL,
+  `tr_date` datetime(6) NOT NULL DEFAULT current_timestamp(6),
+  `emp_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `total_amount` decimal(11,2) NOT NULL,
+  `cash_amount` decimal(11,2) NOT NULL,
+  `pts_added` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `unique_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL,
+  `salt` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`unique_id`, `id`, `name`, `email`, `role`, `salt`, `password`) VALUES
+(6, 1010, 'Elli', 'Elli@admin.com', 'admin', '0148b60d85853225cf62592276e6ba64fed5b96cd78c', '$2y$10$1bNF4BRbZWNlzvK82qpj5.F4yUTe4qPP2kRZAmzmmPBHBHHCNTcX.'),
+(12, 3005, 'Anonymous1', 'Anonymous1@customer.com', 'customer', '71a64527591f017522a6e8ec709b329a47036b9a97fc', '$2y$10$Aaw2rgeK9n4amJYDbgCsqOkyITRu/RyDwAzsbF48S8EhUBXvC8e3C'),
+(13, 2003, 'Liza', 'Liza@employee.com', 'employee', 'bc0622ed3c3f62d1d5f761f775dddaf46047baf7dd54', '$2y$10$HaYoISlUcAxpxUJ/nwHd8uoH7LByxD8u4vYtg.5ctyDEZFX2YPiJa'),
+(14, 1011, 'Dominic', 'Dominic@admin.com', 'admin', '48d107d5e44ab97e337d060fe5c141dde23c4aec2a1d', '$2y$10$hRWpuAw6rX8jnBJFWwIzeuF6p6rcSGeVCQos4/rrct7r1WZXlMK9y'),
+(15, 3006, 'Bistayan', 'Bistayan@customer.com', 'customer', '6ef13ffbae8dacdc1c98abca91d3d9e548fcae6e160d', '$2y$10$WhWOdinqbqC62Z2TOxrx7ub11W1CIOgWQ6WAKMGUcaY77fe3.CVjm'),
+(16, 3007, 'Anonymous2', 'Anonymous2@customer.com', 'customer', '1d90dbbb53e6f7c9d0f6481fdffd8e9f256282324f3a', '$2y$10$0bfjyTqQddzjf7Uh8BrATeitbUH9fCC3.Zn9Tiqw6ribzs.b/Abh.');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `employee`
+--
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `inventory`
@@ -134,14 +337,101 @@ ALTER TABLE `inventory`
   ADD KEY `category_id` (`category_id`);
 
 --
+-- Indexes for table `pending_orders`
+--
+ALTER TABLE `pending_orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_pending` (`product_id`);
+
+--
+-- Indexes for table `pending_order_kiosk`
+--
+ALTER TABLE `pending_order_kiosk`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_kiosk` (`product_id`);
+
+--
+-- Indexes for table `transaction_products`
+--
+ALTER TABLE `transaction_products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product` (`product_id`);
+
+--
+-- Indexes for table `transaction_records`
+--
+ALTER TABLE `transaction_records`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`unique_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1012;
+
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3008;
+
+--
+-- AUTO_INCREMENT for table `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2004;
 
 --
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+
+--
+-- AUTO_INCREMENT for table `pending_orders`
+--
+ALTER TABLE `pending_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pending_order_kiosk`
+--
+ALTER TABLE `pending_order_kiosk`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transaction_products`
+--
+ALTER TABLE `transaction_products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transaction_records`
+--
+ALTER TABLE `transaction_records`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `unique_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
@@ -152,6 +442,24 @@ ALTER TABLE `inventory`
 --
 ALTER TABLE `inventory`
   ADD CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pending_orders`
+--
+ALTER TABLE `pending_orders`
+  ADD CONSTRAINT `product_pending` FOREIGN KEY (`product_id`) REFERENCES `inventory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pending_order_kiosk`
+--
+ALTER TABLE `pending_order_kiosk`
+  ADD CONSTRAINT `product_kiosk` FOREIGN KEY (`product_id`) REFERENCES `inventory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `transaction_products`
+--
+ALTER TABLE `transaction_products`
+  ADD CONSTRAINT `product` FOREIGN KEY (`product_id`) REFERENCES `inventory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
