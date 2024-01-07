@@ -88,6 +88,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" onclick="validateOrder()">Validate</button>
+                <button type="button" class="btn btn-danger" onclick="deleteOrder()">Delete</button>
             </div>
         </div>
     </div>
@@ -131,6 +132,29 @@
             },
             error: function(error) {
                 console.error('Error transferring entries to pending_orders:', error);
+            }
+        });
+    }
+
+    function deleteOrder() {
+        console.log('Delete button clicked');
+
+        // Get the orderId from the data attribute
+        var orderId = $('#reviewModal').data('orderId');
+
+        console.log('Deleting order with orderId:', orderId);
+
+        // Implement AJAX call to delete entries from pending_order_kiosk
+        $.ajax({
+            url: '../process/pos_crud/delete_kiosk_order.php',
+            method: 'POST',
+            data: {orderId: orderId},
+            success: function(response) {
+                // Reload the current page after successful deletion
+                location.reload();
+            },
+            error: function(error) {
+                console.error('Error deleting order:', error);
             }
         });
     }

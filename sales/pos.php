@@ -408,8 +408,8 @@ $kiosk_total_orders = $retrieving_data->fetchColumn();
                                     <label>Price</label>
                                     <!--Product_id, Customer code, product_id_inventory-->
                                     <input type="text" id="edit_price" name="price" readonly>
-                                    <input type="text" id="product_id" name="product_id">
-                                    <input type="text" id="order_id" name="order_id" value="<?php echo '' . $order_id . ''; ?>">
+                                    <input type="hidden" id="product_id" name="product_id">
+                                    <input type="hidden" id="order_id" name="order_id" value="<?php echo '' . $order_id . ''; ?>">
                                 </div>
                             </div>
 
