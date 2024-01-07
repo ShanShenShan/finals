@@ -291,6 +291,8 @@ if (empty($_SESSION['email'])) {
 
         </div>
 
+        <div class="totalAmount">Total Amount: ₱ 0.00</div>
+
         <div class="btn">
             <button class="close">CLOSE</button>
             <button class="checkOut" id="checkOut">CHECK OUT</button>
@@ -387,16 +389,21 @@ if (empty($_SESSION['email'])) {
         function updateCartTab() {
             // Clear existing cart items
             $(".listCart").empty();
+            var totalAmount = 0;
 
             // Display each item in the cart
             cart.forEach(function (item, index) {
+                // Calculate total price for the current item
+                var totalPrice = parseFloat(item.price.replace('₱', '')) * item.quantity;
+                totalAmount += totalPrice;
+
                 var cartItemHtml = '<div class="item">' +
                 '<img src="' + item.image + '" alt="">' +
                 '<div class="name">' +
                 '<div class="name">' + item.name + '</div>' +
                 '<div class="category">' + item.category + '</div>' + 
                 '</div>' +
-                '<div class="totalPrice">' + item.price + '</div>' +
+                '<div class="totalPrice">₱' + totalPrice.toFixed(2) + '</div>' +
                 '<div class="quantity">' +
                 '<span class="minus" data-index="' + index + '">&lt;</span>' +
                 '<span>' + item.quantity + '</span>' +
@@ -408,6 +415,9 @@ if (empty($_SESSION['email'])) {
 
             $(".listCart").append(cartItemHtml);
         });
+
+             // Update the total amount at the bottom of the cart modal
+             $(".totalAmount").text('Total Amount: ₱ ' + totalAmount.toFixed(2));
 
             // Update the cart icon with the total number of items in the cart
             $(".icon-cart span").text(cart.length);
