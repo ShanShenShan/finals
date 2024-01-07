@@ -1,29 +1,24 @@
-<?php require "../includes/header.php"; ?> <!-- Strictly requiring to include the header.php-->
-<?php require "../config/connection.php"; ?> <!-- Strictly requiring to include the connection.php-->
-<?php require "../includes/redirecting.php"; ?> <!-- Strictly requiring to include the redirecting.php-->
-<?php require "../includes/sidebar.php"; ?> <!-- Strictly requiring to include the sidebar.php-->
-
 <?php
+require "../includes/header.php";
+require "../config/connection.php";
+require "../includes/redirecting.php";
+require "../includes/sidebar.php";
 
-if(isset($_GET['id']))
-{
-    $id=$_GET['id'];
-    // Query to select all data on the table that have admin role
-    $search = $connection->query("SELECT * FROM transaction_products Where tran_id=$id");
-    $search->execute(); // executing the command
-    $sales_list = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as an object
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $search = $connection->query("SELECT tp.id, tp.tran_id, tp.product_id, tp.quantity, tp.o_quantity, i.product_name
+                                  FROM transaction_products tp
+                                  JOIN inventory i ON tp.product_id = i.id
+                                  WHERE tran_id = $id");
+    $search->execute();
+    $sales_list = $search->fetchAll(PDO::FETCH_OBJ);
+} else {
+    $search = $connection->query("SELECT tp.id, tp.tran_id, tp.product_id, tp.quantity, tp.o_quantity, i.product_name
+                                  FROM transaction_products tp
+                                  JOIN inventory i ON tp.product_id = i.id");
+    $search->execute();
+    $sales_list = $search->fetchAll(PDO::FETCH_OBJ);
 }
-else
-{
-// Query to select all data on the table that have admin role
-$search = $connection->query("SELECT * FROM transaction_products");
-$search->execute(); // executing the command
-
-$sales_list = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as an object
-}
-
-
-
 ?>
 
 <body>
@@ -67,23 +62,23 @@ $sales_list = $search->fetchall(PDO::FETCH_OBJ); // fetching all of the data as 
                                 <tr>
                                     <th>id</th>
                                     <th>Transaction id</th>
-                                    <th>Product id</th>
+                                    <th>Product Name</th>
                                     <th>Storage Quantity</th>
                                     <th>Order Quantity</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($sales_list as $sales_data) : ?><!--Iterating each value from admin list and assigning it to $admin-->
+                                <?php foreach ($sales_list as $sales_data) : ?>
                                     <tr>
                                         <td><?php echo $sales_data->id; ?></td>
                                         <td><?php echo $sales_data->tran_id; ?></td>
-                                        <td><?php echo $sales_data->product_id; ?></td>
+                                        <td><?php echo $sales_data->product_name; ?></td>
                                         <td><?php echo $sales_data->quantity; ?></td>
                                         <td><?php echo $sales_data->o_quantity; ?></td>
                                         <td>
-                                            <a class="me-3" href="sales_detail.php?id=<?php echo $sales_data->tran_id;?>">
-                                                    <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
+                                            <a class="me-3" href="sales_detail.php?id=<?php echo $sales_data->tran_id; ?>">
+                                                <img src="<?php echo FILEPATH; ?>/assets/img/icons/eye.svg" alt="img">
                                             </a>
                                         </td>
                                     </tr>
