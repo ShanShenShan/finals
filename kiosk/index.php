@@ -291,6 +291,11 @@ if (empty($_SESSION['email'])) {
 
         </div>
 
+        <div class="totalAmount">
+            <hr>
+            <h5>Total Amount : 2,4095</h5>
+        </div>
+
         <div class="btn">
             <button class="close">CLOSE</button>
             <button class="checkOut" id="checkOut">CHECK OUT</button>
