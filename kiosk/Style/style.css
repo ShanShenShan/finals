@@ -130,7 +130,7 @@ header .icon-cart span{
     /* top right bottom left */
     inset: 0 -462px 0 auto;
     display: grid;
-    grid-template-rows: 2px 70px 1fr 70px;
+    grid-template-rows: 2px 60px 1fr 40px 60px;
     transition:  0.5s;
     overflow-y: hidden;
 }
@@ -162,6 +162,13 @@ body.showCart .container{
     text-align: center;
 }
 
+.cartTab .totalAmount h5{
+    font-family: monospace;
+    margin-top: 10px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
 .cartTab .btn{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -189,7 +196,7 @@ body.showCart .container{
 .cartTab .listCart{
     display: grid;
     grid-template-rows: repeat(30, 80px);
-    row-gap: 5px;
+    row-gap: 10px;
 }
 
 .cartTab .listCart .item{
@@ -198,6 +205,10 @@ body.showCart .container{
     gap: 10px;
     text-align: center;
     align-items: center;
+}
+
+.cartTab .listCart .item .name{
+    font-size: 13px;
 }
 
 .listCart .quantity span{
@@ -426,8 +437,8 @@ header .image-text .header-text{
 }
 
 .modal3 {
-    width: 460px;
-    height: 380px;
+    width: 560px;
+    height: 420px;
     border: none;
     background-color: rgba(255, 255, 255, 0.9); /* Use a semi-transparent white background */
     border-radius: 10px;
@@ -445,9 +456,11 @@ header .image-text .header-text{
 }
 
 .modal3 .item img{
-    width: 200px;
-    height: 130px;
+    width: 220px;
+    height: 180px;
     border-radius: 10px;
+    object-fit: fill;
+    box-shadow: 1px 1px 15px rgba(24, 24, 24, 0.2);
 }
 
 .modal3 .item .price{

@@ -291,7 +291,10 @@ if (empty($_SESSION['email'])) {
 
         </div>
 
-        <div class="totalAmount">Total Amount: ₱ 0.00</div>
+        <div class="totalAmount">
+            <hr>
+            <h5>Total Amount: ₱ 0.00</h5>
+        </div>
 
         <div class="btn">
             <button class="close">CLOSE</button>
