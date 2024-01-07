@@ -247,7 +247,7 @@ $kiosk_total_orders = $retrieving_data->fetchColumn();
                         <div class="table-top">
                             <div class="search-set">
                                 <div class="search-path">
-                                    <a class="btn btn-filter" id="filter_search">
+                                    <a class="btn btn-filter" id="filter_search"  style="display: none;">
                                         <img src="<?php echo FILEPATH; ?>/assets/img/icons/filter.svg" alt="img">
                                         <span><img src="<?php echo FILEPATH; ?>/assets/img/icons/closes.svg" alt="img"></span>
                                     </a>
