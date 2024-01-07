@@ -243,7 +243,6 @@ $kiosk_total_orders = $retrieving_data->fetchColumn();
                             <a href="javascript:void(0);"><img src="<?php echo "" . FILEPATH . ""; ?>/assets/img/icons/time.svg" alt="img"><span>
                                     Data</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="inventoryreport.php">Inventory</a></li>
                                 <li><a href="data/records.php">Records</a></li>
                                 <li><a href="data/graph.php">Graphs</a></li>
                             </ul>
