@@ -124,7 +124,7 @@ $kiosk_total_orders = $retrieving_data->fetchColumn();
                                         <a href="pending_list.php">
                                             <div class="media d-flex">
                                                 <span class="avatar flex-shrink-0">
-                                                    <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-13.jpg">
+                                                    <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/alert.png">
                                                 </span>
                                                 <div class="media-body flex-grow-1">
                                                     <p class="noti-details"><span class="noti-title">Kiosk System send an order</span> <?php echo $data->o_id; ?> <span class="noti-title">is the order number</span></p>

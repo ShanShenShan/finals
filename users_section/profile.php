@@ -107,7 +107,7 @@ $code=$select_code->fetch(PDO::FETCH_OBJ);
                                     <a href="activities.html">
                                         <div class="media d-flex">
                                             <span class="avatar flex-shrink-0">
-                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/avatar-13.jpg">
+                                                <img alt="" src="<?php echo FILEPATH; ?>/assets/img/profiles/alert.png">
                                             </span>
                                             <div class="media-body flex-grow-1">
                                                 <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
