@@ -420,7 +420,7 @@ if (empty($_SESSION['email'])) {
         });
 
              // Update the total amount at the bottom of the cart modal
-             $(".totalAmount").text('Total Amount: ₱ ' + totalAmount.toFixed(2));
+             $(".totalAmount h5").text('Total Amount: ₱ ' + totalAmount.toFixed(2));
 
             // Update the cart icon with the total number of items in the cart
             $(".icon-cart span").text(cart.length);
