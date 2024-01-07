@@ -269,18 +269,18 @@ if (empty($_SESSION['email'])) {
 
                 <div class="name">
 
-                    <div class="name">NAME</div>
-                    <div class="variant">VARIANT</div>
+                    <div class="name">Order Goes</div>
+                    <div class="variant">Here</div>
 
                 </div>
 
                 <div class="totalPrice">
-                    ₱ 59
+                    ₱ 00
                 </div>
 
                 <div class="quantity">
                     <span class="minus">&lt;</span>
-                    <span>1</span>
+                    <span>N/A</span>
                     <span class="plus">&gt;</span>
                 </div>
 
@@ -394,7 +394,7 @@ if (empty($_SESSION['email'])) {
                 '<img src="' + item.image + '" alt="">' +
                 '<div class="name">' +
                 '<div class="name">' + item.name + '</div>' +
-                '<div class="category">' + item.category + '</div>' + // Correct the attribute to fetch category
+                '<div class="category">' + item.category + '</div>' + 
                 '</div>' +
                 '<div class="totalPrice">' + item.price + '</div>' +
                 '<div class="quantity">' +
